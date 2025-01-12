@@ -19,10 +19,24 @@
             font-family: system-ui, -apple-system, sans-serif;
             line-height: 1.5;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        .page {
+            height: 200vh;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        section {
+            height: 100vh;
+            scroll-snap-align: start;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            position: relative;
         }
 
         .hero {
@@ -39,7 +53,7 @@
             color: rgba(255, 255, 255, 0.95);
         }
 
-        .coming-soon {
+        .virtual-exhibition {
             font-size: clamp(0.7rem, 1.5vw, 0.875rem);
             margin-top: 2.5rem;
             font-weight: 200;
@@ -47,6 +61,34 @@
             text-transform: uppercase;
             opacity: 0;
             color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-tab {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .scroll-tab::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 8px;
+        }
+
+        .coming-soon-section {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 200;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 0;
         }
 
         .bg-fade {
@@ -59,29 +101,45 @@
 </head>
 <body>
     <div class="bg-fade"></div>
-    <main class="hero">
-        <h1>Suzanne O'Shea</h1>
-        <div class="coming-soon">Virtual Exhibition</div>
-    </main>
+    <div class="page">
+        <section>
+            <main class="hero">
+                <h1>Suzanne O'Shea</h1>
+                <div class="virtual-exhibition">Virtual Exhibition</div>
+            </main>
+            <div class="scroll-tab"></div>
+        </section>
+        <section>
+            <div class="coming-soon-section">
+                Coming Soon
+            </div>
+        </section>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Initial fade in
+            // Initial animations
             gsap.to('.hero', {
                 duration: 2.5,
                 opacity: 1,
                 ease: 'power2.out'
             });
 
-            // Delayed coming soon fade in
-            gsap.to('.coming-soon', {
+            gsap.to('.virtual-exhibition', {
                 duration: 2,
                 opacity: 1,
                 delay: 2,
                 ease: 'power2.out'
             });
 
-            // Subtle floating animation
+            gsap.to('.scroll-tab', {
+                duration: 2,
+                opacity: 1,
+                delay: 3,
+                ease: 'power2.out'
+            });
+
+            // Subtle floating animations
             gsap.to('.hero', {
                 y: 5,
                 duration: 3,
@@ -106,6 +164,37 @@
                 repeat: -1,
                 yoyo: true,
                 ease: 'power1.inOut'
+            });
+
+            // Tab bounce animation
+            gsap.to('.scroll-tab', {
+                y: -10,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut'
+            });
+
+            // Coming soon section animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        gsap.to('.coming-soon-section', {
+                            duration: 2,
+                            opacity: 1,
+                            ease: 'power2.out'
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(document.querySelector('.coming-soon-section'));
+
+            // Smooth scroll for tab click
+            document.querySelector('.scroll-tab').addEventListener('click', () => {
+                document.querySelector('section:last-child').scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
