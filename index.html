@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Suzanne O'Shea — Virtual Exhibition</title>
-  
+
   <!-- Refined Font -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -19,7 +19,7 @@
     :root {
       --bg-dark: #080808;
       --text-light: #ffffff;
-      --accent: #6666ff; /* Slightly cool accent color */
+      --accent: #6666ff; /* If you need an accent color */
       --spotlight-size: 60vmax; /* Size of the radial glow behind heading */
     }
 
@@ -55,17 +55,6 @@
       background-repeat: no-repeat;
     }
 
-    /* OPTIONAL: Subtle noise overlay for cinematic texture
-    .noise-overlay {
-      position: fixed;
-      inset: 0;
-      background: url('noise.png') repeat;
-      opacity: 0.05;
-      pointer-events: none;
-      z-index: -1;
-    }
-    */
-
     .content {
       position: relative;
       width: 100%;
@@ -76,7 +65,7 @@
       align-items: center;
     }
 
-    /* ----- WATERMARK / MONOGRAM ----- */
+    /* ----- WATERMARK / MONOGRAM (Optional) ----- */
     .watermark {
       position: fixed;
       top: 1rem;
@@ -91,10 +80,9 @@
     /* ----- HERO SECTION ----- */
     main.hero {
       position: relative;
-      opacity: 0; /* We'll fade and letter-reveal with GSAP */
+      opacity: 0; /* We'll fade in with GSAP */
       text-align: center;
-      /* Parallax container perspective trick */
-      perspective: 800px;
+      perspective: 800px; /* for mild parallax tilt */
     }
 
     /* Radial spotlight behind hero text */
@@ -115,22 +103,14 @@
       opacity: 0; /* fade in with heading */
     }
 
-    /* Heading with letters we’ll individually animate */
+    /* Heading */
     .hero h1 {
       font-weight: 100;
+      /* Reduced letter-spacing from 0.2em to 0.05em */
+      letter-spacing: 0.05em;
       font-size: clamp(2rem, 5vw, 4rem);
-      letter-spacing: 0.2em;
-      display: inline-block; /* ensures the letter elements can be aligned horizontally */
       margin: 0;
       color: rgba(255,255,255,0.95);
-      white-space: nowrap;
-    }
-
-    /* Each letter will be wrapped in a span for stagger animations */
-    .hero h1 .letter {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(20px);
     }
 
     /* Subheading / Secondary text */
@@ -171,7 +151,7 @@
       transform: rotate(45deg);
     }
 
-    /* Coming Soon -> Invitation-only (slight rebrand) */
+    /* Coming Soon overlay */
     .coming-soon {
       position: absolute;
       top: 50%;
@@ -186,47 +166,23 @@
       text-align: center;
       pointer-events: none;
     }
-
-    /* Optional link to a notify-me or sign-up page/form */
-    .notify-link {
-      display: block;
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
-      color: var(--accent);
-      text-decoration: none;
-      opacity: 0; /* We'll fade it in with the subheading for synergy */
-    }
-    .notify-link:hover {
-      text-decoration: underline;
-    }
-
   </style>
 </head>
 <body>
 
   <!-- Background layers -->
   <div class="bg-layer"></div>
-  <!-- <div class="noise-overlay"></div> --> <!-- Optional noise overlay -->
 
   <div class="content">
-    <!-- Watermark / Monogram -->
+    <!-- Watermark / Monogram (optional) -->
     <div class="watermark">SO</div>
 
     <main class="hero">
       <!-- Radial spotlight effect behind heading -->
       <div class="hero-spotlight"></div>
 
-      <!-- We'll wrap each letter in a <span class="letter"> for a staggered reveal -->
-      <h1>
-        <!-- We'll dynamically generate these spans in JS OR you can do so manually below -->
-        <!-- Example of manual approach:
-        <span class="letter">S</span><span class="letter">u</span> ...
-        -->
-        Suzanne O'Shea
-      </h1>
-
+      <h1>Suzanne O'Shea</h1>
       <div class="virtual-exhibition">Virtual Exhibition</div>
-      <a href="#" class="notify-link">Notify Me</a>
     </main>
 
     <div class="scroll-tab">
@@ -245,18 +201,6 @@
       const subHeading = document.querySelector('.virtual-exhibition');
       const scrollTab = document.querySelector('.scroll-tab');
       const comingSoon = document.querySelector('.coming-soon');
-      const notifyLink = document.querySelector('.notify-link');
-
-      // Split heading text into spans for staggered letter reveal
-      // (If you did it manually in HTML, skip this step.)
-      const text = heading.innerText;
-      heading.innerText = '';
-      text.split('').forEach(char => {
-        const span = document.createElement('span');
-        span.classList.add('letter');
-        span.textContent = char;
-        heading.appendChild(span);
-      });
 
       let isDragging = false;
       let startY = 0;
@@ -264,7 +208,6 @@
       const maxDrag = window.innerHeight * 0.5;
 
       // --- Initial animations using GSAP ---
-
       // 1. Fade in hero container
       gsap.to(hero, {
         duration: 0.8,
@@ -272,17 +215,7 @@
         ease: 'power2.out'
       });
 
-      // 2. Stagger in each letter (slightly after container fade)
-      gsap.to('.letter', {
-        duration: 1.2,
-        opacity: 1,
-        y: 0,
-        ease: 'power2.out',
-        stagger: 0.03,
-        delay: 0.2
-      });
-
-      // 3. Fade in hero-spotlight behind text
+      // 2. Fade in hero-spotlight behind text
       gsap.to(heroSpotlight, {
         duration: 2,
         opacity: 1,
@@ -290,16 +223,15 @@
         delay: 0.5
       });
 
-      // 4. Subtle reveal for subheading and notify link
-      gsap.to([subHeading, notifyLink], {
+      // 3. Subtle reveal for subheading
+      gsap.to(subHeading, {
         duration: 1.2,
         opacity: 1,
         delay: 1.5,
-        ease: 'power2.out',
-        stagger: 0.2
+        ease: 'power2.out'
       });
 
-      // 5. Fade in scroll tab
+      // 4. Fade in scroll tab
       gsap.to(scrollTab, {
         duration: 2,
         opacity: 1,
@@ -307,16 +239,16 @@
         ease: 'power2.out'
       });
 
-      // 6. Very gentle floating / breathing animation on hero-spotlight
+      // 5. Very gentle breathing animation on hero-spotlight
       gsap.to(heroSpotlight, {
         duration: 3,
         repeat: -1,
         yoyo: true,
         ease: 'power1.inOut',
-        scale: 1.02 // a slight “breathing” effect
+        scale: 1.02
       });
 
-      // 7. Subtle background color shift
+      // 6. Subtle background color shift
       gsap.to('.bg-layer', {
         background:
           "radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0) 70%), linear-gradient(45deg, #070707, #090909)",
@@ -326,12 +258,12 @@
         ease: 'none'
       });
 
-      // --- Parallax effect on mouse move (hero text 3D tilt) ---
+      // --- Mild parallax effect on mouse move (hero text tilt) ---
       document.addEventListener('mousemove', (e) => {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        const offsetX = (e.clientX - centerX) / centerX; // range ~ -1 to 1
-        const offsetY = (e.clientY - centerY) / centerY; // range ~ -1 to 1
+        const offsetX = (e.clientX - centerX) / centerX; // ~ -1 to 1
+        const offsetY = (e.clientY - centerY) / centerY; // ~ -1 to 1
 
         gsap.to(hero, {
           rotationY: offsetX * 2, // mild horizontal tilt
@@ -383,10 +315,7 @@
             y: -maxDrag,
             opacity: 0,
             duration: 1.2,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              // Optionally, remove hero from DOM or set display: none
-            }
+            ease: 'power2.inOut'
           });
           gsap.to(comingSoon, {
             y: 0,
