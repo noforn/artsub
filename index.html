@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suzanne O'Shea</title>
-    <!-- GSAP for smooth animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         :root {
-            --bg-dark: #0a0a0a;
+            --bg-dark: #070707;
             --text-light: #ffffff;
-            --transition: all 0.8s ease;
         }
 
         body {
@@ -36,51 +34,46 @@
         .hero h1 {
             font-size: clamp(2rem, 5vw, 3.5rem);
             margin: 0;
-            font-weight: 200;
-            letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.9);
+            font-weight: 100;
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .coming-soon {
-            font-size: clamp(0.875rem, 2vw, 1rem);
-            margin-top: 2rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.875rem);
+            margin-top: 2.5rem;
             font-weight: 200;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
             opacity: 0;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        .ambient-light {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 60%);
-            transform: translate(-50%, -50%);
-            pointer-events: none;
+        .bg-fade {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(45deg, #070707, #090909);
             z-index: -1;
         }
     </style>
 </head>
 <body>
-    <div class="ambient-light"></div>
+    <div class="bg-fade"></div>
     <main class="hero">
         <h1>Suzanne O'Shea</h1>
-        <div class="coming-soon">Coming Soon</div>
+        <div class="coming-soon">Virtual Exhibition</div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Initial fade in animation
+            // Initial fade in
             gsap.to('.hero', {
                 duration: 2.5,
                 opacity: 1,
                 ease: 'power2.out'
             });
 
-            // Delayed fade in for "coming soon"
+            // Delayed coming soon fade in
             gsap.to('.coming-soon', {
                 duration: 2,
                 opacity: 1,
@@ -88,18 +81,27 @@
                 ease: 'power2.out'
             });
 
-            // Continuous subtle floating animation
+            // Subtle floating animation
             gsap.to('.hero', {
-                y: 10,
-                duration: 2,
+                y: 5,
+                duration: 3,
                 repeat: -1,
                 yoyo: true,
                 ease: 'power1.inOut'
             });
 
-            // Ambient light animation
-            gsap.to('.ambient-light', {
-                opacity: 0.7,
+            // Background color shift
+            gsap.to('.bg-fade', {
+                background: 'linear-gradient(45deg, #090909, #070707)',
+                duration: 8,
+                repeat: -1,
+                yoyo: true,
+                ease: 'none'
+            });
+
+            // Subtle text blur effect
+            gsap.to('.hero', {
+                filter: 'blur(0.2px)',
                 duration: 4,
                 repeat: -1,
                 yoyo: true,
