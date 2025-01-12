@@ -1,59 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Meta Tags for Responsive Layout & Basic SEO -->
-  <meta charset="UTF-8" />
-  <meta name="description" content="Virtual Exhibition by artist Suzanne O'Shea. Explore the interactive teaser experience and stay tuned for more." />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Suzanne O'Shea | Virtual Exhibition</title>
-
-  <!-- GSAP Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-Nim9uv7VdYL0+INP9IKF5tuqPWFr/Kug/ltyS/r+BfDNm3NR+SNNQA7LQwG48oVCLD/p2HXrXAurt4q3P1a1IQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
-  <!-- Inline Styles (Consider extracting to a separate CSS file in production) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suzanne O'Shea</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <style>
-    /* Root Variables for easy color/theme changes */
     :root {
       --bg-dark: #070707;
       --text-light: #ffffff;
     }
 
-    /* RESET + Base Styles */
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
       background-color: var(--bg-dark);
       color: var(--text-light);
       font-family: system-ui, -apple-system, sans-serif;
       line-height: 1.5;
-      /* Prevent scrolling to preserve the drag interaction */
       height: 100vh;
       overflow: hidden;
-      /* Improved user experience on touch devices */
       touch-action: none;
-      /* More consistent cross-browser cursor style */
-      cursor: default;
     }
 
-    /* Container for everything */
     .content {
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       position: relative;
-      height: 100vh;
     }
 
-    /* Hero Section */
     .hero {
       text-align: center;
-      opacity: 0; /* will fade in via GSAP */
+      opacity: 0; /* Fades in with GSAP */
       position: relative;
       transform: translateY(0);
       transition: transform 0.5s ease;
@@ -73,34 +54,16 @@
       font-weight: 100;
       letter-spacing: 0.4em;
       text-transform: uppercase;
-      opacity: 0; /* will fade in via GSAP */
+      opacity: 0; /* Fades in with GSAP */
       color: rgba(255, 255, 255, 0.5);
     }
 
-    /* "Coming Soon" placeholder text */
-    .coming-soon {
-      /* Initially placed well below the fold; GSAP will move it up */
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, calc(100vh + 50%));
-      font-size: clamp(1rem, 3vw, 1.5rem);
-      font-weight: 200;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.5);
-      opacity: 0;
-      text-align: center;
-      pointer-events: none;
-    }
-
-    /* Scroll Tab Visual Cue */
     .scroll-tab {
       position: fixed;
       bottom: 120px;
       left: 50%;
       transform: translateX(-50%);
-      opacity: 0; /* will fade in via GSAP */
+      opacity: 0; /* Fades in with GSAP */
       width: 40px;
       height: 4px;
       background: rgba(255, 255, 255, 0.2);
@@ -117,7 +80,22 @@
       margin-top: 6px;
     }
 
-    /* Subtle background fade/shift */
+    /* --- FIX: Single `.coming-soon` definition (positioned off-screen initially) --- */
+    .coming-soon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, calc(100vh + 50%));
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 200;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      text-align: center;
+      pointer-events: none;
+    }
+
     .bg-fade {
       position: fixed;
       inset: 0;
@@ -127,20 +105,16 @@
   </style>
 </head>
 <body>
-  <!-- Background animation layer -->
   <div class="bg-fade"></div>
-
-  <!-- Main Content Wrapper -->
-  <div class="content" aria-live="polite">
-    <main class="hero" aria-labelledby="hero-heading">
-      <h1 id="hero-heading">Suzanne O'Shea</h1>
-      <div class="virtual-exhibition" aria-label="Virtual Exhibition">Virtual Exhibition</div>
+  <div class="content">
+    <main class="hero">
+      <h1>Suzanne O'Shea</h1>
+      <div class="virtual-exhibition">Virtual Exhibition</div>
     </main>
-    <div class="scroll-tab" aria-hidden="true"></div>
-    <div class="coming-soon" aria-hidden="true">Coming Soon</div>
+    <div class="scroll-tab"></div>
+    <div class="coming-soon">Coming Soon</div>
   </div>
 
-  <!-- Script: GSAP Animations & Drag Logic -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       let isDragging = false;
@@ -150,8 +124,8 @@
       const comingSoon = document.querySelector('.coming-soon');
       const maxDrag = window.innerHeight * 0.5;
 
-      // Initial fade-in animations
-      gsap.to(hero, {
+      // Initial animations
+      gsap.to('.hero', {
         duration: 2.5,
         opacity: 1,
         ease: 'power2.out'
@@ -171,8 +145,8 @@
         ease: 'power2.out'
       });
 
-      // Subtle floating animation for the hero
-      gsap.to(hero, {
+      // Subtle floating animation for main content
+      gsap.to('.hero', {
         y: 5,
         duration: 3,
         repeat: -1,
@@ -180,7 +154,7 @@
         ease: 'power1.inOut'
       });
 
-      // Background color shift (infinite yoyo)
+      // Background color shift
       gsap.to('.bg-fade', {
         background: 'linear-gradient(45deg, #090909, #070707)',
         duration: 8,
@@ -189,40 +163,29 @@
         ease: 'none'
       });
 
-      // Common helper to get Y position from mouse or touch event
-      function getY(e) {
-        if (e.type.startsWith('mouse')) {
-          return e.clientY;
-        } else {
-          return e.touches[0].clientY;
-        }
-      }
-
-      // Start Drag
+      // Touch and mouse handlers
       function handleStart(e) {
         isDragging = true;
-        startY = getY(e);
+        startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
         currentY = 0;
         document.body.style.cursor = 'grabbing';
       }
 
-      // Drag Move
       function handleMove(e) {
         if (!isDragging) return;
-        const y = getY(e);
+        const y = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
         currentY = Math.min(startY - y, maxDrag);
         currentY = Math.max(currentY, 0);
-
-        // Calculate the progress from 0 to 1
+        
         const progress = currentY / maxDrag;
-
-        // Move hero upward
+        
+        // Move hero up
         gsap.to(hero, {
           y: -currentY,
           duration: 0.1
         });
 
-        // Reveal "Coming Soon"
+        // Move and fade in "Coming Soon"
         gsap.to(comingSoon, {
           y: -currentY * 1.5,
           opacity: progress,
@@ -230,13 +193,12 @@
         });
       }
 
-      // End Drag
       function handleEnd() {
         if (!isDragging) return;
         isDragging = false;
         document.body.style.cursor = 'default';
 
-        // If user has dragged past 50% threshold, transition to "Coming Soon"
+        // If dragged past halfway, switch to "Coming Soon" view
         if (currentY > maxDrag * 0.5) {
           gsap.to(hero, {
             y: -maxDrag,
@@ -251,27 +213,25 @@
             ease: 'power2.inOut'
           });
         } else {
-          // Otherwise, reset to initial position
+          // Otherwise, reset to initial
           gsap.to(hero, {
             y: 0,
-            duration: 0.5,
-            ease: 'power2.out'
+            duration: 0.5
           });
           gsap.to(comingSoon, {
             y: 0,
             opacity: 0,
-            duration: 0.5,
-            ease: 'power2.out'
+            duration: 0.5
           });
         }
       }
 
-      // Event Listeners for both Mouse & Touch
+      // Event listeners
       document.addEventListener('mousedown', handleStart);
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handleEnd);
-      document.addEventListener('touchstart', handleStart, { passive: true });
-      document.addEventListener('touchmove', handleMove, { passive: true });
+      document.addEventListener('touchstart', handleStart);
+      document.addEventListener('touchmove', handleMove);
       document.addEventListener('touchend', handleEnd);
     });
   </script>
