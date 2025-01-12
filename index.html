@@ -19,7 +19,8 @@
     :root {
       --bg-dark: #080808;
       --text-light: #ffffff;
-      --spotlight-size: 60vmax; /* size of radial glow behind heading */
+      --accent: #6666ff; /* If you need an accent color */
+      --spotlight-size: 60vmax; /* Size of the radial glow behind heading */
     }
 
     *, *::before, *::after {
@@ -33,12 +34,12 @@
       background-color: var(--bg-dark);
       color: var(--text-light);
       font-family: 'Inter', sans-serif;
-      overflow: hidden;
+      overflow: hidden; /* We'll handle “scroll” via drag */
       touch-action: none;
       cursor: default;
     }
 
-    /* Background layer */
+    /* ----- BACKGROUND LAYERS ----- */
     .bg-layer {
       position: fixed;
       inset: 0;
@@ -64,7 +65,7 @@
       align-items: center;
     }
 
-    /* Optional watermark / monogram */
+    /* ----- WATERMARK / MONOGRAM (Optional) ----- */
     .watermark {
       position: fixed;
       top: 1rem;
@@ -79,9 +80,9 @@
     /* ----- HERO SECTION ----- */
     main.hero {
       position: relative;
-      opacity: 0; /* We'll fade in the container with GSAP */
+      opacity: 0; /* We'll fade in with GSAP */
       text-align: center;
-      perspective: 800px; /* For mild parallax tilt if desired */
+      perspective: 800px; /* for mild parallax tilt */
     }
 
     /* Radial spotlight behind hero text */
@@ -102,18 +103,17 @@
       opacity: 0; /* fade in with heading */
     }
 
-    /* Heading (letters inserted dynamically) */
+    /* Heading */
     .hero h1 {
       font-weight: 100;
+      /* Reduced letter-spacing from 0.2em to 0.05em */
       letter-spacing: 0.05em;
       font-size: clamp(2rem, 5vw, 4rem);
       margin: 0;
       color: rgba(255,255,255,0.95);
-      display: inline-block; /* So the letters can be staggered horizontally */
-      white-space: nowrap;   /* Keep it on one line */
     }
 
-    /* Subheading / Secondary text (letters inserted dynamically) */
+    /* Subheading / Secondary text */
     .virtual-exhibition {
       font-weight: 100;
       font-size: clamp(0.8rem, 2vw, 1.2rem);
@@ -121,15 +121,7 @@
       text-transform: uppercase;
       margin-top: 2rem;
       color: rgba(255,255,255,0.6);
-      display: inline-block; /* Allows us to stagger letters horizontally */
-      white-space: nowrap;
       opacity: 0;
-    }
-
-    /* Each letter in heading/subheading gets this class */
-    .letter {
-      display: inline-block;
-      /* We'll animate from y:30, opacity:0 with GSAP */
     }
 
     /* Drag hint indicator */
@@ -178,11 +170,11 @@
 </head>
 <body>
 
-  <!-- Background layer -->
+  <!-- Background layers -->
   <div class="bg-layer"></div>
 
   <div class="content">
-    <!-- Optional watermark -->
+    <!-- Watermark / Monogram (optional) -->
     <div class="watermark">SO</div>
 
     <main class="hero">
@@ -205,82 +197,49 @@
     document.addEventListener('DOMContentLoaded', () => {
       const hero = document.querySelector('.hero');
       const heading = hero.querySelector('h1');
-      const subHeading = document.querySelector('.virtual-exhibition');
       const heroSpotlight = document.querySelector('.hero-spotlight');
+      const subHeading = document.querySelector('.virtual-exhibition');
       const scrollTab = document.querySelector('.scroll-tab');
       const comingSoon = document.querySelector('.coming-soon');
 
-      // Utility function to split text content into individual letter spans
-      function splitIntoLetters(element) {
-        const text = element.textContent;
-        element.textContent = '';
-        text.split('').forEach(char => {
-          const span = document.createElement('span');
-          span.classList.add('letter');
-          span.textContent = char;
-          element.appendChild(span);
-        });
-      }
-
-      // Split both the heading and the subheading into letters
-      splitIntoLetters(heading);
-      splitIntoLetters(subHeading);
-
-      // Drag / scrolling logic
       let isDragging = false;
       let startY = 0;
       let currentY = 0;
       const maxDrag = window.innerHeight * 0.5;
 
       // --- Initial animations using GSAP ---
-      // Timeline approach for clean control
-      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
-
       // 1. Fade in hero container
-      tl.to(hero, {
+      gsap.to(hero, {
         duration: 0.8,
-        opacity: 1
+        opacity: 1,
+        ease: 'power2.out'
       });
 
-      // 2. Animate in letters of heading (exaggerated: from y: 30, 0 opacity)
-      tl.fromTo(
-        heading.querySelectorAll('.letter'),
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          stagger: 0.04, // slightly slower stagger for more drama
-        },
-        '-=0.2' // overlap the start slightly with the container fade
-      );
-
-      // 3. Animate in letters of subheading with same effect
-      tl.fromTo(
-        subHeading.querySelectorAll('.letter'),
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          stagger: 0.03,
-        },
-        '-=0.3' // overlap so subheading starts sooner
-      );
-
-      // 4. Fade in hero-spotlight behind text
-      tl.to(heroSpotlight, {
-        duration: 1.2,
-        opacity: 1
-      }, '-=0.8');
-
-      // 5. Fade in scroll tab
-      tl.to(scrollTab, {
+      // 2. Fade in hero-spotlight behind text
+      gsap.to(heroSpotlight, {
         duration: 2,
-        opacity: 1
-      }, '-=0.5');
+        opacity: 1,
+        ease: 'power2.out',
+        delay: 0.5
+      });
 
-      // 6. Subtle breathing animation on hero-spotlight
+      // 3. Subtle reveal for subheading
+      gsap.to(subHeading, {
+        duration: 1.2,
+        opacity: 1,
+        delay: 1.5,
+        ease: 'power2.out'
+      });
+
+      // 4. Fade in scroll tab
+      gsap.to(scrollTab, {
+        duration: 2,
+        opacity: 1,
+        delay: 3,
+        ease: 'power2.out'
+      });
+
+      // 5. Very gentle breathing animation on hero-spotlight
       gsap.to(heroSpotlight, {
         duration: 3,
         repeat: -1,
@@ -289,7 +248,7 @@
         scale: 1.02
       });
 
-      // 7. Subtle background color shift
+      // 6. Subtle background color shift
       gsap.to('.bg-layer', {
         background:
           "radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0) 70%), linear-gradient(45deg, #070707, #090909)",
@@ -381,7 +340,7 @@
         }
       }
 
-      // --- Attach drag event listeners ---
+      // --- Attach event listeners ---
       document.addEventListener('mousedown', handleStart);
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handleEnd);
