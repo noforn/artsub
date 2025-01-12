@@ -1,97 +1,49 @@
-/* styles.css */
-:root {
-    --bg-dark: #0a0a0a;
-    --text-light: #ffffff;
-    --accent: #3d3d3d;
-    --transition: all 0.3s ease;
-}
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abstract Visions</title>
+    <!-- Alpine.js for lightweight interactivity -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-dark">
+    <nav x-data="{ isOpen: false }">
+        <div class="nav-content">
+            <h1>Abstract Visions</h1>
+            <button @click="isOpen = !isOpen">Menu</button>
+        </div>
+        <div x-show="isOpen" class="nav-menu">
+            <a href="#gallery">Gallery</a>
+            <a href="#artists">Artists</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
 
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    font-family: system-ui, -apple-system, sans-serif;
-    line-height: 1.5;
-}
+    <main>
+        <section id="hero" class="hero">
+            <h1>Abstract Visions</h1>
+            <p>Contemporary Abstractions</p>
+        </section>
 
-.hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
+        <section id="gallery" class="gallery">
+            <!-- Gallery items with lazy loading -->
+            <div class="gallery-item">
+                <img src="placeholder.jpg" data-src="art1.jpg" alt="Abstract Art 1">
+                <div class="overlay">
+                    <h3>Chromatic Dreams</h3>
+                    <p>Elena Rodriguez</p>
+                </div>
+            </div>
+            <!-- More gallery items... -->
+        </section>
+    </main>
 
-.hero h1 {
-    font-size: clamp(3rem, 10vw, 8rem);
-    margin: 0;
-    font-weight: 200;
-    letter-spacing: -0.02em;
-}
-
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-}
-
-.gallery-item {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
-}
-
-.overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 2rem;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.gallery-item:hover .overlay {
-    opacity: 1;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.05);
-}
-
-/* Responsive navigation */
-nav {
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
-
-.nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-}
-
-/* Simple loader animation */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease forwards;
-}
+    <script src="animations.js"></script>
+</body>
+</html>
