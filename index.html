@@ -1,164 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abstract Visions Gallery</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-black text-white">
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-black bg-opacity-90 z-50">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold tracking-wider">ABSTRACT VISIONS</div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#gallery" class="hover:text-gray-400 transition-colors">Gallery</a>
-                    <a href="#artists" class="hover:text-gray-400 transition-colors">Artists</a>
-                    <a href="#exhibitions" class="hover:text-gray-400 transition-colors">Exhibitions</a>
-                    <a href="#contact" class="hover:text-gray-400 transition-colors">Contact</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+/* styles.css */
+:root {
+    --bg-dark: #0a0a0a;
+    --text-light: #ffffff;
+    --accent: #3d3d3d;
+    --transition: all 0.3s ease;
+}
 
-    <!-- Hero Section -->
-    <section class="h-screen flex items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="/api/placeholder/1920/1080" alt="Abstract Art Background" class="w-full h-full object-cover opacity-50">
-        </div>
-        <div class="relative z-10 text-center">
-            <h1 class="text-6xl md:text-8xl font-bold mb-6">Where Art Defies Reality</h1>
-            <p class="text-xl md:text-2xl max-w-2xl mx-auto">Explore the boundaries of imagination through contemporary abstract art</p>
-        </div>
-    </section>
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+}
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-24 bg-zinc-900">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center">Featured Works</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Gallery Items -->
-                <div class="group relative overflow-hidden">
-                    <img src="/api/placeholder/600/400" alt="Abstract Art 1" class="w-full h-64 object-cover transform transition-transform group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <p class="text-lg font-semibold">Chromatic Dreams</p>
-                    </div>
-                </div>
-                <div class="group relative overflow-hidden">
-                    <img src="/api/placeholder/600/400" alt="Abstract Art 2" class="w-full h-64 object-cover transform transition-transform group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <p class="text-lg font-semibold">Geometric Harmony</p>
-                    </div>
-                </div>
-                <div class="group relative overflow-hidden">
-                    <img src="/api/placeholder/600/400" alt="Abstract Art 3" class="w-full h-64 object-cover transform transition-transform group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <p class="text-lg font-semibold">Digital Fragments</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-    <!-- Artists Section -->
-    <section id="artists" class="py-24 bg-black">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center">Featured Artists</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <div class="text-center">
-                    <img src="/api/placeholder/300/300" alt="Artist 1" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
-                    <h3 class="text-2xl font-semibold mb-2">Elena Rodriguez</h3>
-                    <p class="text-gray-400">Contemporary Abstract Expressionist</p>
-                </div>
-                <div class="text-center">
-                    <img src="/api/placeholder/300/300" alt="Artist 2" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
-                    <h3 class="text-2xl font-semibold mb-2">James Chen</h3>
-                    <p class="text-gray-400">Digital Abstract Artist</p>
-                </div>
-                <div class="text-center">
-                    <img src="/api/placeholder/300/300" alt="Artist 3" class="w-48 h-48 rounded-full mx-auto mb-6 object-cover">
-                    <h3 class="text-2xl font-semibold mb-2">Sarah Mitchell</h3>
-                    <p class="text-gray-400">Mixed Media Abstractionist</p>
-                </div>
-            </div>
-        </div>
-    </section>
+.hero h1 {
+    font-size: clamp(3rem, 10vw, 8rem);
+    margin: 0;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+}
 
-    <!-- Exhibitions Section -->
-    <section id="exhibitions" class="py-24 bg-zinc-900">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center">Upcoming Exhibitions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-black p-8 rounded-lg">
-                    <h3 class="text-2xl font-bold mb-4">Chromatic Resonance</h3>
-                    <p class="text-gray-400 mb-4">An exploration of color theory through abstract expressionism</p>
-                    <div class="flex items-center text-sm text-gray-500">
-                        <span class="mr-4">March 15 - April 30</span>
-                        <span>Main Gallery</span>
-                    </div>
-                </div>
-                <div class="bg-black p-8 rounded-lg">
-                    <h3 class="text-2xl font-bold mb-4">Digital Fragments</h3>
-                    <p class="text-gray-400 mb-4">A fusion of traditional abstract art and digital techniques</p>
-                    <div class="flex items-center text-sm text-gray-500">
-                        <span class="mr-4">May 1 - June 15</span>
-                        <span>New Media Wing</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-black">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center">Get in Touch</h2>
-            <div class="max-w-2xl mx-auto">
-                <form class="space-y-6">
-                    <div>
-                        <input type="text" placeholder="Name" class="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:border-white">
-                    </div>
-                    <div>
-                        <input type="email" placeholder="Email" class="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:border-white">
-                    </div>
-                    <div>
-                        <textarea placeholder="Message" rows="5" class="w-full px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg focus:outline-none focus:border-white"></textarea>
-                    </div>
-                    <button class="w-full bg-white text-black font-bold py-3 px-6 rounded-lg hover:bg-gray-200 transition-colors">
-                        Send Message
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
 
-    <!-- Footer -->
-    <footer class="py-8 bg-zinc-900">
-        <div class="container mx-auto px-6 text-center text-gray-400">
-            <p>&copy; 2025 Abstract Visions Gallery. All rights reserved.</p>
-        </div>
-    </footer>
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
 
-    <script>
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    opacity: 0;
+    transition: var(--transition);
+}
 
-        // Animation for hero section
-        gsap.from(".hero h1", {
-            duration: 1,
-            y: 100,
-            opacity: 0,
-            ease: "power4.out"
-        });
-    </script>
-</body>
-</html>
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Responsive navigation */
+nav {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+/* Simple loader animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
