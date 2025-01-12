@@ -30,6 +30,7 @@
         .hero {
             text-align: center;
             opacity: 0;
+            position: relative;
         }
 
         .hero h1 {
@@ -39,20 +40,70 @@
             letter-spacing: 0.1em;
             color: rgba(255, 255, 255, 0.9);
         }
+
+        .coming-soon {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            margin-top: 2rem;
+            font-weight: 200;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            opacity: 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .ambient-light {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
+    <div class="ambient-light"></div>
     <main class="hero">
         <h1>Suzanne O'Shea</h1>
+        <div class="coming-soon">Coming Soon</div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Subtle fade in animation
+            // Initial fade in animation
             gsap.to('.hero', {
                 duration: 2.5,
                 opacity: 1,
                 ease: 'power2.out'
+            });
+
+            // Delayed fade in for "coming soon"
+            gsap.to('.coming-soon', {
+                duration: 2,
+                opacity: 1,
+                delay: 2,
+                ease: 'power2.out'
+            });
+
+            // Continuous subtle floating animation
+            gsap.to('.hero', {
+                y: 10,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut'
+            });
+
+            // Ambient light animation
+            gsap.to('.ambient-light', {
+                opacity: 0.7,
+                duration: 4,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut'
             });
         });
     </script>
