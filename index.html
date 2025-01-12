@@ -20,18 +20,11 @@
             line-height: 1.5;
             height: 100vh;
             overflow: hidden;
+            touch-action: none;
         }
 
-        .page {
-            height: 200vh;
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        section {
+        .content {
             height: 100vh;
-            scroll-snap-align: start;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -43,6 +36,8 @@
             text-align: center;
             opacity: 0;
             position: relative;
+            transform: translateY(0);
+            transition: transform 0.5s ease;
         }
 
         .hero h1 {
@@ -70,6 +65,11 @@
             transform: translateX(-50%);
             opacity: 0;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .scroll-tab::after {
@@ -79,16 +79,21 @@
             height: 4px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
-            margin-top: 8px;
         }
 
-        .coming-soon-section {
+        .coming-soon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, calc(50vh + 100%));
             font-size: clamp(1rem, 3vw, 1.5rem);
             font-weight: 200;
             letter-spacing: 0.4em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.5);
             opacity: 0;
+            text-align: center;
+            pointer-events: none;
         }
 
         .bg-fade {
@@ -101,23 +106,24 @@
 </head>
 <body>
     <div class="bg-fade"></div>
-    <div class="page">
-        <section>
-            <main class="hero">
-                <h1>Suzanne O'Shea</h1>
-                <div class="virtual-exhibition">Virtual Exhibition</div>
-            </main>
-            <div class="scroll-tab"></div>
-        </section>
-        <section>
-            <div class="coming-soon-section">
-                Coming Soon
-            </div>
-        </section>
+    <div class="content">
+        <main class="hero">
+            <h1>Suzanne O'Shea</h1>
+            <div class="virtual-exhibition">Virtual Exhibition</div>
+        </main>
+        <div class="scroll-tab"></div>
+        <div class="coming-soon">Coming Soon</div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            let isDragging = false;
+            let startY = 0;
+            let currentY = 0;
+            const hero = document.querySelector('.hero');
+            const comingSoon = document.querySelector('.coming-soon');
+            const maxDrag = window.innerHeight * 0.5;
+
             // Initial animations
             gsap.to('.hero', {
                 duration: 2.5,
@@ -139,7 +145,7 @@
                 ease: 'power2.out'
             });
 
-            // Subtle floating animations
+            // Continuous animations
             gsap.to('.hero', {
                 y: 5,
                 duration: 3,
@@ -148,7 +154,6 @@
                 ease: 'power1.inOut'
             });
 
-            // Background color shift
             gsap.to('.bg-fade', {
                 background: 'linear-gradient(45deg, #090909, #070707)',
                 duration: 8,
@@ -157,16 +162,6 @@
                 ease: 'none'
             });
 
-            // Subtle text blur effect
-            gsap.to('.hero', {
-                filter: 'blur(0.2px)',
-                duration: 4,
-                repeat: -1,
-                yoyo: true,
-                ease: 'power1.inOut'
-            });
-
-            // Tab bounce animation
             gsap.to('.scroll-tab', {
                 y: -10,
                 duration: 1.5,
@@ -175,27 +170,72 @@
                 ease: 'power1.inOut'
             });
 
-            // Coming soon section animation
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        gsap.to('.coming-soon-section', {
-                            duration: 2,
-                            opacity: 1,
-                            ease: 'power2.out'
-                        });
-                    }
-                });
-            }, { threshold: 0.5 });
+            // Touch and mouse handlers
+            function handleStart(e) {
+                isDragging = true;
+                startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+                currentY = 0;
+                document.body.style.cursor = 'grabbing';
+            }
 
-            observer.observe(document.querySelector('.coming-soon-section'));
-
-            // Smooth scroll for tab click
-            document.querySelector('.scroll-tab').addEventListener('click', () => {
-                document.querySelector('section:last-child').scrollIntoView({
-                    behavior: 'smooth'
+            function handleMove(e) {
+                if (!isDragging) return;
+                const y = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+                currentY = Math.min(startY - y, maxDrag);
+                currentY = Math.max(currentY, 0);
+                
+                const progress = currentY / maxDrag;
+                
+                gsap.to(hero, {
+                    y: -currentY,
+                    duration: 0.1
                 });
-            });
+
+                gsap.to(comingSoon, {
+                    y: -currentY * 1.5,
+                    opacity: progress,
+                    duration: 0.1
+                });
+            }
+
+            function handleEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                document.body.style.cursor = 'default';
+
+                if (currentY > maxDrag * 0.5) {
+                    // Transition to coming soon
+                    gsap.to(hero, {
+                        y: -maxDrag,
+                        opacity: 0,
+                        duration: 0.5
+                    });
+                    gsap.to(comingSoon, {
+                        y: -maxDrag,
+                        opacity: 1,
+                        duration: 0.5
+                    });
+                } else {
+                    // Reset position
+                    gsap.to(hero, {
+                        y: 0,
+                        duration: 0.5
+                    });
+                    gsap.to(comingSoon, {
+                        y: 0,
+                        opacity: 0,
+                        duration: 0.5
+                    });
+                }
+            }
+
+            // Event listeners
+            document.addEventListener('mousedown', handleStart);
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('touchstart', handleStart);
+            document.addEventListener('touchmove', handleMove);
+            document.addEventListener('touchend', handleEnd);
         });
     </script>
 </body>
