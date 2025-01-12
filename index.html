@@ -51,7 +51,7 @@
         .virtual-exhibition {
             font-size: clamp(0.7rem, 1.5vw, 0.875rem);
             margin-top: 2.5rem;
-            font-weight: 200;
+            font-weight: 100;
             letter-spacing: 0.4em;
             text-transform: uppercase;
             opacity: 0;
@@ -60,17 +60,30 @@
 
         .scroll-tab {
             position: fixed;
-            bottom: 100px;
+            bottom: 120px;
             left: 50%;
             transform: translateX(-50%);
-            opacity: 1;
-            cursor: pointer;
+            opacity: 0;
             width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
             z-index: 10;
+        }
+
+        .coming-soon {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 100;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            text-align: center;
+            pointer-events: none;
         }
 
         .scroll-tab::after {
@@ -142,11 +155,11 @@
             gsap.to('.scroll-tab', {
                 duration: 2,
                 opacity: 1,
-                delay: 3,
+                delay: 4,
                 ease: 'power2.out'
             });
 
-            // Continuous animations
+            // Subtle floating animation for main content
             gsap.to('.hero', {
                 y: 5,
                 duration: 3,
@@ -155,20 +168,13 @@
                 ease: 'power1.inOut'
             });
 
+            // Background color shift
             gsap.to('.bg-fade', {
                 background: 'linear-gradient(45deg, #090909, #070707)',
                 duration: 8,
                 repeat: -1,
                 yoyo: true,
                 ease: 'none'
-            });
-
-            gsap.to('.scroll-tab', {
-                y: -10,
-                duration: 1.5,
-                repeat: -1,
-                yoyo: true,
-                ease: 'power1.inOut'
             });
 
             // Touch and mouse handlers
@@ -209,12 +215,14 @@
                     gsap.to(hero, {
                         y: -maxDrag,
                         opacity: 0,
-                        duration: 0.5
+                        duration: 1,
+                        ease: 'power2.inOut'
                     });
                     gsap.to(comingSoon, {
-                        y: -maxDrag,
+                        y: 0,
                         opacity: 1,
-                        duration: 0.5
+                        duration: 1,
+                        ease: 'power2.inOut'
                     });
                 } else {
                     // Reset position
