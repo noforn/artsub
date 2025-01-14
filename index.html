@@ -520,14 +520,16 @@
 // === Drag logic -> REVEAL GALLERY ===
 function handleStart(e) {
   // 1. If the gallery is open (pointer-events = 'auto'), skip drag logic
+  // If gallery is open (pointerEvents=auto), bail out
   if (galleryScreen.style.pointerEvents === 'auto') {
     return;
   }
 
-  // 2. If the click is on slideshow/close buttons, skip drag logic
+// If user clicked next/prev/close, bail out
   if (e.target.closest('#prevBtn, #nextBtn, #closeGalleryBtn')) {
     return;
   }
+
 
   // Otherwise, proceed with normal dragging
   isDragging = true;
