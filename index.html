@@ -326,6 +326,7 @@
   margin: 0 auto;
   text-align: center;
   padding: 1rem;
+  padding-bottom: 60px; /* Space for exit button */
 }
 
 .art-title {
@@ -361,6 +362,7 @@
 .art-medium {
   font-size: clamp(0.45rem, 1.8vw, 0.6rem);
   margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.7); /* Match artist color */
 }
 
 /* Media queries for larger screens */
@@ -422,6 +424,32 @@
       background-color: #333;
     }
 
+    .btn-exit-gallery {
+      display: none;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: rgba(255, 255, 255, 0.7); /* Match artist color */
+      border-radius: 50%;
+      width: 20px;  /* Slightly larger circle */
+      height: 20px; /* Keep circle perfect */
+      font-size: 12px; /* Smaller X */
+      line-height: 18px; /* Center X vertically */
+      text-align: center;
+      cursor: pointer;
+      position: fixed;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1001;
+      padding: 0;
+      transition: border-color 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .btn-exit-gallery {
+        display: inline-block;
+      }
+    }
 
     /* Show buttons on larger screens */
     @media (min-width: 768px) {
@@ -509,6 +537,7 @@
         </p>
         <p class="art-dimensions">18" x 12"</p>
         <p class="art-medium">Mixed Media on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -524,6 +553,7 @@
         </p>
         <p class="art-dimensions">24" x 18"</p>
         <p class="art-medium">Mixed Media</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -541,10 +571,29 @@
         </p>
         <p class="art-dimensions">14" x 14"</p>
         <p class="art-medium">Ink on Watercolor</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
     <!-- Slide 4 -->
+    <div class="slide">
+      <img src="assets/images/import11.jpeg" alt="Vanishing"/>
+      <div class="slide-info">
+        <h2 class="art-title">Vanishing</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          The ghostly visage, veiled in shadow and textured layers, 
+          evokes a haunting sense of impermanence and fragility. 
+          The rough, grainy surface creates an atmosphere of decay, 
+          as if the subject is being reclaimed by the void.
+        </p>
+        <p class="art-dimensions">18" x 12"</p>
+        <p class="art-medium">Oil on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 5 -->
     <div class="slide">
       <img src="assets/images/hand.jpeg" alt="Reaching Out"/>
       <div class="slide-info">
@@ -557,26 +606,29 @@
         </p>
         <p class="art-dimensions">24" x 18"</p>
         <p class="art-medium">Acrylic, Ink on Canvas</p>
-      </div>
-    </div>
-
-    <!-- Slide 5 -->
-    <div class="slide">
-      <img src="assets/images/import2.jpeg" alt="Artwork 2"/>
-      <div class="slide-info">
-        <h2 class="art-title">Hania</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A fierce, dynamic portrait of a warrior spirit, 
-          captured in bold strokes and striking contrasts. The intense gaze, 
-          framed by swirling patterns, embodies strength and resilience.
-        </p>
-        <p class="art-dimensions">24" x 18"</p>
-        <p class="art-medium">Mixed Media on Watercolor</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
     <!-- Slide 6 -->
+    <div class="slide">
+      <img src="assets/images/import6.jpeg" alt="Demon Diva"/>
+      <div class="slide-info">
+        <h2 class="art-title">Demon Diva</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          The wide, searching eyes and the expression suggest a 
+          yearning for connection. Dripping textures further underscore 
+          the transient nature of emotions, creating an 
+          evocative interplay between strength and fragility.
+        </p>
+        <p class="art-dimensions">18" x 24"</p>
+        <p class="art-medium">Acrylic on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 7 -->
     <div class="slide">
       <img src="assets/images/import3.jpeg" alt="Chasing Light"/>
       <div class="slide-info">
@@ -590,10 +642,11 @@
         </p>
         <p class="art-dimensions">20" x 30"</p>
         <p class="art-medium">Mixed Media on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
-    <!-- Slide 7 -->
+    <!-- Slide 8 -->
     <div class="slide">
       <img src="assets/images/import1.jpeg" alt="Silent Collision"/>
       <div class="slide-info">
@@ -606,22 +659,159 @@
         </p>
         <p class="art-dimensions">22" x 18"</p>
         <p class="art-medium">Charcoal on Paper</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
-    <!-- Slide 8 -->
+    <!-- Slide 9 -->
     <div class="slide">
-      <img src="assets/images/face1.jpeg" alt="Apple of my Eye"/>
+      <img src="assets/images/import5.jpeg" alt="Artwork 5"/>
       <div class="slide-info">
-        <h2 class="art-title">Mother of Ukraine</h2>
+        <h2 class="art-title">Artwork Title 5</h2>
         <p class="artist">by Suzanne O'Shea</p>
         <p class="art-description">
-          A haunting face, captured with raw, 
-          unrefined strokes. The abstract lines and intense contrast 
-          create a sense of emotional fragmentation.
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">24" x 36"</p>
+        <p class="art-medium">Oil on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 10 -->
+    <div class="slide">
+      <img src="assets/images/import2.jpeg" alt="Artwork 2"/>
+      <div class="slide-info">
+        <h2 class="art-title">Hania</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          A fierce, dynamic portrait of a warrior spirit, 
+          captured in bold strokes and striking contrasts. The intense gaze, 
+          framed by swirling patterns, embodies strength and resilience.
+        </p>
+        <p class="art-dimensions">24" x 18"</p>
+        <p class="art-medium">Mixed Media on Watercolor</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 11 -->
+    <div class="slide">
+      <img src="assets/images/import7.jpeg" alt="Artwork 7"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 7</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">20" x 30"</p>
+        <p class="art-medium">Watercolor on Paper</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 12 -->
+    <div class="slide">
+      <img src="assets/images/import8.jpeg" alt="Artwork 8"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 8</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">22" x 18"</p>
+        <p class="art-medium">Charcoal on Paper</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 13 -->
+    <div class="slide">
+      <img src="assets/images/import9.jpeg" alt="Artwork 9"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 9</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">24" x 36"</p>
+        <p class="art-medium">Oil on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 14 -->
+    <div class="slide">
+      <img src="assets/images/import10.jpeg" alt="Artwork 10"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 10</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
         </p>
         <p class="art-dimensions">18" x 24"</p>
-        <p class="art-medium">Charcoal on Canvas</p>
+        <p class="art-medium">Acrylic on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 15 -->
+    <div class="slide">
+      <img src="assets/images/import12.jpeg" alt="Artwork 12"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 12</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">22" x 18"</p>
+        <p class="art-medium">Charcoal on Paper</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 16 -->
+    <div class="slide">
+      <img src="assets/images/import13.jpeg" alt="Artwork 13"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 13</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">24" x 36"</p>
+        <p class="art-medium">Oil on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 17 -->
+    <div class="slide">
+      <img src="assets/images/import14.jpeg" alt="Artwork 14"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 14</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">18" x 24"</p>
+        <p class="art-medium">Acrylic on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 18 -->
+    <div class="slide">
+      <img src="assets/images/import15.jpeg" alt="Artwork 15"/>
+      <div class="slide-info">
+        <h2 class="art-title">Artwork Title 15</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Description of the artwork.
+        </p>
+        <p class="art-dimensions">20" x 30"</p>
+        <p class="art-medium">Watercolor on Paper</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
   </div>
@@ -966,76 +1156,116 @@ function showSlide(index) {
       let currentYGallery = 0;
       const gallerySwipeMax = 150; // px to swipe down to close
 
+      // Remove swipe-down gallery close functionality
+      // Delete or comment out these event listeners:
+      /*
       galleryScreen.addEventListener('mousedown', startGallerySwipe);
       galleryScreen.addEventListener('mousemove', moveGallerySwipe);
       galleryScreen.addEventListener('mouseup', endGallerySwipe);
-
-      galleryScreen.addEventListener('touchstart', startGallerySwipe, { passive: false });
-      galleryScreen.addEventListener('touchmove', moveGallerySwipe, { passive: false });
+      galleryScreen.addEventListener('touchstart', startGallerySwipe);
+      galleryScreen.addEventListener('touchmove', moveGallerySwipe);
       galleryScreen.addEventListener('touchend', endGallerySwipe);
+      */
 
-      function startGallerySwipe(e) {
-        // Only want to do this on mobile. If you'd like, enforce it with a check:
-        // if (window.innerWidth > 768) return;
-
-        // If user clicked/tapped Next or Prev, skip
-        if (e.target.closest('#prevBtn, #nextBtn')) {
-          return;
+      // Add desktop click navigation
+      galleryScreen.addEventListener('click', (e) => {
+        // Skip if clicked on buttons or mobile
+        if (e.target.closest('button') || window.innerWidth < 768) return;
+        
+        const clickX = e.clientX;
+        const galleryWidth = galleryScreen.offsetWidth;
+        
+        // Click on left side = previous, right side = next
+        if (clickX < galleryWidth / 2) {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        } else {
+            currentSlide = (currentSlide + 1) % slides.length;
         }
-        isGallerySwipe = true;
-        startYGallery = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
-        currentYGallery = 0;
-        e.preventDefault();
-      }
+        showSlide(currentSlide);
+      });
+    });
 
-      function moveGallerySwipe(e) {
-        if (!isGallerySwipe) return;
-        const y = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
-        currentYGallery = y - startYGallery;
-        // Only track downward swipes
-        if (currentYGallery < 0) {
-          currentYGallery = 0;
-        }
-        const progress = Math.min(currentYGallery / gallerySwipeMax, 1);
+document.addEventListener('DOMContentLoaded', () => {
+  const slides = document.querySelectorAll('.slide');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const exitGalleryBtns = document.querySelectorAll('.btn-exit-gallery');
+  const galleryScreen = document.getElementById('galleryScreen');
+  const hero = document.querySelector('.hero');
+  let currentSlide = 0;
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const swipeThreshold = 50;
 
-        gsap.set(galleryScreen, {
-          y: progress * 100,     // move it down up to ~100px
-          opacity: 1 - progress, // fade out
-        });
-      }
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+  }
 
-      function endGallerySwipe() {
-        if (!isGallerySwipe) return;
-        isGallerySwipe = false;
+  nextBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  });
 
-        if (currentYGallery > gallerySwipeMax * 0.5) {
-          // Fade out the gallery
-          gsap.to(galleryScreen, {
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power2.out',
-            onComplete: () => {
-              galleryScreen.style.pointerEvents = 'none';
-            }
-          });
-          // Fade hero in
+  prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  });
+
+  exitGalleryBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      gsap.to(galleryScreen, {
+        y: '100%',
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          galleryScreen.style.pointerEvents = 'none';
           gsap.to(hero, {
             y: 0,
             opacity: 1,
-            duration: 0.8,
-            ease: 'power2.out'
+            duration: 1.2,
+            ease: 'power2.inOut',
           });
-        } else {
-          // Reset gallery
-          gsap.to(galleryScreen, {
-            y: '-50%',
-            opacity: 1,
-            duration: 0.5,
-            ease: 'power2.out'
-          });
-        }
-      }
+        },
+      });
     });
+  });
+
+  // Touch event handlers for gallery navigation
+  galleryScreen.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  galleryScreen.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  });
+
+  // Mouse event handlers for gallery navigation
+  galleryScreen.addEventListener('mousedown', (e) => {
+    touchStartX = e.clientX;
+  });
+
+  galleryScreen.addEventListener('mouseup', (e) => {
+    touchEndX = e.clientX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    if (touchEndX < touchStartX - swipeThreshold) {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+    if (touchEndX > touchStartX + swipeThreshold) {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+  }
+
+  showSlide(currentSlide);
+});
   </script>
 </body>
 </html>
