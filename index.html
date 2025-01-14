@@ -245,21 +245,33 @@
       max-width: 700px;
       margin: 0 auto;
       text-align: center;
+      padding: 2rem 1rem;
     }
     .art-title {
       font-size: 1.6rem;
       font-weight: 300;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
     .artist {
       font-style: italic;
       color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     .art-description {
       font-size: 1rem;
-      line-height: 1.5;
+      line-height: 1.6;
       color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+    }
+    .art-dimensions {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 0.3rem;  /* Reduced from 1.5rem to match title-artist spacing */
+    }
+    .art-medium {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 0;  /* Removed margin-top */
     }
 
     /* Slideshow Nav Buttons */
@@ -330,6 +342,8 @@
     .footer a:hover {
       text-decoration: underline;
     }
+
+
   </style>
 </head>
 <body>
@@ -359,15 +373,31 @@
       <div class="scroll-tab__arrow"></div>
     </div>
   </div>
-
-  <!-- GALLERY SCREEN -->
+   <!-- GALLERY SCREEN -->
   <div class="gallery-screen" id="galleryScreen">
     <!-- Close button (hidden on mobile) -->
     <button class="btn-close-gallery" id="closeGalleryBtn" type="button">
       Close
     </button>
-
     <div class="slideshow" id="slideshow">
+
+      <div class="slide">
+        <img src="assets/images/import4.jpeg" alt="Artwork 1"/>
+        <div class="slide-info">
+          <h2 class="art-title">Apple of My Eye</h2>
+          <p class="artist">by Suzanne O'Shea</p>
+          <p class="art-description">
+            A young boy’s intense gaze blends vulnerability 
+            and strength. Bold, warm tones in mixed media on 
+            canvas evoke deep emotion, creating a portrait that 
+            invites quiet reflection.
+          </p>
+          <p class="art-dimensions">18" x 12"</p>
+          <p class="art-medium">Mixed Media on Canvas</p>
+        </div>
+      </div>
+
+
       <!-- Slide 1 -->
       <div class="slide active">
         <img src="assets/images/face1.jpeg" alt="Shattered Reflection"/>
@@ -379,6 +409,8 @@
             unrefined strokes. The abstract lines and intense contrast 
             create a sense of emotional fragmentation.
           </p>
+          <p class="art-dimensions">24" x 36"</p>
+          <p class="art-medium">Charcoal on Canvas</p>
         </div>
       </div>
 
@@ -391,9 +423,11 @@
           <p class="art-description">
             Soft contours and melting edges form a visage 
             weighed down by invisible grief.
-            The blending of shadows and light evokes a silent lament, 
+            The blending of shadows and light evokes 
             a fragile expression of loss suspended in time.
           </p>
+          <p class="art-dimensions">14" x 14"</p>
+          <p class="art-medium">Ink on Watercolor</p>
         </div>
       </div>
 
@@ -407,6 +441,8 @@
             A somber yet peaceful portrait, where light and 
             shadow converge to convey depth.
           </p>
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Mixed Media</p>
         </div>
       </div>
 
@@ -421,6 +457,57 @@
             distance between the viewer and the artwork in a 
             silent conversation.
           </p>
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Acrylic, Ink on Canvas</p>
+        </div>
+      </div>
+
+      <!-- Slide 6 -->
+      <div class="slide">
+        <img src="assets/images/import2.jpeg" alt="Artwork 2"/>
+        <div class="slide-info">
+          <h2 class="art-title">Hania</h2>
+          <p class="artist">by Suzanne O'Shea</p>
+          <p class="art-description">
+            A fierce, dynamic portrait of a warrior spirit, 
+            captured in bold strokes and striking contrasts. The intense gaze, 
+            framed by swirling patterns, embodies strength and resilience.
+          </p>
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Mixed Media on Watercolor</p>
+        </div>
+      </div>
+
+      <!-- Slide 7 -->
+      <div class="slide">
+        <img src="assets/images/import3.jpeg" alt="Chasing Light"/>
+        <div class="slide-info">
+          <h2 class="art-title">Chasing Light</h2>
+          <p class="artist">by Suzanne O'Shea</p>
+          <p class="art-description">
+            Swirling colors and fluid lines 
+            create a figure caught in a search for clarity. 
+            The work captures a sense of movement and hope, 
+            as if chasing something just beyond reach.
+          </p>
+          <p class="art-dimensions">20" x 30"</p>
+          <p class="art-medium">Mixed Media on Canvas</p>
+        </div>
+      </div>
+
+      <!-- Slide 8 -->
+      <div class="slide">
+        <img src="assets/images/import1.jpeg" alt="Silent Collision"/>
+        <div class="slide-info">
+          <h2 class="art-title">Silent Collision</h2>
+          <p class="artist">by Suzanne O'Shea</p>
+          <p class="art-description">
+            Stark contrasts and swirling lines form a face 
+            on the edge of recognition, while abstraction 
+            reveals tension in the space between clarity and chaos.
+          </p>
+          <p class="art-dimensions">22" x 18"</p>
+          <p class="art-medium">Charcoal on Paper</p>
         </div>
       </div>
     </div>
