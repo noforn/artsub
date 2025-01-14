@@ -185,6 +185,51 @@
     /* ========================
        GALLERY SCREEN
        ======================== */
+      
+    /* Add this to your CSS */
+.gallery-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.gallery-intro.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.intro-text {
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Hide gallery content initially */
+.gallery-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.gallery-content.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+      
+      
     .gallery-screen {
       position: absolute;
       top: 50%;
@@ -493,6 +538,11 @@
     <button class="btn-close-gallery" id="closeGalleryBtn" type="button">
       Close
     </button>
+    <div class="gallery-intro">
+     <div class="intro-text">Tap to Explore</div>
+    </div>
+    
+    <div class="gallery-content">
     <div class="slideshow" id="slideshow">
 
       <!-- Slide 1 -->
@@ -622,14 +672,13 @@
     </div>
   </div>
 </div>
-
     <!-- Slide Navigation -->
     <div class="slideshow-nav">
       <button id="prevBtn" class="btn-prev" type="button">Prev</button>
       <button id="nextBtn" class="btn-next" type="button">Next</button>
     </div>
   </div>
-
+</div>
   <!-- Footer (optional) -->
   <div class="footer">
     © 2025 Suzanne O'Shea
@@ -650,6 +699,10 @@
       const slides = document.querySelectorAll('.slide');
       let currentSlide = 0;
       showSlide(currentSlide);
+      
+      const galleryIntro = document.querySelector('.gallery-intro');
+      const introText = document.querySelector('.intro-text');
+      const galleryContent = document.querySelector('.gallery-content');
 
       // Explore button
       const enterExhibitBtn = document.getElementById('enterExhibitBtn');
@@ -772,14 +825,16 @@
             ease: 'power2.inOut',
           });
           gsap.to(galleryScreen, {
-            y: '-50%',
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              galleryScreen.style.pointerEvents = 'auto';
-            },
-          });
+        y: '-50%',
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power2.inOut',
+        onComplete: () => {
+            galleryScreen.style.pointerEvents = 'auto';
+            showGalleryIntro();
+        }
+    });
+    
         } else {
           // Reset hero
           gsap.to(hero, {
@@ -979,6 +1034,86 @@ function showSlide(index) {
         currentYGallery = 0;
         e.preventDefault();
       }
+
+      function showGalleryIntro() {
+    // Show black screen
+    galleryIntro.classList.add('active');
+    
+    // Animate in the text
+    gsap.to(introText, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.5,
+        ease: 'power2.out'
+    });
+
+    // Add tap listener to continue
+    galleryIntro.addEventListener('click', startGallery, { once: true });
+}
+
+// Function to transition from intro to gallery
+function startGallery() {
+    // Fade out intro text
+    gsap.to(introText, {
+        opacity: 0,
+        y: -20,
+        duration: 0.5,
+        ease: 'power2.in'
+    });
+
+    // Fade out intro screen
+    gsap.to(galleryIntro, {
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.3,
+        ease: 'power2.inOut',
+        onComplete: () => {
+            galleryIntro.style.display = 'none';
+            showGalleryContent();
+        }
+    });
+}
+
+// Function to show gallery content
+function showGalleryContent() {
+    // Show gallery content
+    galleryContent.classList.add('visible');
+    
+    // Initialize first slide
+    showSlide(0);
+}
+
+// Update your event listeners to use the new openGallery function
+enterExhibitBtn.addEventListener('click', openGallery);
+
+// Update your handleEnd function in the drag logic to use openGallery
+function handleEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    document.body.style.cursor = 'default';
+
+    if (currentY > maxDrag * 0.5) {
+        openGallery();
+    } else {
+        // Reset hero
+        gsap.to(hero, {
+            y: 0,
+            opacity: 1,
+            duration: 0.25,
+            ease: 'power2.out'
+        });
+        gsap.to(galleryScreen, {
+            y: 'calc(100vh + 50%)',
+            opacity: 0,
+            duration: 0.25,
+            ease: 'power2.out',
+            onComplete: () => {
+                galleryScreen.style.pointerEvents = 'none';
+            }
+        });
+    }
+}
 
       function moveGallerySwipe(e) {
         if (!isGallerySwipe) return;
