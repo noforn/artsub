@@ -240,9 +240,16 @@
 
 .btn-prev,
 .btn-next {
-    min-width: 100px;
-    min-height: 44px; /* Minimum touch target size */
-    margin: 0 0.5rem;
+    display: none;  /* Hide buttons by default on mobile */
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
 /* Responsive adjustments */
