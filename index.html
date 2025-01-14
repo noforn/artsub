@@ -813,37 +813,44 @@
 
       // Touch handling variables
 const slideshow = document.querySelector('.slideshow');
-const swipeHint = document.querySelector('.swipe-hint');
 let touchStartX = 0;
+let touchStartY = 0;
 let touchEndX = 0;
+let touchEndY = 0;
 const swipeThreshold = 50;
+let isScrolling = false;
 
-// Show swipe hint on mobile
-if (window.innerWidth < 768) {
-    gsap.to(swipeHint, {
-        opacity: 1,
-        duration: 1,
-        delay: 1,
-        onComplete: () => {
-            gsap.to(swipeHint, {
-                opacity: 0,
-                duration: 1,
-                delay: 2
-            });
-        }
-    });
-}
-
-// Touch event handlers for gallery navigation
+// Prevent default touch behavior on the slideshow
 slideshow.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
-}, { passive: true });
+    touchStartY = e.touches[0].clientY;
+    isScrolling = false;
+}, { passive: false });
 
 slideshow.addEventListener('touchmove', (e) => {
-    touchEndX = e.touches[0].clientX;
-}, { passive: true });
+    if (e.touches.length > 1) return; // Ignore multi-touch
 
-slideshow.addEventListener('touchend', () => {
+    touchEndX = e.touches[0].clientX;
+    touchEndY = e.touches[0].clientY;
+
+    // Calculate horizontal and vertical movement
+    const deltaX = touchStartX - touchEndX;
+    const deltaY = touchStartY - touchEndY;
+
+    // Determine if scrolling or swiping horizontally
+    if (!isScrolling) {
+        isScrolling = Math.abs(deltaY) > Math.abs(deltaX);
+        
+        // If it's a horizontal swipe, prevent scrolling
+        if (!isScrolling) {
+            e.preventDefault();
+        }
+    }
+}, { passive: false });
+
+slideshow.addEventListener('touchend', (e) => {
+    if (isScrolling) return; // Don't handle swipe if user was scrolling
+
     const swipeDistance = touchEndX - touchStartX;
     
     if (Math.abs(swipeDistance) > swipeThreshold) {
@@ -858,72 +865,60 @@ slideshow.addEventListener('touchend', () => {
     }
 });
 
-// Double-tap prevention
-let lastTap = 0;
-document.addEventListener('touchend', (e) => {
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - lastTap;
-    if (tapLength < 500 && tapLength > 0) {
-        e.preventDefault();
-    }
-    lastTap = currentTime;
+// Update the prev/next button handlers
+prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
 });
-      
-      // Slideshow Prev/Next
-      prevBtn.addEventListener('click', () => {
-        currentSlide--;
-        if (currentSlide < 0) {
-          currentSlide = slides.length - 1;
-        }
-        showSlide(currentSlide);
-      });
-      nextBtn.addEventListener('click', () => {
-        currentSlide++;
-        if (currentSlide >= slides.length) {
-          currentSlide = 0;
-        }
-        showSlide(currentSlide);
-      });
 
+nextBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+});
+
+// Update the showSlide function to handle transitions better
 function showSlide(index) {
-  // First hide all slides
-  slides.forEach((slide, i) => {
-    slide.classList.remove('active', 'next', 'prev');
+    // Update currentSlide
+    currentSlide = index;
+
+    // First hide all slides
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'next', 'prev');
+        
+        // Add positional classes for transition effects
+        if (i === index) {
+            slide.classList.add('active');
+        } else if (i === (index + 1) % slides.length) {
+            slide.classList.add('next');
+        } else if (i === (index - 1 + slides.length) % slides.length) {
+            slide.classList.add('prev');
+        }
+    });
+
+    // Get current slide
+    const currentSlideEl = slides[index];
     
-    // Add positional classes for transition effects
-    if (i === index) {
-      slide.classList.add('active');
-    } else if (i === (index + 1) % slides.length) {
-      slide.classList.add('next');
-    } else if (i === (index - 1 + slides.length) % slides.length) {
-      slide.classList.add('prev');
-    }
-  });
+    // Animate the content
+    gsap.fromTo(currentSlideEl.querySelector('img'), 
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+    );
 
-  // Get current slide
-  const currentSlideEl = slides[index];
-  
-  // Animate the content
-  gsap.fromTo(currentSlideEl.querySelector('img'), 
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-  );
+    gsap.fromTo(currentSlideEl.querySelector('.slide-info'),
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 0.2, ease: 'power2.out' }
+    );
 
-  gsap.fromTo(currentSlideEl.querySelector('.slide-info'),
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.6, delay: 0.2, ease: 'power2.out' }
-  );
-
-  // Preload adjacent images for smooth transitions
-  const nextIndex = (index + 1) % slides.length;
-  const prevIndex = (index - 1 + slides.length) % slides.length;
-  
-  [prevIndex, index, nextIndex].forEach(i => {
-    const img = slides[i].querySelector('img');
-    if (img && !img.complete) {
-      img.setAttribute('loading', 'eager');
-    }
-  });
+    // Preload adjacent images
+    const nextIndex = (index + 1) % slides.length;
+    const prevIndex = (index - 1 + slides.length) % slides.length;
+    
+    [prevIndex, index, nextIndex].forEach(i => {
+        const img = slides[i].querySelector('img');
+        if (img && !img.complete) {
+            img.setAttribute('loading', 'eager');
+        }
+    });
 }
 
       // Close button to go back to hero (desktop only)
