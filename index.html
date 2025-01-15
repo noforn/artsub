@@ -412,43 +412,17 @@
       background-color: #333;
     }
 
-    .btn-exit-gallery {
-      display: none;
-      background: none;
-      border: 1px solid rgba(255,255,255,0.4);
-      color: rgba(255, 255, 255, 0.7); /* Match artist color */
-      border-radius: 50%;
-      width: 20px;  /* Slightly larger circle */
-      height: 20px; /* Keep circle perfect */
-      font-size: 12px; /* Smaller X */
-      line-height: 18px; /* Center X vertically */
-      text-align: center;
-      cursor: pointer;
-      position: fixed;
-      bottom: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1001;
-      padding: 0;
-      transition: border-color 0.3s ease;
-    }
-
-    .btn-exit-gallery::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 50px; /* Larger touch target */
-      height: 50px; /* Larger touch target */
-      z-index: -1;
-    }
-
-    @media (max-width: 768px) {
-      .btn-exit-gallery {
-        display: inline-block;
-      }
-    }
+    /* Add style for clickable bottom area */
+.gallery-screen::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* Clickable area height */
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
+  z-index: 1002;
+}
 
     /* Show buttons on larger screens */
     @media (min-width: 768px) {
@@ -537,7 +511,6 @@
         </p>
         <p class="art-dimensions">18" x 12"</p>
         <p class="art-medium">Mixed Media on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -553,7 +526,6 @@
         </p>
         <p class="art-dimensions">24" x 18"</p>
         <p class="art-medium">Mixed Media</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -570,7 +542,6 @@
         </p>
         <p class="art-dimensions">24" x 36"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -587,7 +558,6 @@
         </p>
         <p class="art-dimensions">18" x 12"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -604,7 +574,6 @@
         </p>
         <p class="art-dimensions">24" x 36"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -621,7 +590,6 @@
         </p>
         <p class="art-dimensions">24" x 18"</p>
         <p class="art-medium">Acrylic, Ink on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -638,7 +606,6 @@
         </p>
         <p class="art-dimensions">18" x 24"</p>
         <p class="art-medium">Acrylic on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -655,7 +622,6 @@
         </p>
         <p class="art-dimensions">20" x 30"</p>
         <p class="art-medium">Mixed Media on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -672,7 +638,6 @@
         </p>
         <p class="art-dimensions">22" x 18"</p>
         <p class="art-medium">Charcoal on Paper</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -689,7 +654,6 @@
         </p>
         <p class="art-dimensions">24" x 18"</p>
         <p class="art-medium">Mixed Media on Watercolor</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -706,7 +670,6 @@
         </p>
         <p class="art-dimensions">20" x 30"</p>
         <p class="art-medium">Mixed Media on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -723,7 +686,6 @@
         </p>
         <p class="art-dimensions">22" x 14"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -740,7 +702,6 @@
         </p>
         <p class="art-dimensions">14" x 14"</p>
         <p class="art-medium">Ink on Watercolor</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -756,7 +717,6 @@
         </p>
         <p class="art-dimensions">18" x 24"</p>
         <p class="art-medium">Acrylic on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -772,7 +732,6 @@
         </p>
         <p class="art-dimensions">22" x 18"</p>
         <p class="art-medium">Watercolor on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -788,7 +747,6 @@
         </p>
         <p class="art-dimensions">24" x 36"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -804,7 +762,6 @@
         </p>
         <p class="art-dimensions">18" x 24"</p>
         <p class="art-medium">Acrylic on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
 
@@ -822,7 +779,6 @@
         </p>
         <p class="art-dimensions">20" x 30"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
     
@@ -839,7 +795,6 @@
         </p>
         <p class="art-dimensions">24" x 36"</p>
         <p class="art-medium">Oil on Canvas</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
   
@@ -1226,6 +1181,30 @@ function showSlide(index) {
         
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
+      });
+
+      // Add event listener for bottom area click/touch
+      galleryScreen.addEventListener('click', (e) => {
+        const bottomThreshold = window.innerHeight - 60; // 60px from bottom
+        
+        if (e.clientY > bottomThreshold) {
+          // Exit gallery animation
+          gsap.to(galleryScreen, {
+            y: '100%', 
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+              galleryScreen.style.pointerEvents = 'none';
+              gsap.to(hero, {
+                y: 0,
+                opacity: 1, 
+                duration: 1.2,
+                ease: 'power2.inOut'
+              });
+            }
+          });
+        }
       });
     });
 
