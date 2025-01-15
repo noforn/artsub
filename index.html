@@ -445,6 +445,17 @@
       transition: border-color 0.3s ease;
     }
 
+    .btn-exit-gallery::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px; /* Larger touch target */
+      height: 50px; /* Larger touch target */
+      z-index: -1;
+    }
+
     @media (max-width: 768px) {
       .btn-exit-gallery {
         display: inline-block;
@@ -615,8 +626,8 @@
         <h2 class="art-title">Demon Diva</h2>
         <p class="artist">by Suzanne O'Shea</p>
         <p class="art-description">
-          Searching eyes show yearning for connection.
-          Dripping textures underscore a transient nature of emotions,
+          Searching eyes yearn for connection.
+          Dripping textures underscore the transient nature of emotions,
           an evocative interplay between strength and fragility.
         </p>
         <p class="art-dimensions">18" x 24"</p>
