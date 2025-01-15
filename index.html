@@ -156,31 +156,7 @@
     }
 
     /* Drag hint indicator */
-    .scroll-tab {
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0; /* fade in with GSAP */
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-    }
-    .scroll-tab__line {
-      width: 30px;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 1px;
-    }
-    .scroll-tab__arrow {
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid rgba(255,255,255,0.3);
-      border-bottom: 2px solid rgba(255,255,255,0.3);
-      transform: rotate(45deg);
-    }
+    
 
     /* ========================
        GALLERY SCREEN
@@ -522,10 +498,7 @@
       </button>
     </main>
 
-    <div class="scroll-tab">
-      <div class="scroll-tab__line"></div>
-      <div class="scroll-tab__arrow"></div>
-    </div>
+    
   </div>
    <!-- GALLERY SCREEN -->
     
@@ -587,23 +560,6 @@
 
     <!-- Slide 4 -->
     <div class="slide">
-      <img src="assets/images/face2.jpeg" alt="Quiet Despair" 
-      <div class="slide-info">
-        <h2 class="art-title">Broken Heart Emoji</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Soft contours and melting edges form a visage 
-          weighed down by invisible grief. Blending of shadows and
-          light evokes a fragile expression of loss suspended in time.
-        </p>
-        <p class="art-dimensions">14" x 14"</p>
-        <p class="art-medium">Ink on Watercolor</p>
-        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
-      </div>
-    </div>
-
-    <!-- Slide 5 -->
-    <div class="slide">
       <img src="assets/images/import11.jpeg" alt="Vanishing"/>
       <div class="slide-info">
         <h2 class="art-title">Vanishing</h2>
@@ -614,6 +570,23 @@
           surface creates an atmosphere of decay, as if the subject is being reclaimed by the void.
         </p>
         <p class="art-dimensions">18" x 12"</p>
+        <p class="art-medium">Oil on Canvas</p>
+        <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
+      </div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide">
+      <img src="assets/images/import9.jpeg" alt="Vivid Bonds"/>
+      <div class="slide-info">
+        <h2 class="art-title">Vivid Bonds</h2>
+        <p class="artist">by Suzanne O'Shea</p>
+        <p class="art-description">
+          Two intertwined figures emerge through fragmented 
+          brushstrokes and vivid hues, capturing a quiet yet 
+          luminous connection.
+        </p>
+        <p class="art-dimensions">24" x 36"</p>
         <p class="art-medium">Oil on Canvas</p>
         <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
@@ -740,17 +713,17 @@
 
     <!-- Slide 13 -->
     <div class="slide">
-      <img src="assets/images/import9.jpeg" alt="Vivid Bonds"/>
+      <img src="assets/images/face2.jpeg" alt="Quiet Despair" 
       <div class="slide-info">
-        <h2 class="art-title">Vivid Bonds</h2>
+        <h2 class="art-title">Broken Heart Emoji</h2>
         <p class="artist">by Suzanne O'Shea</p>
         <p class="art-description">
-          Two intertwined figures emerge through fragmented 
-          brushstrokes and vivid hues, capturing a quiet yet 
-          luminous connection.
+          Soft contours and melting edges form a visage 
+          weighed down by invisible grief. Blending of shadows and
+          light evokes a fragile expression of loss suspended in time.
         </p>
-        <p class="art-dimensions">24" x 36"</p>
-        <p class="art-medium">Oil on Canvas</p>
+        <p class="art-dimensions">14" x 14"</p>
+        <p class="art-medium">Ink on Watercolor</p>
         <button class="btn-exit-gallery" id="exitGalleryBtn" type="button">X</button>
       </div>
     </div>
@@ -873,7 +846,6 @@
       const hero = document.querySelector('.hero');
       const heroSpotlight = document.querySelector('.hero-spotlight');
       const subHeading = document.querySelector('.virtual-exhibition');
-      const scrollTab = document.querySelector('.scroll-tab');
       const galleryScreen = document.getElementById('galleryScreen');
       const closeGalleryBtn = document.getElementById('closeGalleryBtn');
 
@@ -912,12 +884,7 @@
         delay: 2.2,
         ease: 'power2.out',
       });
-      gsap.to(scrollTab, {
-        duration: 2,
-        opacity: 1,
-        delay: 3,
-        ease: 'power2.out',
-      });
+      
       gsap.to(heroSpotlight, {
         duration: 3,
         repeat: -1,
