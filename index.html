@@ -1176,19 +1176,40 @@ function showSlide(index) {
 
       // Add desktop click navigation
       galleryScreen.addEventListener('click', (e) => {
-        // Skip if clicked on buttons or mobile
-        if (e.target.closest('button') || window.innerWidth < 768) return;
+        // First check if clicked on any button
+        if (e.target.closest('button') || 
+            e.target.closest('.btn-exit-gallery') || 
+            window.innerWidth < 768) {
+          return;
+        }
+        
+        // Add a check for the bottom area where the exit button is
+        const bottomSafeZone = 60; // pixels from bottom
+        if (e.clientY > window.innerHeight - bottomSafeZone) {
+          return;
+        }
         
         const clickX = e.clientX;
         const galleryWidth = galleryScreen.offsetWidth;
         
         // Click on left side = previous, right side = next
         if (clickX < galleryWidth / 2) {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+          currentSlide = (currentSlide - 1 + slides.length) % slides.length;
         } else {
-            currentSlide = (currentSlide + 1) % slides.length;
+          currentSlide = (currentSlide + 1) % slides.length;
         }
         showSlide(currentSlide);
+      });
+
+      // Also update the touch handling to respect the safe zone:
+      galleryScreen.addEventListener('touchend', (e) => {
+        // Check if touch ended in bottom safe zone
+        if (e.changedTouches[0].clientY > window.innerHeight - 60) {
+          return;
+        }
+        
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
       });
     });
 
@@ -1246,6 +1267,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   galleryScreen.addEventListener('touchend', (e) => {
+    // Check if touch ended in bottom safe zone
+    if (e.changedTouches[0].clientY > window.innerHeight - 60) {
+      return;
+    }
+    
     touchEndX = e.changedTouches[0].screenX;
     handleSwipe();
   });
