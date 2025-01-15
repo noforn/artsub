@@ -91,6 +91,7 @@
       opacity: 0; /* We'll fade in with GSAP */
       text-align: center;
       perspective: 800px; /* for mild parallax tilt */
+      padding-bottom: 40px; /* Add padding to avoid footer overlap */
     }
 
     /* Radial spotlight behind hero text */
@@ -464,6 +465,10 @@
       color: rgba(255,255,255,0.5);
       text-align: center;
       pointer-events: none;
+      z-index: 1000; /* Add z-index to keep above hero */
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(to bottom, transparent, var(--bg-dark) 50%); /* Add gradient background */
     }
     .footer a {
       color: var(--accent);
