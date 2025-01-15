@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Suzanne O'Shea — Virtual Exhibition</title>
 
-  <!-- Refined Font -->
+  <!-- Modern Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
 
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -41,7 +39,7 @@
       height: 100%;
       background-color: var(--bg-dark);
       color: var(--text-light);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Manrope', sans-serif;
       overflow: hidden; /* We'll handle “scroll” or transitions manually */
       touch-action: none;
       cursor: default;
@@ -114,19 +112,21 @@
 
     /* Heading */
     .hero h1 {
-      font-weight: 100;
-      letter-spacing: 0.05em;
-      font-size: clamp(2rem, 5vw, 4rem);
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      letter-spacing: 0.02em;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
       margin: 0;
       color: rgba(255,255,255,0.95);
-      font-family: 'Inter', sans-serif; /* Add this line */
+      line-height: 1.1;
     }
 
     /* Subheading / Secondary text */
     .virtual-exhibition {
-      font-weight: 100;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
       font-size: clamp(0.8rem, 2vw, 1.2rem);
-      letter-spacing: 0.4em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       margin-top: 2rem;
       color: rgba(255,255,255,0.6);
@@ -135,26 +135,37 @@
 
     /* Explore button (optional) */
     .enter-exhibit-btn {
-      display: inline-block;
-      margin-top: 2.5rem;
-      background-color: #000;
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 0.6rem 1.5rem;
-      text-transform: uppercase;
-      border-radius: 4px;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      font-size: 0.9rem;
-      opacity: 0; /* fade in after subheading */
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .enter-exhibit-btn:hover {
-      background-color: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.6);
-    }
+  font-family: 'Manrope', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.12em;
+  display: inline-block;
+  margin-top: 2.5rem;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2.5rem;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+}
+
+.enter-exhibit-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.enter-exhibit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
     /* Drag hint indicator */
     
