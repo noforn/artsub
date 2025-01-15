@@ -443,12 +443,25 @@
       z-index: 1001;
       padding: 0;
       transition: border-color 0.3s ease;
+      position: relative;
     }
 
     @media (max-width: 768px) {
       .btn-exit-gallery {
         display: inline-block;
       }
+    }
+
+    .btn-exit-gallery::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px; /* Larger click area */
+      height: 44px; /* Larger click area */
+      border-radius: 50%;
+      z-index: -1;
     }
 
     /* Show buttons on larger screens */
