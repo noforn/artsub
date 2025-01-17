@@ -192,7 +192,7 @@
       transition: opacity 0.8s ease;
     }
     
-    }
+
 
 /* Hide navigation on gallery screen */
 .gallery-screen .main-nav {
@@ -1019,6 +1019,12 @@
               galleryScreen.style.pointerEvents = 'auto';
             },
           });
+          // Add nav fade
+          gsap.to(mainNav, {
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out' 
+          });
         } else {
           // Reset hero
           gsap.to(hero, {
@@ -1036,6 +1042,12 @@
             onComplete: () => {
               galleryScreen.style.pointerEvents = 'none';
             },
+          });
+          // Add nav fade back in
+          gsap.to(mainNav, {
+            opacity: 1,
+            duration: 0.25,
+            ease: 'power2.out'
           });
         }
       }
@@ -1056,6 +1068,12 @@
           onComplete: () => {
             galleryScreen.style.pointerEvents = 'auto';
           },
+        });
+        // Add nav fade
+        gsap.to(mainNav, {
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out'
         });
       });
 
@@ -1192,6 +1210,12 @@ function showSlide(index) {
           duration: 0.8,
           ease: 'power2.out',
         });
+        // Add nav fade back in
+        gsap.to(mainNav, {
+          opacity: 1, 
+          duration: 0.8,
+          ease: 'power2.out'
+        });
       });
 
       // ========================
@@ -1273,6 +1297,13 @@ function showSlide(index) {
             }
           });
         }
+      });
+
+      const mainNav = document.querySelector('.main-nav');
+
+      // Add smooth transition to nav
+      gsap.set(mainNav, {
+        transition: 'opacity 0.8s ease'
       });
     });
 
