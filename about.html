@@ -35,20 +35,21 @@
       padding: 0;
     }
 
-    /* Allow vertical scrolling, hide horizontal overflow if needed */
     html, body {
       width: 100%;
       min-height: 100%;
       background-color: var(--bg-dark);
       color: var(--text-light);
       font-family: 'Manrope', sans-serif;
-      /* Removed overflow: hidden; */
+
+      /* Allow scrolling if needed */
       overflow-x: hidden;
       overflow-y: auto;
       touch-action: auto;
       cursor: auto;
     }
 
+    /* Background layer */
     .bg-layer {
       position: fixed;
       inset: 0;
@@ -64,41 +65,13 @@
       background-repeat: no-repeat;
     }
 
-    /* 
-      Changed this from the earlier version:
-      - Added a top padding to push content below the fixed nav.
-      - Used flexbox to center the .about-section vertically if the viewport is tall enough.
-    */
-    .content {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* center .about-section vertically */
-      align-items: center;
-
-      /* This ensures the main content starts below the nav bar */
-      padding-top: 8rem;
-    }
-
-    .watermark {
-      position: fixed;
-      top: 1rem;
-      right: 2rem;
-      font-weight: 300;
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
-      opacity: 0.08;
-      pointer-events: none;
-    }
-
-    /* Navigation styling */
+    /* Fixed navigation bar with a known height (6rem) */
     .main-nav {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
+      height: 6rem; /* <--- define a fixed height so we can offset content */
       padding: 2rem;
       z-index: 1000;
       display: flex;
@@ -122,7 +95,6 @@
       transition: all 0.3s ease;
       position: relative;
     }
-
     .nav-link::after {
       content: '';
       position: absolute;
@@ -133,7 +105,6 @@
       background: var(--text-light);
       transition: width 0.3s ease;
     }
-
     .nav-link:hover {
       opacity: 1;
     }
@@ -147,17 +118,39 @@
       width: 100%;
     }
 
+    /* Content wrapper:
+       - offset by the nav's height (margin-top: 6rem),
+       - fill the rest of the viewport (min-height: calc(100vh - 6rem)),
+       - center the child (the about-section) with grid. */
+    .content {
+      margin-top: 6rem; /* pushes content below the nav */
+      min-height: calc(100vh - 6rem);
+      display: grid;
+      place-items: center; /* centers .about-section vertically & horizontally */
+      overflow: auto;      /* if .about-section is larger than the screen, scroll */
+      width: 100%;
+    }
+
+    .watermark {
+      position: fixed;
+      top: 1rem;
+      right: 2rem;
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
     /* About section styling */
     .about-section {
       position: relative;
       opacity: 0;
       text-align: center;
       perspective: 800px;
-      /* Removed margin-top: 6rem */
       max-width: 800px;
       width: 100%;
       padding: 0 2rem;
-      /* The extra padding here helps on smaller screens */
     }
 
     .about-spotlight {
@@ -183,7 +176,6 @@
       transform-style: preserve-3d;
     }
 
-    /* Adjusted the clamp to allow smaller sizes on mobile */
     .about-content h1 {
       font-weight: 200;
       font-size: clamp(1.5rem, 5vw, 4.5rem);
@@ -195,12 +187,10 @@
     .about-text {
       font-weight: 300;
       line-height: 1.8;
-      /* Adjusted clamp for smaller mobile sizes */
       font-size: clamp(0.875rem, 2.5vw, 1.1rem);
       color: rgba(255,255,255,0.8);
       opacity: 0;
     }
-
     .about-text p {
       margin-bottom: 2rem;
     }
@@ -211,28 +201,26 @@
       border-top: 1px solid rgba(255,255,255,0.1);
       opacity: 0;
     }
-
     .contact-info p {
       font-size: 0.9rem;
       color: rgba(255,255,255,0.6);
       margin-bottom: 0.5rem;
     }
-
     .contact-info a {
       color: var(--accent);
       text-decoration: none;
       transition: opacity 0.3s ease;
       font-size: 1.1rem;
     }
-
     .contact-info a:hover {
       opacity: 0.8;
     }
 
+    /* Fixed footer (optional).
+       Be aware: if your content is taller than the screen, this will overlap it. */
     .footer {
-      /* Stays fixed at the bottom. Be aware this can overlap content on very short screens. */
       position: fixed;
-      bottom: 20px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 0.7rem;
@@ -244,18 +232,6 @@
       padding: 10px;
       background: linear-gradient(to bottom, transparent, var(--bg-dark) 50%);
     }
-
-    /*
-      OPTIONAL: If you'd like a different layout on small vs. large screens,
-      you could do something like this for mobile:
-
-      @media (max-width: 768px) {
-        .content {
-          justify-content: flex-start;  // top-align on mobile
-          padding-top: 6rem;
-        }
-      }
-    */
   </style>
 </head>
 <body>
