@@ -23,21 +23,30 @@
       --spotlight-size: 60vmax;
     }
 
+    /* Prevent iOS from auto-adjusting text sizes */
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* Reset + base styles */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    /* Allow vertical scrolling, hide horizontal overflow if needed */
     html, body {
       width: 100%;
-      height: 100%;
+      min-height: 100%;
       background-color: var(--bg-dark);
       color: var(--text-light);
       font-family: 'Manrope', sans-serif;
-      overflow: hidden;
-      touch-action: none;
-      cursor: default;
+      /* Removed overflow: hidden; */
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: auto;
+      cursor: auto;
     }
 
     .bg-layer {
@@ -55,14 +64,22 @@
       background-repeat: no-repeat;
     }
 
+    /* 
+      Changed this from the earlier version:
+      - Added a top padding to push content below the fixed nav.
+      - Used flexbox to center the .about-section vertically if the viewport is tall enough.
+    */
     .content {
       position: relative;
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: center; /* center .about-section vertically */
       align-items: center;
+
+      /* This ensures the main content starts below the nav bar */
+      padding-top: 8rem;
     }
 
     .watermark {
@@ -76,7 +93,7 @@
       pointer-events: none;
     }
 
-    /* Navigation styling from index.html */
+    /* Navigation styling */
     .main-nav {
       position: fixed;
       top: 0;
@@ -120,15 +137,12 @@
     .nav-link:hover {
       opacity: 1;
     }
-
     .nav-link:hover::after {
       width: 100%;
     }
-
     .nav-link.active {
       opacity: 1;
     }
-
     .nav-link.active::after {
       width: 100%;
     }
@@ -139,9 +153,11 @@
       opacity: 0;
       text-align: center;
       perspective: 800px;
-      padding: 0 2rem;
+      /* Removed margin-top: 6rem */
       max-width: 800px;
-      margin: 0 auto;
+      width: 100%;
+      padding: 0 2rem;
+      /* The extra padding here helps on smaller screens */
     }
 
     .about-spotlight {
@@ -163,13 +179,14 @@
 
     .about-content {
       position: relative;
-      padding: 2rem;
+      padding: 2rem 0;
       transform-style: preserve-3d;
     }
 
+    /* Adjusted the clamp to allow smaller sizes on mobile */
     .about-content h1 {
       font-weight: 200;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-size: clamp(1.5rem, 5vw, 4.5rem);
       margin-bottom: 4rem;
       letter-spacing: 0.02em;
       opacity: 0;
@@ -178,7 +195,8 @@
     .about-text {
       font-weight: 300;
       line-height: 1.8;
-      font-size: clamp(1rem, 2vw, 1.1rem);
+      /* Adjusted clamp for smaller mobile sizes */
+      font-size: clamp(0.875rem, 2.5vw, 1.1rem);
       color: rgba(255,255,255,0.8);
       opacity: 0;
     }
@@ -212,8 +230,9 @@
     }
 
     .footer {
+      /* Stays fixed at the bottom. Be aware this can overlap content on very short screens. */
       position: fixed;
-      bottom: 10px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 0.7rem;
@@ -225,6 +244,18 @@
       padding: 10px;
       background: linear-gradient(to bottom, transparent, var(--bg-dark) 50%);
     }
+
+    /*
+      OPTIONAL: If you'd like a different layout on small vs. large screens,
+      you could do something like this for mobile:
+
+      @media (max-width: 768px) {
+        .content {
+          justify-content: flex-start;  // top-align on mobile
+          padding-top: 6rem;
+        }
+      }
+    */
   </style>
 </head>
 <body>
@@ -328,7 +359,7 @@
         ease: 'none'
       });
 
-      // Parallax effect on mouse move
+      // Parallax effect on mouse move (desktop)
       document.addEventListener('mousemove', (e) => {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
