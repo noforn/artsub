@@ -1178,16 +1178,14 @@ function showSlide(index) {
           ease: 'power2.out',
           onComplete: () => {
             galleryScreen.style.pointerEvents = 'none';
-          },
-        });
-        // Fade hero in
-        gsap.to(hero, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power2.out',
-        });
-      });
+            document.querySelector('.main-nav').style.opacity = '1';
+            document.querySelector('.main-nav').style.pointerEvents = 'auto';
+            gsap.to(hero, {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power2.inOut',
+            });
 
       // ========================
       // SWIPE-DOWN TO CLOSE GALLERY ON MOBILE
