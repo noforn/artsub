@@ -1004,16 +1004,14 @@
             ease: 'power2.inOut',
           });
           gsap.to(galleryScreen, {
-          y: '-50%',
-          opacity: 1,
-          duration: 1.2,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            galleryScreen.style.pointerEvents = 'auto';
-            document.querySelector('.main-nav').style.opacity = '0';
-            document.querySelector('.main-nav').style.pointerEvents = 'none';
-          },
-        });
+            y: '-50%',
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+              galleryScreen.style.pointerEvents = 'auto';
+            },
+          });
         } else {
           // Reset hero
           gsap.to(hero, {
@@ -1169,6 +1167,7 @@ function showSlide(index) {
   });
 }
 
+      // Close button to go back to hero (desktop only)
       closeGalleryBtn.addEventListener('click', () => {
         // Just fade it out
         gsap.to(galleryScreen, {
@@ -1177,16 +1176,16 @@ function showSlide(index) {
           ease: 'power2.out',
           onComplete: () => {
             galleryScreen.style.pointerEvents = 'none';
-            document.querySelector('.main-nav').style.opacity = '1';
-            document.querySelector('.main-nav').style.pointerEvents = 'auto';
-            gsap.to(hero, {
-              y: 0,
-              opacity: 1,
-              duration: 1.2,
-              ease: 'power2.inOut'
-            });
-          }
+          },
         });
+        // Fade hero in
+        gsap.to(hero, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        });
+      });
 
       // ========================
       // SWIPE-DOWN TO CLOSE GALLERY ON MOBILE
