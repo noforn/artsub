@@ -463,10 +463,71 @@
       text-decoration: underline;
     }
 
+    .main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.8), transparent);
+  backdrop-filter: blur(10px);
+}
 
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--text-light);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  opacity: 1;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  opacity: 1;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
   </style>
 </head>
 <body>
+
+<nav class="main-nav">
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active">Gallery</a>
+    <a href="about.html" class="nav-link">About</a>
+  </div>
+</nav>
 
   <!-- Background layers -->
   <div class="bg-layer"></div>
