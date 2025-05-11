@@ -1416,7 +1416,6 @@ function showSlide(index) {
   });
 });
 //zoom + fullscreen
-// Zoom functionality for mobile
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
   
@@ -1470,7 +1469,6 @@ if (window.innerWidth < 768) {
   }
 }
 
-// Full screen mode 
 slides.forEach(slide => {
   const img = slide.querySelector('img');
   const zoomContainer = img.parentElement;
@@ -1478,7 +1476,6 @@ slides.forEach(slide => {
   let touchStartTime = 0;
   let touchStartPos = null;
   
-  // Mobile touch handler
   zoomContainer.addEventListener('touchstart', (e) => {
     if (e.touches.length === 1) {
       touchStartTime = Date.now();
@@ -1504,7 +1501,6 @@ slides.forEach(slide => {
         Math.pow(touchEndPos.y - touchStartPos.y, 2)
       );
       
-      // Check if it's a tap (short duration, minimal movement)
       if (touchDuration < 300 && distance < 10) {
         e.preventDefault();
         e.stopPropagation();
@@ -1515,7 +1511,6 @@ slides.forEach(slide => {
     touchStartPos = null;
   });
   
-  // Desktop click handler
   img.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleFullScreen(slide);
@@ -1524,7 +1519,6 @@ slides.forEach(slide => {
 
 function toggleFullScreen(slide) {
   if (slide.classList.contains('full-screen')) {
-    // Exit full screen
     gsap.to(slide, {
       scale: 1,
       x: 0,
@@ -1535,12 +1529,10 @@ function toggleFullScreen(slide) {
         slide.classList.remove('full-screen');
         document.body.classList.remove('full-screen-active');
         
-        // Reset image if zoomed
         const img = slide.querySelector('img');
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
         
-        // Show slide info
         gsap.to(slide.querySelector('.slide-info'), {
           opacity: 1,
           duration: 0.3,
@@ -1549,7 +1541,6 @@ function toggleFullScreen(slide) {
       }
     });
     
-    // Show navigation
     gsap.to('.btn-prev, .btn-next', {
       opacity: 1,
       duration: 0.3,
@@ -1561,7 +1552,6 @@ function toggleFullScreen(slide) {
       delay: 0.2
     });
   } else {
-    // Enter full screen
     gsap.fromTo(slide, 
       { scale: 1 },
       { 
@@ -1581,7 +1571,6 @@ function toggleFullScreen(slide) {
       }
     );
     
-    // Hide navigation
     gsap.to('.btn-prev, .btn-next', {
       opacity: 0,
       duration: 0.3
