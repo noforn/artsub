@@ -1404,8 +1404,6 @@ if (window.innerWidth < 768) {
     const rect = img.getBoundingClientRect();
     const centerX = (touch1.clientX + touch2.clientX) / 2;
     const centerY = (touch1.clientY + touch2.clientY) / 2;
-    
-    // Convert to percentages relative to the image
     const percentX = ((centerX - rect.left) / rect.width) * 100;
     const percentY = ((centerY - rect.top) / rect.height) * 100;
     
