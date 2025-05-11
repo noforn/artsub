@@ -1423,32 +1423,86 @@ if (window.innerWidth < 768) {
     let scale = 1;
     let initialDistance = 0;
     let touchCenter = { x: 0, y: 0 };
+    let translateX = 0;
+    let translateY = 0;
+    let isPanning = false;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
     
     img.parentElement.addEventListener('touchstart', (e) => {
       if (e.touches.length === 2) {
+        // Pinch gesture
         e.preventDefault();
+        isPanning = false;
         initialDistance = getDistance(e.touches[0], e.touches[1]);
         touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
         img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
+      } else if (e.touches.length === 1 && scale > 1) {
+        // Single touch for panning (only when zoomed in)
+        e.preventDefault();
+        isPanning = true;
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
       }
     });
     
     img.parentElement.addEventListener('touchmove', (e) => {
       if (e.touches.length === 2) {
+        // Pinch zoom
         e.preventDefault();
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
-        scale = currentDistance / initialDistance;
+        scale = (currentDistance / initialDistance) * scale;
         scale = Math.min(Math.max(scale, 0.5), 3);
-        img.style.transform = `scale(${scale})`;
+        
+        // Apply zoom with current translation
+        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
+      } else if (e.touches.length === 1 && isPanning && scale > 1) {
+        // Pan/drag
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - lastTouchX;
+        const deltaY = e.touches[0].clientY - lastTouchY;
+        
+        translateX += deltaX;
+        translateY += deltaY;
+        
+        // Calculate bounds to keep image within container
+        const container = img.parentElement;
+        const containerRect = container.getBoundingClientRect();
+        const imgWidth = img.naturalWidth * scale;
+        const imgHeight = img.naturalHeight * scale;
+        
+        const maxTranslateX = Math.max(0, (imgWidth - containerRect.width) / 2);
+        const maxTranslateY = Math.max(0, (imgHeight - containerRect.height) / 2);
+        
+        // Constrain translation
+        translateX = Math.min(Math.max(translateX, -maxTranslateX), maxTranslateX);
+        translateY = Math.min(Math.max(translateY, -maxTranslateY), maxTranslateY);
+        
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+        
+        // Apply new transform
+        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
       }
     });
     
     img.parentElement.addEventListener('touchend', () => {
       if (scale < 1) {
+        // Reset when zoomed out below 100%
+        img.style.transition = 'transform 0.3s ease-out';
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
-        scale = 1;
+        setTimeout(() => {
+          img.style.transition = '';
+        }, 300);
       }
+      isPanning = false;
+      
+      // Ensure we reset the initial distance for next pinch gesture
+      initialDistance = 0;
     });
   });
   
