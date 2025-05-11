@@ -180,9 +180,10 @@
 
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       flex-direction: column;
       transition: opacity 0.8s ease;
+      padding-top: 3vh;
     }
 
     .gallery-screen .main-nav {
@@ -199,13 +200,6 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: 1001;
-    }
-
-    .slideshow {
-      width: 100%;
-      max-width: 100vw;
-      height: auto;
-      padding: 0 1rem;
     }
 
     .slideshow-nav {
@@ -266,6 +260,9 @@
       overflow-y:auto;
       position: relative;
       padding-bottom: 2rem;
+
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
     .slide {
