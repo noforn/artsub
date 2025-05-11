@@ -1240,8 +1240,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const slideshow = document.querySelector('.slideshow');
   const swipeHint = document.querySelector('.swipe-hint');
-  let touchStartX = 0;
-  let touchEndX = 0;
+  let touchStartX = null;
+  let touchEndX = null;
   const swipeThreshold = 50;
 
   if (window.innerWidth < 768) {
@@ -1260,14 +1260,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   slideshow.addEventListener('touchstart', (e) => {
+    if (e.target.closest('.zoom-container')) {
+      return;
+    }
     touchStartX = e.touches[0].clientX;
   }, { passive: true });
 
   slideshow.addEventListener('touchmove', (e) => {
+    if (touchStartX === null) return;
     touchEndX = e.touches[0].clientX;
   }, { passive: true });
 
   slideshow.addEventListener('touchend', () => {
+    if (touchStartX === null) return;
+    
     const swipeDistance = touchEndX - touchStartX;
     if (Math.abs(swipeDistance) > swipeThreshold) {
       if (swipeDistance > 0) {
@@ -1277,6 +1283,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       showSlide(currentSlide);
     }
+    
+    touchStartX = null;
+    touchEndX = null;
   });
 
   let lastTap = 0;
@@ -1298,7 +1307,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showSlide(currentSlide);
   });
 
-  function showSlide(index) {
+function showSlide(index) {
     slides.forEach((slide, i) => {
       slide.classList.remove('active', 'next', 'prev');
       if (i === index) {
@@ -1328,7 +1337,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.setAttribute('loading', 'eager');
       }
     });
-  }
+}
 
   closeGalleryBtn.addEventListener('click', () => {
     gsap.to(galleryScreen, {
