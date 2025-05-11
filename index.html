@@ -332,7 +332,12 @@
       font-size: clamp(1.2rem, 4vw, 1.6rem);
       font-weight: 300;
       margin-bottom: 0.2rem;
+      max-height: calc(50vh - 2rem);
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
       color: rgba(255,255,255,0.95);
+      flex-shrink: 0;
     }
 
     .artist {
@@ -340,6 +345,7 @@
       color: rgba(255, 255, 255, 0.7);
       margin-bottom: 1rem;
       font-size: clamp(0.9rem, 3vw, 1rem);
+      flex-shrink: 0;
     }
 
     .art-description {
@@ -348,9 +354,10 @@
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 0.75rem;
     padding: 0 1rem;
-    max-height: 100px; /* Adjust as needed */
+    max-height: 100px;
     overflow-y: auto;
-    padding-right: 1.5rem; /* Space for scrollbar */
+    padding-right: 1.5rem; 
+    min-height: 0;
     }
 
     .art-dimensions,
@@ -358,6 +365,7 @@
       font-size: clamp(0.4rem, 1.5vw, 0.5rem);
       margin-top: 0.5rem;
       color: rgba(255, 255, 255, 0.8);
+      flex-shrink: 0;
     }
 
     /* Optional: Custom scrollbar */
