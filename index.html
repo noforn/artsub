@@ -325,17 +325,17 @@
       margin: 0 auto;
       text-align: center;
       padding: 1rem;
-      padding-bottom: 60px; /* Space for exit button */
+      padding-bottom: 60px;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(50vh - 2rem);
+      overflow: hidden;
     }
 
     .art-title {
       font-size: clamp(1.2rem, 4vw, 1.6rem);
       font-weight: 300;
       margin-bottom: 0.2rem;
-      max-height: calc(50vh - 2rem);
-      max-width: 700px;
-      display: flex;
-      flex-direction: column;
       color: rgba(255,255,255,0.95);
       flex-shrink: 0;
     }
@@ -349,15 +349,21 @@
     }
 
     .art-description {
-    font-size: clamp(0.7rem, 2.7vw, 0.8rem);
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 0.75rem;
-    padding: 0 1rem;
-    max-height: 100px;
-    overflow-y: auto;
-    padding-right: 1.5rem; 
-    min-height: 0;
+      font-size: clamp(0.7rem, 2.7vw, 0.8rem);
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 0.75rem;
+      padding: 0 1rem;
+      max-height: 100px;
+      overflow-y: auto;
+      padding-right: 1.5rem; 
+      min-height: 0;
+      flex: 1;
+    }
+
+    .art-details {
+      flex-shrink: 0;
+      margin-top: auto;
     }
 
     .art-dimensions,
@@ -594,8 +600,10 @@
           and strength. Bold, warm tones evoke deep emotion, 
           inviting quiet reflection. 
         </p>
-        <p class="art-dimensions">18" x 12"</p>
-        <p class="art-medium">Mixed Media on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">18" x 12"</p>
+          <p class="art-medium">Mixed Media on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -609,8 +617,10 @@
           A somber yet peaceful portrait, where light and 
           shadow converge to convey depth.
         </p>
-        <p class="art-dimensions">24" x 18"</p>
-        <p class="art-medium">Mixed Media</p>
+        <div class="art-details">
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Mixed Media</p>
+        </div>
       </div>
     </div>
 
@@ -625,8 +635,10 @@
           complexity of thought. Intertwining vivid colors and fragmented 
           textures depict the interplay between emotion and cognition.
         </p>
-        <p class="art-dimensions">16" x 12"</p>
-        <p class="art-medium">Mixed Media</p>
+        <div class="art-details">
+          <p class="art-dimensions">16" x 12"</p>
+          <p class="art-medium">Mixed Media</p>
+        </div>
       </div>
     </div>
 
@@ -641,8 +653,10 @@
           evoking a haunting sense of impermanence. The rough, grainy
           surface creates an atmosphere of decay, as if the subject is being reclaimed by the void.
         </p>
-        <p class="art-dimensions">18" x 12"</p>
-        <p class="art-medium">Oil on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">18" x 12"</p>
+          <p class="art-medium">Oil on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -657,8 +671,10 @@
           brushstrokes and vivid hues, capturing a quiet yet 
           luminous connection.
         </p>
-        <p class="art-dimensions">22" x 20"</p>
-        <p class="art-medium">Oil on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">22" x 20"</p>
+          <p class="art-medium">Oil on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -673,8 +689,10 @@
           distance between the viewer and the artwork in a 
           silent conversation.
         </p>
-        <p class="art-dimensions">24" x 18"</p>
-        <p class="art-medium">Acrylic, Ink on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Acrylic, Ink on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -689,8 +707,10 @@
           Dripping textures underscore transient emotions,
           an evocative interplay between strength and fragility.
         </p>
-        <p class="art-dimensions">18" x 24"</p>
-        <p class="art-medium">Acrylic on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">18" x 24"</p>
+          <p class="art-medium">Acrylic on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -705,8 +725,10 @@
           The work captures a sense of movement and hope, 
           as if chasing something just beyond reach.
         </p>
-        <p class="art-dimensions">10" x 8"</p>
-        <p class="art-medium">Ink on Rice Paper</p>
+        <div class="art-details">
+          <p class="art-dimensions">10" x 8"</p>
+          <p class="art-medium">Ink on Rice Paper</p>
+        </div>
       </div>
     </div>
 
@@ -721,8 +743,10 @@
           on the edge of recognition, while abstraction 
           reveals tension in the space between clarity and chaos.
         </p>
-        <p class="art-dimensions">12" x 9"</p>
-        <p class="art-medium">Graphite on Paper</p>
+        <div class="art-details">
+          <p class="art-dimensions">12" x 9"</p>
+          <p class="art-medium">Graphite on Paper</p>
+        </div>
       </div>
     </div>
 
@@ -737,8 +761,10 @@
           striking contrasts. An intense gaze, framed by swirling patterns,
           embodies strength and resilience.
         </p>
-        <p class="art-dimensions">24" x 18"</p>
-        <p class="art-medium">Mixed Media on Watercolor</p>
+        <div class="art-details">
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Mixed Media on Watercolor</p>
+        </div>
       </div>
     </div>
 
@@ -753,8 +779,10 @@
           themes of solitude, introspection, and spiritual resolve
           through its earthy tones and raw textures.
         </p>
-        <p class="art-dimensions">24" x 18"</p>
-        <p class="art-medium">Mixed Media on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Mixed Media on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -770,8 +798,10 @@
         embodying the delicate balance between joy and melancholy. The striking gaze 
         and fluid forms invite viewers to explore the hidden depths of emotion and the complexity of the human spirit.
       </p>
-      <p class="art-dimensions">16" x 12"</p>
-      <p class="art-medium">Mixed Media on Woden Cradle</p>
+      <div class="art-details">
+        <p class="art-dimensions">16" x 12"</p>
+        <p class="art-medium">Mixed Media on Woden Cradle</p>
+      </div>
       </div>
     </div>
 
@@ -787,8 +817,10 @@
           expression of presence, using textured strokes and muted tones to 
           evoke the harmony between sound and stillness.
         </p>
-        <p class="art-dimensions">22" x 14"</p>
-        <p class="art-medium">Oil on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">22" x 14"</p>
+          <p class="art-medium">Oil on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -803,8 +835,10 @@
           weighed down by invisible grief. Blending of shadows and
           light evokes a fragile expression of loss suspended in time.
         </p>
-        <p class="art-dimensions">14" x 14"</p>
-        <p class="art-medium">Ink on Watercolor</p>
+        <div class="art-details">
+          <p class="art-dimensions">14" x 14"</p>
+          <p class="art-medium">Ink on Watercolor</p>
+        </div>
       </div>
     </div>
 
@@ -818,8 +852,10 @@
           Bold and unapologetic, this portrait radiates strength and confidence 
           through vibrant colors, layered textures, and an unyielding gaze.
         </p>
-        <p class="art-dimensions">18" x 24"</p>
-        <p class="art-medium">Acrylic on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">18" x 24"</p>
+          <p class="art-medium">Acrylic on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -833,8 +869,10 @@
           A compelling fusion of shadow and light, capturing the 
           unyielding essence of resilience.
         </p>
-        <p class="art-dimensions">22" x 18"</p>
-        <p class="art-medium">Mixed Media on Rice Paper</p>
+        <div class="art-details">
+          <p class="art-dimensions">22" x 18"</p>
+          <p class="art-medium">Mixed Media on Rice Paper</p>
+        </div>
       </div>
     </div>
 
@@ -849,8 +887,10 @@
         resilience through fragmented lines and layered forms. The subject’s steady gaze contrasts with the 
         raw, imperfect contours, evoking a profound exploration of strength and fragility.
       </p>
-      <p class="art-dimensions">16" x 16"</p>
-      <p class="art-medium">Mixed Media on Rice Paper Mounted on Canvas</p>
+      <div class="art-details">
+        <p class="art-dimensions">16" x 16"</p>
+        <p class="art-medium">Mixed Media on Rice Paper Mounted on Canvas</p>
+      </div>
       </div>
     </div>
 
@@ -864,8 +904,10 @@
           Shaped by darkness and illuminated by light, this portrait reveals a figure of profound strength,
           embodying both queenly grace and enduring resilience.
         </p>
-        <p class="art-dimensions">24" x 18"</p>
-        <p class="art-medium">Charcoal on Paper</p>
+        <div class="art-details">
+          <p class="art-dimensions">24" x 18"</p>
+          <p class="art-medium">Charcoal on Paper</p>
+        </div>
       </div>
     </div>
 
@@ -883,8 +925,10 @@
           The sepia glow and gentle, almost dreamlike brushstrokes give a 
           nostalgic nod to the ’60s counterculture spirit.
         </p>
-        <p class="art-dimensions">12" x 9"</p>
-        <p class="art-medium">Oil on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">12" x 9"</p>
+          <p class="art-medium">Oil on Canvas</p>
+        </div>
       </div>
     </div>
     <!-- Slide 18 -->
@@ -899,8 +943,10 @@
         It draws the viewer into a fluid connection with the city's essence, 
         felt rather than seen.
       </p>
-      <p class="art-dimensions">16" x 16"</p>
-      <p class="art-medium">Mixed Media on Canvas</p>
+      <div class="art-details">
+        <p class="art-dimensions">16" x 16"</p>
+        <p class="art-medium">Mixed Media on Canvas</p>
+      </div>
       </div>
     </div>
 
@@ -915,8 +961,10 @@
           portrait of internal unrest. A tender yet unsettling gaze draws you
           into the delicate space between fragility and resolve, echoing the weight of unspoken anxieties.
         </p>
-        <p class="art-dimensions">12" x 9"</p>
-        <p class="art-medium">Oil on Canvas</p>
+        <div class="art-details">
+          <p class="art-dimensions">12" x 9"</p>
+          <p class="art-medium">Oil on Canvas</p>
+        </div>
       </div>
     </div>
 
@@ -929,8 +977,10 @@
             A haunting portrait of soul mid-formation, where bold strokes and 
             raw edges evoke identity in flux and quiet resilience.
           </p>
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Oil on Canvas</p>
+          <div class="art-details">
+            <p class="art-dimensions">12" x 9"</p>
+            <p class="art-medium">Oil on Canvas</p>
+          </div>
         </div>
       </div>
 
@@ -943,8 +993,10 @@
             A aolemn figure stands amidst chaos, her gaze steady - a silent
             observer bearing quiet testimony to unseen stories. 
           </p>
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Oil on Canvas</p>
+          <div class="art-details">
+            <p class="art-dimensions">24" x 20"</p>
+            <p class="art-medium">Oil on Canvas</p>
+          </div>
         </div>
       </div>
 
@@ -957,8 +1009,10 @@
             A spirit of nature emerges in soft defiance - adorned with botanical
             echoes and golden traces, she embodies and quiet power rooted in the wild. 
           </p>
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
+          <div class="art-details">
+            <p class="art-dimensions">24" x 20"</p>
+            <p class="art-medium">Mixed Media on Canvas</p>
+          </div>
         </div>
       </div>
 
