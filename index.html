@@ -341,6 +341,9 @@
       padding-right: 1.5rem; 
       min-height: 0;
       flex: 1;
+
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
     .art-details {
@@ -351,23 +354,13 @@
     .art-dimensions,
     .art-medium {
       font-size: clamp(0.4rem, 1.5vw, 0.5rem);
-      margin-top: 0.5rem;
+      margin-top: 0.3rem;
       color: rgba(255, 255, 255, 0.8);
       flex-shrink: 0;
     }
 
     .art-description::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .art-description::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-    }
-
-    .art-description::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 2px;
+      display: none;
     }
 
     @media (min-width: 768px) {
