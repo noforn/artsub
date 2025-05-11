@@ -1369,7 +1369,7 @@ function showSlide(index) {
   });
 
   galleryScreen.addEventListener('click', (e) => {
-    if (e.target.closest('button') || window.innerWidth < 768) {
+    if (e.target.closest('button')) {
       return;
     }
     const bottomSafeZone = 60;
