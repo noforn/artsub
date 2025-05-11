@@ -343,25 +343,29 @@
     }
 
     .art-description {
-      font-size: clamp(0.7rem, 2.7vw, 0.8rem);
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 0.75rem;
-      padding: 0 1rem;
+  font-size: clamp(0.7rem, 2.7vw, 0.8rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.75rem;
+  padding: 0 1rem;
+  max-height: 100px; /* Adjust as needed */
+  overflow-y: auto;
+  padding-right: 1.5rem; /* Space for scrollbar */
     }
 
-    .art-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      color: rgba(255, 255, 255, 0.6);
+    /* Optional: Custom scrollbar */
+    .art-description::-webkit-scrollbar {
+      width: 4px;
     }
 
-    .art-dimensions,
-    .art-medium {
-      font-size: clamp(0.45rem, 1.8vw, 0.6rem);
-      margin-top: 0.5rem;
-      color: rgba(255, 255, 255, 0.7); /* Match artist color */
+    .art-description::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .art-description::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
     }
 
     @media (min-width: 768px) {
