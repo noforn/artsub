@@ -519,6 +519,45 @@
       transform-origin: center center;
     }
 
+    .slide.full-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 3000;
+      background: #000;
+      padding: 0;
+      margin: 0;
+    }
+
+    .slide.full-screen .zoom-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide.full-screen img {
+      max-width: 100vw;
+      max-height: 100vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      margin: 0;
+    }
+
+    .slide.full-screen .slide-info {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .full-screen-active {
+      overflow: hidden;
+    }
+
   </style>
 </head>
 <body>
@@ -1357,7 +1396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     transition: 'opacity 0.8s ease'
   });
 });
-//zoom
+//zoom + fullscreen
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
   
@@ -1408,6 +1447,94 @@ if (window.innerWidth < 768) {
     const percentY = ((centerY - rect.top) / rect.height) * 100;
     
     return { x: percentX, y: percentY };
+  }
+}
+let lastTap = 0;
+const doubleTapDelay = 300;
+
+slides.forEach(slide => {
+  let touchTime = 0;
+  
+  slide.addEventListener('touchend', (e) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - touchTime;
+    
+    if (tapLength < doubleTapDelay && tapLength > 0) {
+      e.preventDefault();
+      toggleFullScreen(slide);
+    }
+    
+    touchTime = currentTime;
+  });
+  
+  slide.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    toggleFullScreen(slide);
+  });
+});
+
+function toggleFullScreen(slide) {
+  if (slide.classList.contains('full-screen')) {
+    gsap.to(slide, {
+      scale: 1,
+      x: 0,
+      y: 0,
+      duration: 0.5,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        slide.classList.remove('full-screen');
+        document.body.classList.remove('full-screen-active');
+        
+        const img = slide.querySelector('img');
+        img.style.transform = 'scale(1)';
+        img.style.transformOrigin = 'center center';
+        
+        gsap.to(slide.querySelector('.slide-info'), {
+          opacity: 1,
+          duration: 0.3,
+          delay: 0.2
+        });
+      }
+    });
+    
+    gsap.to('.btn-prev, .btn-next', {
+      opacity: 1,
+      duration: 0.3,
+      delay: 0.2
+    });
+    gsap.to('.btn-close-gallery', {
+      opacity: 1,
+      duration: 0.3,
+      delay: 0.2
+    });
+  } else {
+    gsap.fromTo(slide, 
+      { scale: 1 },
+      { 
+        scale: 1.05,
+        duration: 0.5,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          slide.classList.add('full-screen');
+          document.body.classList.add('full-screen-active');
+          
+          gsap.to(slide, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+      }
+    );
+    
+    gsap.to('.btn-prev, .btn-next', {
+      opacity: 0,
+      duration: 0.3
+    });
+    gsap.to('.btn-close-gallery', {
+      opacity: 0,
+      duration: 0.3
+    });
   }
 }
 </script>
