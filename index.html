@@ -1416,6 +1416,7 @@ function showSlide(index) {
   });
 });
 //zoom + fullscreen
+// Zoom functionality for mobile
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
   
@@ -1468,30 +1469,53 @@ if (window.innerWidth < 768) {
     return { x: percentX, y: percentY };
   }
 }
-let lastTap = 0;
-const doubleTapDelay = 300;
 
+// Full screen mode 
 slides.forEach(slide => {
   const img = slide.querySelector('img');
+  const zoomContainer = img.parentElement;
   
-  // Handle taps directly on the image
-  let touchTime = 0;
+  let touchStartTime = 0;
+  let touchStartPos = null;
   
-  img.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - touchTime;
-    
-    // Only trigger full-screen if it's a quick tap (not part of pinch zoom)
-    if (tapLength < 150) {
-      toggleFullScreen(slide);
+  // Mobile touch handler
+  zoomContainer.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      touchStartTime = Date.now();
+      touchStartPos = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY
+      };
     }
-    touchTime = currentTime;
   });
   
-  // Desktop click
+  zoomContainer.addEventListener('touchend', (e) => {
+    if (touchStartPos && e.changedTouches.length === 1) {
+      const touchEndTime = Date.now();
+      const touchDuration = touchEndTime - touchStartTime;
+      
+      const touchEndPos = {
+        x: e.changedTouches[0].clientX,
+        y: e.changedTouches[0].clientY
+      };
+      
+      const distance = Math.sqrt(
+        Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+        Math.pow(touchEndPos.y - touchStartPos.y, 2)
+      );
+      
+      // Check if it's a tap (short duration, minimal movement)
+      if (touchDuration < 300 && distance < 10) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFullScreen(slide);
+      }
+    }
+    
+    touchStartPos = null;
+  });
+  
+  // Desktop click handler
   img.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleFullScreen(slide);
