@@ -1245,18 +1245,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const swipeThreshold = 50;
 
   if (window.innerWidth < 768) {
-    gsap.to(swipeHint, {
-      opacity: 1,
-      duration: 1,
-      delay: 1,
-      onComplete: () => {
-        gsap.to(swipeHint, {
-          opacity: 0,
-          duration: 1,
-          delay: 2
-        });
-      }
-    });
+    setTimeout(() => {
+      gsap.to(swipeHint, {
+        opacity: 1,
+        duration: 1,
+        delay: 1,
+        onComplete: () => {
+          gsap.to(swipeHint, {
+            opacity: 0,
+            duration: 1,
+            delay: 2
+          });
+        }
+      });
+    }, 100);
   }
 
   slideshow.addEventListener('touchstart', (e) => {
@@ -1467,22 +1469,16 @@ let lastTap = 0;
 const doubleTapDelay = 300;
 
 slides.forEach(slide => {
-  let touchTime = 0;
+  const img = slide.querySelector('img');
   
-  slide.addEventListener('touchend', (e) => {
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - touchTime;
-    
-    if (tapLength < doubleTapDelay && tapLength > 0) {
-      e.preventDefault();
-      toggleFullScreen(slide);
-    }
-    
-    touchTime = currentTime;
+  img.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleFullScreen(slide);
   });
   
-  slide.addEventListener('dblclick', (e) => {
+  img.addEventListener('touchend', (e) => {
     e.preventDefault();
+    e.stopPropagation();
     toggleFullScreen(slide);
   });
 });
