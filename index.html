@@ -1262,11 +1262,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   slideshow.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-    
-    if (e.target.closest('.zoom-container')) {
-      touchStartX = 'image';
+    // Don't start swipe detection if touching an image
+    if (e.target.closest('.zoom-container img')) {
+      touchStartX = null;
+      return;
     }
+    
+    touchStartX = e.touches[0].clientX;
   }, { passive: true });
 
   slideshow.addEventListener('touchmove', (e) => {
@@ -1275,9 +1277,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   slideshow.addEventListener('touchend', () => {
-    if (touchStartX === null || touchStartX === 'image') {
-      touchStartX = null;
-      touchEndX = null;
+    if (touchStartX === null) {
       return;
     }
     
@@ -1469,55 +1469,69 @@ if (window.innerWidth < 768) {
   }
 }
 
-slides.forEach(slide => {
-  const img = slide.querySelector('img');
-  const zoomContainer = img.parentElement;
+document.addEventListener('DOMContentLoaded', () => {
+  const slides = document.querySelectorAll('.slide');
   
-  let touchStartTime = 0;
-  let touchStartPos = null;
-  
-  zoomContainer.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1) {
-      touchStartTime = Date.now();
-      touchStartPos = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY
-      };
-    }
-  });
-  
-  zoomContainer.addEventListener('touchend', (e) => {
-    if (touchStartPos && e.changedTouches.length === 1) {
-      const touchEndTime = Date.now();
-      const touchDuration = touchEndTime - touchStartTime;
-      
-      const touchEndPos = {
-        x: e.changedTouches[0].clientX,
-        y: e.changedTouches[0].clientY
-      };
-      
-      const distance = Math.sqrt(
-        Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
-        Math.pow(touchEndPos.y - touchStartPos.y, 2)
-      );
-      
-      if (touchDuration < 300 && distance < 10) {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleFullScreen(slide);
-      }
-    }
+  slides.forEach(slide => {
+    const img = slide.querySelector('img');
+    const zoomContainer = img.parentElement;
     
-    touchStartPos = null;
-  });
-  
-  img.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFullScreen(slide);
+    let touchStartTime = 0;
+    let touchStartPos = null;
+    let isSingleTouch = false;
+    
+    zoomContainer.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isSingleTouch = true;
+        touchStartTime = Date.now();
+        touchStartPos = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY
+        };
+      } else {
+        isSingleTouch = false;
+      }
+    }, { passive: true });
+    
+    zoomContainer.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      if (isSingleTouch && touchStartPos && e.changedTouches.length === 1) {
+        const touchEndTime = Date.now();
+        const touchDuration = touchEndTime - touchStartTime;
+        
+        const touchEndPos = {
+          x: e.changedTouches[0].clientX,
+          y: e.changedTouches[0].clientY
+        };
+        
+        const distance = Math.sqrt(
+          Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+          Math.pow(touchEndPos.y - touchStartPos.y, 2)
+        );
+        
+        if (touchDuration < 300 && distance < 10) {
+          toggleFullScreen(slide);
+        }
+      }
+      
+      touchStartPos = null;
+      isSingleTouch = false;
+    });
+    
+    img.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleFullScreen(slide);
+    });
   });
 });
 
 function toggleFullScreen(slide) {
+  const img = slide.querySelector('img');
+  const slideInfo = slide.querySelector('.slide-info');
+  
   if (slide.classList.contains('full-screen')) {
     gsap.to(slide, {
       scale: 1,
@@ -1529,11 +1543,10 @@ function toggleFullScreen(slide) {
         slide.classList.remove('full-screen');
         document.body.classList.remove('full-screen-active');
         
-        const img = slide.querySelector('img');
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
         
-        gsap.to(slide.querySelector('.slide-info'), {
+        gsap.to(slideInfo, {
           opacity: 1,
           duration: 0.3,
           delay: 0.2
@@ -1567,6 +1580,11 @@ function toggleFullScreen(slide) {
             duration: 0.3,
             ease: 'power2.out'
           });
+          
+          gsap.to(slideInfo, {
+            opacity: 0,
+            duration: 0.3
+          });
         }
       }
     );
@@ -1581,6 +1599,22 @@ function toggleFullScreen(slide) {
     });
   }
 }
+
+document.addEventListener('click', (e) => {
+  const fullScreenSlide = document.querySelector('.slide.full-screen');
+  if (fullScreenSlide && !e.target.closest('.zoom-container')) {
+    toggleFullScreen(fullScreenSlide);
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const fullScreenSlide = document.querySelector('.slide.full-screen');
+    if (fullScreenSlide) {
+      toggleFullScreen(fullScreenSlide);
+    }
+  }
+});
 </script>
 
 </body>
