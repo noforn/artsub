@@ -1494,9 +1494,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
     
     zoomContainer.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
       if (isSingleTouch && touchStartPos && e.changedTouches.length === 1) {
         const touchEndTime = Date.now();
         const touchDuration = touchEndTime - touchStartTime;
@@ -1511,7 +1508,10 @@ document.addEventListener('DOMContentLoaded', () => {
           Math.pow(touchEndPos.y - touchStartPos.y, 2)
         );
         
+        // Only prevent default and stop propagation if it's actually a tap for fullscreen
         if (touchDuration < 300 && distance < 10) {
+          e.preventDefault();
+          e.stopPropagation();
           toggleFullScreen(slide);
         }
       }
