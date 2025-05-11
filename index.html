@@ -1694,9 +1694,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// Global image protection - ADD THIS NEW CODE
 document.addEventListener('DOMContentLoaded', () => {
-  // Prevent right-click on all images
   document.addEventListener('contextmenu', (e) => {
     if (e.target.tagName === 'IMG') {
       e.preventDefault();
@@ -1704,7 +1702,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Prevent long press on mobile for all images
   let touchTimer;
   document.addEventListener('touchstart', (e) => {
     if (e.target.tagName === 'IMG') {
@@ -1722,7 +1719,6 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(touchTimer);
   });
 
-  // Prevent dragging all images
   document.addEventListener('dragstart', (e) => {
     if (e.target.tagName === 'IMG') {
       e.preventDefault();
@@ -1730,16 +1726,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Add protection overlays to all image containers
   function addImageProtection() {
-    // Protect regular gallery images
     document.querySelectorAll('.zoom-container').forEach(container => {
       if (!container.querySelector('.protection-overlay')) {
         addOverlay(container);
       }
     });
 
-    // Protect fullscreen images
     const fullScreenSlide = document.querySelector('.slide.full-screen');
     if (fullScreenSlide) {
       const zoomContainer = fullScreenSlide.querySelector('.zoom-container');
@@ -1767,10 +1760,8 @@ document.addEventListener('DOMContentLoaded', () => {
     container.appendChild(overlay);
   }
 
-  // Initial protection setup
   addImageProtection();
 
-  // Monitor for fullscreen changes
   const observer = new MutationObserver(() => {
     addImageProtection();
   });
@@ -1782,7 +1773,6 @@ document.addEventListener('DOMContentLoaded', () => {
     attributeFilter: ['class']
   });
 
-  // Prevent iOS specific image saving
   document.addEventListener('touchforcechange', (e) => {
     if (e.target.tagName === 'IMG') {
       e.preventDefault();
