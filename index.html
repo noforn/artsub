@@ -1260,10 +1260,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   slideshow.addEventListener('touchstart', (e) => {
-    if (e.target.closest('.zoom-container')) {
-      return;
-    }
     touchStartX = e.touches[0].clientX;
+    
+    if (e.target.closest('.zoom-container')) {
+      touchStartX = 'image';
+    }
   }, { passive: true });
 
   slideshow.addEventListener('touchmove', (e) => {
@@ -1272,7 +1273,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 
   slideshow.addEventListener('touchend', () => {
-    if (touchStartX === null) return;
+    if (touchStartX === null || touchStartX === 'image') {
+      touchStartX = null;
+      touchEndX = null;
+      return;
+    }
     
     const swipeDistance = touchEndX - touchStartX;
     if (Math.abs(swipeDistance) > swipeThreshold) {
