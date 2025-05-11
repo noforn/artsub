@@ -1287,8 +1287,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   slideshow.addEventListener('touchstart', (e) => {
-    // Don't start swipe detection if touching an image
     if (e.target.closest('.zoom-container img')) {
+      touchStartX = null;
+      return;
+    }
+    
+    if (document.querySelector('.slide.full-screen')) {
       touchStartX = null;
       return;
     }
@@ -1298,11 +1302,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   slideshow.addEventListener('touchmove', (e) => {
     if (touchStartX === null) return;
+    
+    if (document.querySelector('.slide.full-screen')) {
+      touchStartX = null;
+      touchEndX = null;
+      return;
+    }
+    
     touchEndX = e.touches[0].clientX;
   }, { passive: true });
 
   slideshow.addEventListener('touchend', () => {
     if (touchStartX === null) {
+      return;
+    }
+    
+    if (document.querySelector('.slide.full-screen')) {
+      touchStartX = null;
+      touchEndX = null;
       return;
     }
     
@@ -1400,6 +1417,11 @@ function showSlide(index) {
     if (e.target.closest('.zoom-container')) {
       return;
     }
+    
+    if (document.querySelector('.slide.full-screen')) {
+      return;
+    }
+    
     const bottomSafeZone = 60;
     if (e.clientY > window.innerHeight - bottomSafeZone) {
       return;
@@ -1456,14 +1478,12 @@ if (window.innerWidth < 768) {
     
     img.parentElement.addEventListener('touchstart', (e) => {
       if (e.touches.length === 2) {
-        // Pinch gesture
         e.preventDefault();
         isPanning = false;
         initialDistance = getDistance(e.touches[0], e.touches[1]);
         touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
         img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
       } else if (e.touches.length === 1 && scale > 1) {
-        // Single touch for panning (only when zoomed in)
         e.preventDefault();
         isPanning = true;
         lastTouchX = e.touches[0].clientX;
@@ -1473,16 +1493,13 @@ if (window.innerWidth < 768) {
     
     img.parentElement.addEventListener('touchmove', (e) => {
       if (e.touches.length === 2) {
-        // Pinch zoom
         e.preventDefault();
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
         scale = (currentDistance / initialDistance) * scale;
         scale = Math.min(Math.max(scale, 0.5), 3);
         
-        // Apply zoom with current translation
         img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
       } else if (e.touches.length === 1 && isPanning && scale > 1) {
-        // Pan/drag
         e.preventDefault();
         const deltaX = e.touches[0].clientX - lastTouchX;
         const deltaY = e.touches[0].clientY - lastTouchY;
@@ -1490,7 +1507,6 @@ if (window.innerWidth < 768) {
         translateX += deltaX;
         translateY += deltaY;
         
-        // Calculate bounds to keep image within container
         const container = img.parentElement;
         const containerRect = container.getBoundingClientRect();
         const imgWidth = img.naturalWidth * scale;
@@ -1499,21 +1515,18 @@ if (window.innerWidth < 768) {
         const maxTranslateX = Math.max(0, (imgWidth - containerRect.width) / 2);
         const maxTranslateY = Math.max(0, (imgHeight - containerRect.height) / 2);
         
-        // Constrain translation
         translateX = Math.min(Math.max(translateX, -maxTranslateX), maxTranslateX);
         translateY = Math.min(Math.max(translateY, -maxTranslateY), maxTranslateY);
         
         lastTouchX = e.touches[0].clientX;
         lastTouchY = e.touches[0].clientY;
         
-        // Apply new transform
         img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
       }
     });
     
     img.parentElement.addEventListener('touchend', () => {
       if (scale < 1) {
-        // Reset when zoomed out below 100%
         img.style.transition = 'transform 0.3s ease-out';
         scale = 1;
         translateX = 0;
@@ -1526,7 +1539,6 @@ if (window.innerWidth < 768) {
       }
       isPanning = false;
       
-      // Ensure we reset the initial distance for next pinch gesture
       initialDistance = 0;
     });
   });
