@@ -262,19 +262,20 @@
     .slideshow {
       max-width: 800px;
       width: 90%;
-      max-height: 80vh;
-      overflow: hidden;
+      max-height: 85vh;
+      overflow-y:auto;
       position: relative;
+      padding-bottom: 2rem;
     }
 
     .slide {
       display: none;
       text-align: center;
-      align-items: center;
       flex-direction: column;
       opacity: 0;
       transition: transform 0.3s ease, opacity 0.3s ease;
       width: 100%;
+      min-height: 100%;
     }
 
     .slide.active {
