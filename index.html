@@ -1357,18 +1357,21 @@ document.addEventListener('DOMContentLoaded', () => {
     transition: 'opacity 0.8s ease'
   });
 });
-
+//zoom
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
   
   images.forEach(img => {
     let scale = 1;
     let initialDistance = 0;
+    let touchCenter = { x: 0, y: 0 };
     
     img.parentElement.addEventListener('touchstart', (e) => {
       if (e.touches.length === 2) {
         e.preventDefault();
         initialDistance = getDistance(e.touches[0], e.touches[1]);
+        touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
+        img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
       }
     });
     
@@ -1377,7 +1380,7 @@ if (window.innerWidth < 768) {
         e.preventDefault();
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
         scale = currentDistance / initialDistance;
-        scale = Math.min(Math.max(scale, 0.5), 3); // Limit zoom between 0.5x and 3x
+        scale = Math.min(Math.max(scale, 0.5), 3);
         img.style.transform = `scale(${scale})`;
       }
     });
@@ -1385,6 +1388,7 @@ if (window.innerWidth < 768) {
     img.parentElement.addEventListener('touchend', () => {
       if (scale < 1) {
         img.style.transform = 'scale(1)';
+        img.style.transformOrigin = 'center center';
         scale = 1;
       }
     });
@@ -1394,6 +1398,18 @@ if (window.innerWidth < 768) {
     const dx = touch1.clientX - touch2.clientX;
     const dy = touch1.clientY - touch2.clientY;
     return Math.sqrt(dx * dx + dy * dy);
+  }
+  
+  function getTouchCenter(touch1, touch2, img) {
+    const rect = img.getBoundingClientRect();
+    const centerX = (touch1.clientX + touch2.clientX) / 2;
+    const centerY = (touch1.clientY + touch2.clientY) / 2;
+    
+    // Convert to percentages relative to the image
+    const percentX = ((centerX - rect.left) / rect.width) * 100;
+    const percentY = ((centerY - rect.top) / rect.height) * 100;
+    
+    return { x: percentX, y: percentY };
   }
 }
 </script>
