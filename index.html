@@ -513,9 +513,12 @@
       width: 100vw;
       height: 100vh;
       z-index: 3000;
-      background: #000;
+      background: #000000;
       padding: 0;
       margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .slide.full-screen .zoom-container {
@@ -524,15 +527,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: visible;
+      position: relative;
     }
 
     .slide.full-screen img {
-      max-width: 100vw;
-      max-height: 100vh;
+      max-width: 90vw;
+      max-height: 85vh;
       width: auto;
       height: auto;
       object-fit: contain;
       margin: 0;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
     }
 
     .slide.full-screen .slide-info {
@@ -568,6 +575,38 @@
 
     .slide.full-screen img {
       -webkit-touch-callout: none;
+    }
+
+    .slide.full-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.4), rgba(0,0,0,0.8) 70%);
+      z-index: -1;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .slide.full-screen .zoom-container::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      opacity: 0;
+      animation: fadeIn 0.5s 0.3s forwards;
     }
 
   </style>
@@ -1433,83 +1472,6 @@ function showSlide(index) {
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
   
-  images.forEach(img => {
-    let scale = 1;
-    let initialDistance = 0;
-    let touchCenter = { x: 0, y: 0 };
-    let translateX = 0;
-    let translateY = 0;
-    let isPanning = false;
-    let lastTouchX = 0;
-    let lastTouchY = 0;
-    
-    img.parentElement.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        isPanning = false;
-        initialDistance = getDistance(e.touches[0], e.touches[1]);
-        touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
-        img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
-      } else if (e.touches.length === 1 && scale > 1) {
-        e.preventDefault();
-        isPanning = true;
-        lastTouchX = e.touches[0].clientX;
-        lastTouchY = e.touches[0].clientY;
-      }
-    });
-    
-    img.parentElement.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        const currentDistance = getDistance(e.touches[0], e.touches[1]);
-        scale = (currentDistance / initialDistance) * scale;
-        scale = Math.min(Math.max(scale, 0.5), 3);
-        
-        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
-      } else if (e.touches.length === 1 && isPanning && scale > 1) {
-        e.preventDefault();
-        const deltaX = e.touches[0].clientX - lastTouchX;
-        const deltaY = e.touches[0].clientY - lastTouchY;
-        
-        translateX += deltaX;
-        translateY += deltaY;
-        
-        const container = img.parentElement;
-        const containerRect = container.getBoundingClientRect();
-        const imgWidth = img.naturalWidth * scale;
-        const imgHeight = img.naturalHeight * scale;
-        
-        const maxTranslateX = Math.max(0, (imgWidth - containerRect.width) / 2);
-        const maxTranslateY = Math.max(0, (imgHeight - containerRect.height) / 2);
-        
-        translateX = Math.min(Math.max(translateX, -maxTranslateX), maxTranslateX);
-        translateY = Math.min(Math.max(translateY, -maxTranslateY), maxTranslateY);
-        
-        lastTouchX = e.touches[0].clientX;
-        lastTouchY = e.touches[0].clientY;
-        
-        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
-      }
-    });
-    
-    img.parentElement.addEventListener('touchend', () => {
-      if (scale < 1) {
-        img.style.transition = 'transform 0.3s ease-out';
-        scale = 1;
-        translateX = 0;
-        translateY = 0;
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = 'center center';
-        setTimeout(() => {
-          img.style.transition = '';
-        }, 300);
-      }
-      isPanning = false;
-      
-      initialDistance = 0;
-    });
-  });
-  
   function getDistance(touch1, touch2) {
     const dx = touch1.clientX - touch2.clientX;
     const dy = touch1.clientY - touch2.clientY;
@@ -1525,6 +1487,106 @@ if (window.innerWidth < 768) {
     
     return { x: percentX, y: percentY };
   }
+  
+  images.forEach(img => {
+    let scale = 1;
+    let initialDistance = 0;
+    let touchCenter = { x: 0, y: 0 };
+    let translateX = 0;
+    let translateY = 0;
+    let isPanning = false;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+    let touchStartTime = 0;
+    
+    document.addEventListener('fullscreenchange', () => {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      img.style.transform = 'scale(1)';
+    });
+    
+    img.parentElement.addEventListener('touchstart', (e) => {
+      const slide = img.closest('.slide');
+      const isFullscreen = slide.classList.contains('full-screen');
+      
+      touchStartTime = Date.now();
+      
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        isPanning = false;
+        initialDistance = getDistance(e.touches[0], e.touches[1]);
+        touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
+        img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
+      } else if (e.touches.length === 1 && (scale > 1 || isFullscreen)) {
+        e.preventDefault();
+        isPanning = true;
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      }
+    });
+    
+    img.parentElement.addEventListener('touchmove', (e) => {
+      const slide = img.closest('.slide');
+      const isFullscreen = slide.classList.contains('full-screen');
+      
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const currentDistance = getDistance(e.touches[0], e.touches[1]);
+        const newScale = (currentDistance / initialDistance) * scale;
+        scale = Math.min(Math.max(newScale, 0.8), 3);
+        
+        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
+      } else if (e.touches.length === 1 && isPanning && (scale > 1 || isFullscreen)) {
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - lastTouchX;
+        const deltaY = e.touches[0].clientY - lastTouchY;
+        
+        translateX += deltaX;
+        translateY += deltaY;
+        
+        const imgRect = img.getBoundingClientRect();
+        const maxTranslateX = Math.max(0, (imgRect.width * scale - window.innerWidth) / 2);
+        const maxTranslateY = Math.max(0, (imgRect.height * scale - window.innerHeight) / 2);
+        
+        translateX = Math.min(Math.max(translateX, -maxTranslateX), maxTranslateX);
+        translateY = Math.min(Math.max(translateY, -maxTranslateY), maxTranslateY);
+        
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+        
+        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
+      }
+    });
+    
+    img.parentElement.addEventListener('touchend', (e) => {
+      const slide = img.closest('.slide');
+      const isFullscreen = slide.classList.contains('full-screen');
+      
+      if (scale < 1) {
+        img.style.transition = 'transform 0.3s ease-out';
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        img.style.transform = 'scale(1)';
+        img.style.transformOrigin = 'center center';
+        setTimeout(() => {
+          img.style.transition = '';
+        }, 300);
+      }
+      
+      if (isFullscreen && e.touches.length === 0 && scale === 1 && 
+          Math.abs(translateX) < 10 && Math.abs(translateY) < 10) {
+        const quickEnd = Date.now() - touchStartTime < 300;
+        if (quickEnd) {
+          toggleFullScreen(slide);
+        }
+      }
+      
+      isPanning = false;
+      initialDistance = 0;
+    });
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1569,7 +1631,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (touchDuration < 300 && distance < 10) {
           e.preventDefault();
           e.stopPropagation();
-          toggleFullScreen(slide);
+          
+          const isFullscreen = slide.classList.contains('full-screen');
+          const currentTransform = img.style.transform;
+          const isScaled = currentTransform && currentTransform !== 'scale(1)' && 
+                          !currentTransform.includes('scale(1)');
+          
+          if (isFullscreen && !isScaled) {
+            toggleFullScreen(slide);
+          } else if (!isFullscreen) {
+            toggleFullScreen(slide);
+          }
         }
       }
       
@@ -1583,31 +1655,49 @@ document.addEventListener('DOMContentLoaded', () => {
       toggleFullScreen(slide);
     });
   });
+  
+  document.addEventListener('click', (e) => {
+    const fullScreenSlide = document.querySelector('.slide.full-screen');
+    if (fullScreenSlide && !e.target.closest('.zoom-container img')) {
+      toggleFullScreen(fullScreenSlide);
+    }
+  });
 });
 
 function toggleFullScreen(slide) {
   const img = slide.querySelector('img');
   const slideInfo = slide.querySelector('.slide-info');
+  const zoomContainer = slide.querySelector('.zoom-container');
+  
+  img.classList.add('fullscreen-transition');
   
   if (slide.classList.contains('full-screen')) {
-    gsap.to(slide, {
+    gsap.to(img, {
       scale: 1,
-      x: 0,
-      y: 0,
       duration: 0.5,
-      ease: 'power2.inOut',
+      ease: 'power2.out',
+    });
+    
+    gsap.to(slide, {
+      background: 'transparent',
+      duration: 0.5,
+      ease: 'power2.out',
       onComplete: () => {
         slide.classList.remove('full-screen');
         document.body.classList.remove('full-screen-active');
         
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
-        
+        img.style.boxShadow = '';
         gsap.to(slideInfo, {
           opacity: 1,
           duration: 0.3,
-          delay: 0.2
+          delay: 0.1
         });
+        
+        setTimeout(() => {
+          img.classList.remove('fullscreen-transition');
+        }, 500);
       }
     });
     
@@ -1616,40 +1706,53 @@ function toggleFullScreen(slide) {
       duration: 0.3,
       delay: 0.2
     });
+    
     gsap.to('.btn-close-gallery', {
       opacity: 1,
       duration: 0.3,
       delay: 0.2
     });
   } else {
-    gsap.fromTo(slide, 
-      { scale: 1 },
-      { 
-        scale: 1.05,
-        duration: 0.5,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          slide.classList.add('full-screen');
-          document.body.classList.add('full-screen-active');
-          
-          gsap.to(slide, {
-            scale: 1,
-            duration: 0.3,
-            ease: 'power2.out'
-          });
-          
-          gsap.to(slideInfo, {
-            opacity: 0,
-            duration: 0.3
-          });
-        }
+    
+    const imgWidth = img.offsetWidth;
+    const imgHeight = img.offsetHeight;
+    const imgRatio = imgWidth / imgHeight;
+    
+    const isPortrait = imgRatio < 1;
+    
+    gsap.to(img, {
+      scale: 1.05,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+    
+    gsap.to(slide, {
+      backgroundColor: 'rgba(0, 0, 0, 0.95)',
+      duration: 0.5,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        slide.classList.add('full-screen');
+        document.body.classList.add('full-screen-active');
+        
+        gsap.to(img, {
+          scale: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
+        });
+        
+        gsap.to(slideInfo, {
+          opacity: 0,
+          duration: 0.3
+        });
       }
-    );
+    });
     
     gsap.to('.btn-prev, .btn-next', {
       opacity: 0,
       duration: 0.3
     });
+    
     gsap.to('.btn-close-gallery', {
       opacity: 0,
       duration: 0.3
