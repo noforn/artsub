@@ -376,7 +376,33 @@
     .btn-close-gallery {
       position: absolute;
       top: 40px;
-      right: 40px;
+      right: 40px;/* Add these styles to your stylesheet */
+.slide.full-screen .art-title,
+.slide.full-screen .artist {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 90%;
+}
+
+.slide.full-screen .art-title {
+  bottom: 10vh;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.slide.full-screen .artist {
+  bottom: 6vh;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Hide other elements but keep title and artist visible */
+.slide.full-screen .art-description,
+.slide.full-screen .art-details {
+  display: none;
+}
       background: #2f2f2f;
       color: #afafaf;
       border: 1px solid #303030;
@@ -607,6 +633,32 @@
       border-radius: 2px;
       opacity: 0;
       animation: fadeIn 0.5s 0.3s forwards;
+    }
+
+    .slide.full-screen .art-title,
+    .slide.full-screen .artist {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      width: 90%;
+    }
+
+    .slide.full-screen .art-title {
+      bottom: 10vh;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .slide.full-screen .artist {
+      bottom: 6vh;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .slide.full-screen .art-description,
+    .slide.full-screen .art-details {
+      display: none;
     }
 
   </style>
@@ -1667,17 +1719,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleFullScreen(slide) {
   const img = slide.querySelector('img');
   const slideInfo = slide.querySelector('.slide-info');
-  const zoomContainer = slide.querySelector('.zoom-container');
+  const artTitle = slide.querySelector('.art-title');
+  const artist = slide.querySelector('.artist');
   
   img.classList.add('fullscreen-transition');
   
   if (slide.classList.contains('full-screen')) {
-    gsap.to(img, {
-      scale: 1,
-      duration: 0.5,
-      ease: 'power2.out',
-    });
-    
+    // Exiting fullscreen mode
     gsap.to(img, {
       scale: 1,
       duration: 0.5,
@@ -1689,6 +1737,17 @@ function toggleFullScreen(slide) {
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
         img.style.boxShadow = '';
+        
+        // Reset title and artist styles when exiting fullscreen
+        artTitle.style.position = '';
+        artTitle.style.bottom = '';
+        artTitle.style.left = '';
+        artTitle.style.transform = '';
+        
+        artist.style.position = '';
+        artist.style.bottom = '';
+        artist.style.left = '';
+        artist.style.transform = '';
         
         gsap.to(slideInfo, {
           opacity: 1,
@@ -1714,19 +1773,6 @@ function toggleFullScreen(slide) {
       delay: 0.2
     });
   } else {
-    
-    const imgWidth = img.offsetWidth;
-    const imgHeight = img.offsetHeight;
-    const imgRatio = imgWidth / imgHeight;
-    
-    const isPortrait = imgRatio < 1;
-    
-    gsap.to(img, {
-      scale: 1.05,
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-    
     slide.classList.add('full-screen');
     document.body.classList.add('full-screen-active');
     
