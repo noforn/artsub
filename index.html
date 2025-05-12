@@ -1419,7 +1419,7 @@ function showSlide(index) {
   closeGalleryBtn.addEventListener('click', () => {
     gsap.to(galleryScreen, {
       opacity: 0,
-      duration: 0.8,
+      duration: 0.3,
       ease: 'power2.out',
       onComplete: () => {
         galleryScreen.style.pointerEvents = 'none';
@@ -1428,12 +1428,12 @@ function showSlide(index) {
     gsap.to(hero, {
       y: 0,
       opacity: 1,
-      duration: 0.8,
+      duration: 0.3,
       ease: 'power2.out',
     });
     gsap.to(mainNav, {
       opacity: 1, 
-      duration: 0.8,
+      duration: 0.3,
       ease: 'power2.out'
     });
   });
