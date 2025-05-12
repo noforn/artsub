@@ -11,6 +11,12 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&display=swap"
     rel="stylesheet">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Manrope:wght@200;300;400&display=swap"
+    rel="stylesheet">
+    
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
     integrity="sha512-..."
@@ -94,7 +100,7 @@
     }
 
     .hero h1 {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 200;
       letter-spacing: 0.02em;
       font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -115,7 +121,7 @@
     }
 
     .enter-exhibit-btn {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 200;
       letter-spacing: 0.12em;
       display: inline-block;
@@ -136,7 +142,7 @@
     }
 
     .enter-exhibit-btn:hover {
-      background-color: #212121;
+      background-color: #171717;
       border-color: #afafaf;
       transform: translateY(-1px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -212,6 +218,20 @@
       align-items: center;
       justify-content: center;
       min-height: 2.2rem;
+      font-family: 'Inter', sans-serif; 
+      font-weight: 300;
+    }
+
+    .btn-prev:hover,
+    .btn-next:hover {
+      background-color: #0d0d0d;
+      border-color: #171717;
+      transform: translateY(-1px);
+    }
+
+    .btn-prev:active,
+    .btn-next:active {
+      transform: translateY(0);
     }
 
     @media (min-width: 768px) {
@@ -377,15 +397,17 @@
       position: absolute;
       top: 40px;
       right: 40px;
-      background: #2f2f2f;
+      background: #171717;
       color: #afafaf;
-      border: 1px solid #303030;
+      border: 1px solid #36383a;
       padding: 0.5rem 1rem;
       cursor: pointer;
       border-radius: 4px;
       text-transform: none;
       font-size: 0.9rem;
       transition: background-color 0.3s ease;
+      font-family: 'Inter', sans-serif; 
+      font-weight: 300;
     }
 
     .btn-close-gallery:hover {
