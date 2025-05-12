@@ -1673,7 +1673,7 @@ function toggleFullScreen(slide) {
   if (slide.classList.contains('full-screen')) {
     gsap.to(img, {
       scale: 1,
-      duration: 0.5,
+      duration: 0.05,
       ease: 'power2.out',
       onComplete: () => {
         slide.classList.remove('full-screen');
