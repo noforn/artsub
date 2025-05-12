@@ -1746,7 +1746,7 @@ function toggleFullScreen(slide) {
       })
       .to(slideInfo, {
         opacity: 1,
-        duration: 0.2,
+        duration: 0.8,
         delay: 0.1
       }, "-=0.2")
       .to('.btn-prev, .btn-next, .btn-close-gallery', {
@@ -1759,7 +1759,7 @@ function toggleFullScreen(slide) {
     
     gsap.to(slideInfo, {
       opacity: 0,
-      duration: 0.1
+      duration: 0.05 // this
     });
     
     gsap.to('.btn-prev, .btn-next, .btn-close-gallery', {
