@@ -279,6 +279,7 @@
       transition: transform 0.3s ease, opacity 0.3s ease;
       width: 100%;
       min-height: 100%;
+      position: relative;
     }
 
     .slide.active {
@@ -315,6 +316,16 @@
       flex-direction: column;
       overflow: visible;
       height: auto;
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .slide.animating .slide-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
 
     .art-title {
@@ -551,6 +562,7 @@
       justify-content: center;
       overflow: visible;
       position: relative;
+      z-index: 2;
     }
 
     .slide.full-screen img {
@@ -562,6 +574,8 @@
       margin: 0;
       box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
       border-radius: 4px;
+      transform-origin: center;
+      will-change: transform, opacity;
     }
 
     .slide.full-screen .slide-info {
@@ -631,6 +645,14 @@
       animation: fadeIn 0.5s 0.3s forwards;
     }
 
+    .zoom-transition {
+      transition: transform 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out, box-shadow 0.3s ease-out !important;
+      will-change: transform, width, height, box-shadow;
+    }
+
+    .animating {
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -1067,7 +1089,7 @@
       <p class="artist">by Suzanne O'Shea</p>
       <p class="art-description">
         Set against a bold, red backrgound, this portrait captures the tension between vulnerability and 
-        resilience through fragmented lines and layered forms. The subject’s steady gaze contrasts with the 
+        resilience through fragmented lines and layered forms. The subject's steady gaze contrasts with the 
         raw, imperfect contours, evoking a profound exploration of strength and fragility.
       </p>
       <div class="art-details">
@@ -1089,7 +1111,7 @@
           this softly blurred portrait radiates a mellow, earthy vibe 
           that echoes the message of peace and love.
           The sepia glow and gentle, almost dreamlike brushstrokes give a 
-          nostalgic nod to the ’60s counterculture spirit.
+          nostalgic nod to the '60s counterculture spirit.
         </p>
         <div class="art-details">
           <p class="art-dimensions">12" x 9"</p>
@@ -1489,7 +1511,162 @@ function showSlide(index) {
   gsap.set(mainNav, {
     transition: 'opacity 0.8s ease'
   });
+  
+  setupImprovedTouchHandling();
 });
+
+function toggleFullScreen(slide) {
+  const img = slide.querySelector('img');
+  const slideInfo = slide.querySelector('.slide-info');
+  const zoomContainer = slide.querySelector('.zoom-container');
+  
+  if (slide.classList.contains('animating')) {
+    return;
+  }
+  
+  slide.classList.add('animating');
+  
+  if (slide.classList.contains('full-screen')) {
+    
+    const currentTransform = window.getComputedStyle(img).transform;
+    img.classList.add('zoom-transition');
+    
+    gsap.to('.slide.full-screen::before', {
+      opacity: 0,
+      duration: 0.2
+    });
+    
+    if (currentTransform !== 'matrix(1, 0, 0, 1, 0, 0)' && currentTransform !== 'none') {
+      gsap.to(img, {
+        x: 0, 
+        y: 0,
+        scale: 1,
+        duration: 0.3,
+        ease: 'power1.out',
+        onComplete: collapseFullScreen
+      });
+    } else {
+      collapseFullScreen();
+    }
+    
+    function collapseFullScreen() {
+      const rect = img.getBoundingClientRect();
+      
+      const tl = gsap.timeline({
+        onComplete: () => {
+          slide.classList.remove('full-screen', 'animating');
+          document.body.classList.remove('full-screen-active');
+          
+          img.style.transform = '';
+          img.style.width = '';
+          img.style.height = '';
+          img.style.boxShadow = '';
+          img.style.borderRadius = '';
+          
+          setTimeout(() => {
+            img.classList.remove('zoom-transition');
+          }, 100);
+        }
+      });
+      
+      tl.to(img, {
+        width: Math.min(rect.width * 0.8, window.innerWidth * 0.7) + 'px',
+        height: 'auto',
+        duration: 0.25,
+        ease: 'power2.inOut'
+      })
+      .to(slideInfo, {
+        opacity: 1,
+        duration: 0.2,
+        delay: 0.1
+      }, "-=0.2")
+      .to('.btn-prev, .btn-next, .btn-close-gallery', {
+        opacity: 1,
+        duration: 0.2
+      }, "-=0.2");
+    }
+    
+  } else {
+    
+    gsap.to(slideInfo, {
+      opacity: 0,
+      duration: 0.1
+    });
+    
+    gsap.to('.btn-prev, .btn-next, .btn-close-gallery', {
+      opacity: 0,
+      duration: 0.1
+    });
+    
+    const currentWidth = img.offsetWidth;
+    
+    img.classList.add('zoom-transition');
+    
+    slide.classList.add('full-screen');
+    document.body.classList.add('full-screen-active');
+    
+    img.style.width = currentWidth + 'px';
+    
+    gsap.to(img, {
+      width: Math.min(window.innerWidth * 0.9, currentWidth * 1.8) + 'px',
+      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
+      borderRadius: '4px',
+      duration: 0.3,
+      ease: 'power1.out',
+      onComplete: () => {
+        slide.classList.remove('animating');
+        setTimeout(() => {
+          img.classList.remove('zoom-transition');
+        }, 100);
+      }
+    });
+    
+    gsap.from('.slide.full-screen::before', {
+      opacity: 0,
+      duration: 0.3
+    });
+  }
+}
+
+function setupImprovedTouchHandling() {
+  const slides = document.querySelectorAll('.slide');
+  
+  slides.forEach(slide => {
+    const zoomContainer = slide.querySelector('.zoom-container');
+    
+    let tapTimer;
+    let touchStartX, touchStartY;
+    
+    zoomContainer.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      
+      tapTimer = setTimeout(() => {
+        tapTimer = null;
+      }, 200);
+    }, { passive: true });
+    
+    zoomContainer.addEventListener('touchend', (e) => {
+      if (tapTimer && e.changedTouches.length === 1) {
+        clearTimeout(tapTimer);
+        
+        const touch = e.changedTouches[0];
+        const moveX = Math.abs(touch.clientX - touchStartX);
+        const moveY = Math.abs(touch.clientY - touchStartY);
+        
+        if (moveX < 10 && moveY < 10) {
+          e.preventDefault();
+          
+          if (!slide.classList.contains('animating')) {
+            toggleFullScreen(slide);
+          }
+        }
+      }
+    }, { passive: false });
+  });
+}
 
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
@@ -1686,78 +1863,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function toggleFullScreen(slide) {
-  const img = slide.querySelector('img');
-  const slideInfo = slide.querySelector('.slide-info');
-  
-  img.classList.add('fullscreen-transition');
-  
-  if (slide.classList.contains('full-screen')) {
-    gsap.to(img, {
-      scale: 1,
-      y: 0, // Reset vertical position
-      duration: 0.5,
-      ease: 'power2.out',
-      onComplete: () => {
-        slide.classList.remove('full-screen');
-        document.body.classList.remove('full-screen-active');
-        
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = 'center center';
-        img.style.boxShadow = '';
-        
-        gsap.to(slideInfo, {
-          opacity: 1,
-          duration: 0.3,
-          delay: 0.1
-        });
-        
-        setTimeout(() => {
-          img.classList.remove('fullscreen-transition');
-        }, 500);
-      }
-    });
-    
-    gsap.to('.btn-prev, .btn-next', {
-      opacity: 1,
-      duration: 0.3,
-      delay: 0.2
-    });
-    
-    gsap.to('.btn-close-gallery', {
-      opacity: 1,
-      duration: 0.3,
-      delay: 0.2
-    });
-  } else {
-    slide.classList.add('full-screen');
-    document.body.classList.add('full-screen-active');
-    
-    gsap.to(slideInfo, {
-      opacity: 0,
-      duration: 0.05
-    });
-    
-    gsap.to(img, {
-      scale: 1,
-      y: 40,
-      duration: 0.4,
-      ease: 'power2.out',
-      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
-    });
-    
-    gsap.to('.btn-prev, .btn-next', {
-      opacity: 0,
-      duration: 0.3
-    });
-    
-    gsap.to('.btn-close-gallery', {
-      opacity: 0,
-      duration: 0.3
-    });
-  }
-}
-
 document.addEventListener('click', (e) => {
   const fullScreenSlide = document.querySelector('.slide.full-screen');
   if (fullScreenSlide && !e.target.closest('.zoom-container')) {
@@ -1859,7 +1964,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
 </script>
 
 </body>
