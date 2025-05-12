@@ -403,42 +403,6 @@
       z-index: 1002;
     }
 
-    .fullscreen-title-container {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 4vh;
-      text-align: center;
-      z-index: 4000;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-      display: none;
-    }
-
-    .fullscreen-title-container.visible {
-      opacity: 1;
-      display: block;
-    }
-
-    .fullscreen-title {
-      font-size: 1.2rem;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 0.5rem;
-    }
-
-    .fullscreen-artist {
-      font-style: italic;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .slide.full-screen .art-description,
-    .slide.full-screen .art-details {
-      display: none;
-    }
-
     @media (min-width: 768px) {
       .btn-prev,
       .btn-next {
@@ -1730,27 +1694,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleFullScreen(slide) {
   const img = slide.querySelector('img');
   const slideInfo = slide.querySelector('.slide-info');
-  const artTitle = slide.querySelector('.art-title');
-  const artist = slide.querySelector('.artist');
-  
-  let fullscreenTitleContainer = slide.querySelector('.fullscreen-title-container');
-  
-  if (!fullscreenTitleContainer) {
-    fullscreenTitleContainer = document.createElement('div');
-    fullscreenTitleContainer.className = 'fullscreen-title-container';
-    
-    const fullscreenTitle = document.createElement('div');
-    fullscreenTitle.className = 'fullscreen-title';
-    fullscreenTitle.textContent = artTitle.textContent;
-    
-    const fullscreenArtist = document.createElement('div');
-    fullscreenArtist.className = 'fullscreen-artist';
-    fullscreenArtist.textContent = artist.textContent;
-    
-    fullscreenTitleContainer.appendChild(fullscreenTitle);
-    fullscreenTitleContainer.appendChild(fullscreenArtist);
-    slide.appendChild(fullscreenTitleContainer);
-  }
   
   img.classList.add('fullscreen-transition');
   
@@ -1766,8 +1709,6 @@ function toggleFullScreen(slide) {
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
         img.style.boxShadow = '';
-        
-        fullscreenTitleContainer.classList.remove('visible');
         
         gsap.to(slideInfo, {
           opacity: 1,
@@ -1805,10 +1746,7 @@ function toggleFullScreen(slide) {
     
     gsap.to(slideInfo, {
       opacity: 0,
-      duration: 0.3,
-      onComplete: () => {
-        fullscreenTitleContainer.classList.add('visible');
-      }
+      duration: 0.3
     });
     
     gsap.to('.btn-prev, .btn-next', {
