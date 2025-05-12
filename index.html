@@ -1671,7 +1671,6 @@ function toggleFullScreen(slide) {
   img.classList.add('fullscreen-transition');
   
   if (slide.classList.contains('full-screen')) {
-    // Exiting fullscreen mode
     gsap.to(img, {
       scale: 1,
       duration: 0.5,
@@ -1708,20 +1707,19 @@ function toggleFullScreen(slide) {
       delay: 0.2
     });
   } else {
+    slide.classList.add('full-screen');
+    document.body.classList.add('full-screen-active');
+    
     gsap.to(slideInfo, {
       opacity: 0,
-      duration: 0.15,
-      onComplete: () => {
-        slide.classList.add('full-screen');
-        document.body.classList.add('full-screen-active');
-        
-        gsap.to(img, {
-          scale: 1,
-          duration: 0.4,
-          ease: 'power2.out',
-          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
-        });
-      }
+      duration: 0.15
+    });
+    
+    gsap.to(img, {
+      scale: 1,
+      duration: 0.4,
+      ease: 'power2.out',
+      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
     });
     
     gsap.to('.btn-prev, .btn-next', {
