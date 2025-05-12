@@ -5,30 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About — Suzanne O'Shea</title>
 
-  <!-- Modern Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
 
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
   <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 
   <style>
     :root {
-      --bg-dark: #080808;
+      --bg-dark: #000000;
       --text-light: #ffffff;
       --accent: #6666ff;
       --spotlight-size: 60vmax;
     }
 
-    /* Prevent iOS from auto-adjusting text sizes */
     html {
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Reset + base styles */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -42,14 +39,12 @@
       color: var(--text-light);
       font-family: 'Manrope', sans-serif;
 
-      /* Allow scrolling if needed */
       overflow-x: hidden;
       overflow-y: auto;
       touch-action: auto;
       cursor: auto;
     }
 
-    /* Background layer */
     .bg-layer {
       position: fixed;
       inset: 0;
@@ -65,13 +60,12 @@
       background-repeat: no-repeat;
     }
 
-    /* Fixed navigation bar with a known height (6rem) */
     .main-nav {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 6rem; /* <--- define a fixed height so we can offset content */
+      height: 6rem;
       padding: 2rem;
       z-index: 1000;
       display: flex;
@@ -118,16 +112,12 @@
       width: 100%;
     }
 
-    /* Content wrapper:
-       - offset by the nav's height (margin-top: 6rem),
-       - fill the rest of the viewport (min-height: calc(100vh - 6rem)),
-       - center the child (the about-section) with grid. */
     .content {
-      margin-top: 6rem; /* pushes content below the nav */
+      margin-top: 6rem;
       min-height: calc(100vh - 6rem);
       display: grid;
-      place-items: center; /* centers .about-section vertically & horizontally */
-      overflow: auto;      /* if .about-section is larger than the screen, scroll */
+      place-items: center;
+      overflow: auto;
       width: 100%;
     }
 
@@ -142,7 +132,6 @@
       pointer-events: none;
     }
 
-    /* About section styling */
     .about-section {
       position: relative;
       opacity: 0;
@@ -177,11 +166,14 @@
     }
 
     .about-content h1 {
+      font-family: 'Inter', sans-serif;
       font-weight: 200;
       font-size: clamp(2.5rem, 6vw, 4.5rem);
       margin-bottom: 4rem;
       letter-spacing: 0.02em;
       opacity: 0;
+      color: #ffffff;
+      line-height: 1.1;
     }
 
     .about-text {
@@ -216,21 +208,34 @@
       opacity: 0.8;
     }
 
-    /* Fixed footer (optional).
-       Be aware: if your content is taller than the screen, this will overlap it. */
     .footer {
       position: fixed;
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       font-size: 0.7rem;
-      color: rgba(255,255,255,0.5);
+      color: #afafaf;
       text-align: center;
       pointer-events: none;
       z-index: 1000;
       width: 100%;
       padding: 10px;
       background: linear-gradient(to bottom, transparent, var(--bg-dark) 50%);
+    }
+    
+    @media (max-width: 768px) {
+      .about-content {
+        padding: 1rem 0;
+      }
+      
+      .about-content h1 {
+        margin-bottom: 2rem;
+      }
+      
+      .contact-info {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -279,7 +284,6 @@
       const aboutText = document.querySelector('.about-text');
       const contactInfo = document.querySelector('.contact-info');
 
-      // Initial animations
       gsap.to(aboutSection, { 
         duration: 0.8, 
         opacity: 1, 
@@ -317,7 +321,6 @@
         ease: 'power2.out'
       });
 
-      // Continuous spotlight animation
       gsap.to(aboutSpotlight, {
         duration: 3,
         repeat: -1,
@@ -326,7 +329,6 @@
         ease: 'power1.inOut'
       });
 
-      // Background animation
       gsap.to('.bg-layer', {
         background: "radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0) 70%), linear-gradient(45deg, #070707, #090909)",
         duration: 8,
@@ -335,7 +337,6 @@
         ease: 'none'
       });
 
-      // Parallax effect on mouse move (desktop)
       document.addEventListener('mousemove', (e) => {
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
