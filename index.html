@@ -1293,7 +1293,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   slideshow.addEventListener('touchstart', (e) => {
-    if (e.target.closest('.zoom-container img')) {
+    if (e.target.closest('.zoom-container')) {
       touchStartX = null;
       return;
     }
