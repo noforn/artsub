@@ -1759,44 +1759,45 @@ function toggleFullScreen(slide) {
     
     gsap.to(slideInfo, {
       opacity: 0,
-      duration: 0.05 // this
-    });
-    
-    gsap.to('.btn-prev, .btn-next, .btn-close-gallery', {
-      opacity: 0,
-      duration: 0.1
-    });
-    
-    const imgRect = img.getBoundingClientRect();
-    const targetWidth = Math.min(window.innerWidth * 0.9, imgRect.width * 1.8);
-    
-    img.classList.add('zoom-transition');
-    
-    const tl = gsap.timeline({
+      duration: 0.05,
       onComplete: () => {
-        slide.classList.remove('animating');
+        gsap.to('.btn-prev, .btn-next, .btn-close-gallery', {
+          opacity: 0,
+          duration: 0.1
+        });
         
-        setTimeout(() => {
-          img.classList.remove('zoom-transition');
-        }, 100);
+        const imgRect = img.getBoundingClientRect();
+        const targetWidth = Math.min(window.innerWidth * 0.9, imgRect.width * 1.8);
+        
+        img.classList.add('zoom-transition');
+        
+        const tl = gsap.timeline({
+          onComplete: () => {
+            slide.classList.remove('animating');
+            
+            setTimeout(() => {
+              img.classList.remove('zoom-transition');
+            }, 100);
+          }
+        });
+        
+        slide.classList.add('full-screen');
+        document.body.classList.add('full-screen-active');
+        
+        tl.to(img, {
+          width: targetWidth + 'px',
+          height: 'auto',
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
+          borderRadius: '4px',
+          duration: 0.3,
+          ease: 'power1.out'
+        })
+        .from('.slide.full-screen::before', {
+          opacity: 0,
+          duration: 0.3
+        }, "-=0.2");
       }
     });
-    
-    slide.classList.add('full-screen');
-    document.body.classList.add('full-screen-active');
-    
-    tl.to(img, {
-      width: targetWidth + 'px',
-      height: 'auto',
-      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
-      borderRadius: '4px',
-      duration: 0.3,
-      ease: 'power1.out'
-    })
-    .from('.slide.full-screen::before', {
-      opacity: 0,
-      duration: 0.3
-    }, "-=0.2");
   }
 }
 
