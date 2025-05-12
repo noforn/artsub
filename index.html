@@ -1708,12 +1708,10 @@ function toggleFullScreen(slide) {
       delay: 0.2
     });
   } else {
-    // Make slide info fade out INSTANTLY before any movement occurs
     gsap.to(slideInfo, {
       opacity: 0,
-      duration: 0.08, // Much faster fade out (almost immediate)
+      duration: 0.15,
       onComplete: () => {
-        // Only after fading out, start the fullscreen transition
         slide.classList.add('full-screen');
         document.body.classList.add('full-screen-active');
         
