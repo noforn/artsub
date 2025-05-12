@@ -1678,8 +1678,8 @@ function toggleFullScreen(slide) {
       ease: 'power2.out',
     });
     
-    gsap.to(slide, {
-      background: 'transparent',
+    gsap.to(img, {
+      scale: 1,
       duration: 0.5,
       ease: 'power2.out',
       onComplete: () => {
@@ -1689,6 +1689,7 @@ function toggleFullScreen(slide) {
         img.style.transform = 'scale(1)';
         img.style.transformOrigin = 'center center';
         img.style.boxShadow = '';
+        
         gsap.to(slideInfo, {
           opacity: 1,
           duration: 0.3,
@@ -1726,26 +1727,19 @@ function toggleFullScreen(slide) {
       ease: 'power2.out',
     });
     
-    gsap.to(slide, {
-      backgroundColor: '#303030',
-      duration: 0.5,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        slide.classList.add('full-screen');
-        document.body.classList.add('full-screen-active');
-        
-        gsap.to(img, {
-          scale: 1,
-          duration: 0.4,
-          ease: 'power2.out',
-          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
-        });
-        
-        gsap.to(slideInfo, {
-          opacity: 0,
-          duration: 0.3
-        });
-      }
+    slide.classList.add('full-screen');
+    document.body.classList.add('full-screen-active');
+    
+    gsap.to(img, {
+      scale: 1,
+      duration: 0.4,
+      ease: 'power2.out',
+      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
+    });
+    
+    gsap.to(slideInfo, {
+      opacity: 0,
+      duration: 0.3
     });
     
     gsap.to('.btn-prev, .btn-next', {
