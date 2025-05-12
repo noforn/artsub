@@ -1684,11 +1684,6 @@ function toggleFullScreen(slide) {
         img.style.transformOrigin = 'center center';
         img.style.boxShadow = '';
         
-        // Reset slide info position
-        slideInfo.style.position = '';
-        slideInfo.style.width = '';
-        slideInfo.style.left = '';
-        
         gsap.to(slideInfo, {
           opacity: 1,
           duration: 0.3,
@@ -1713,26 +1708,22 @@ function toggleFullScreen(slide) {
       delay: 0.2
     });
   } else {
-    // Position slide info absolutely BEFORE transformation starts
-    slideInfo.style.position = 'absolute';
-    slideInfo.style.width = '100%';
-    slideInfo.style.left = '0';
-    
-    // Then start animations
-    slide.classList.add('full-screen');
-    document.body.classList.add('full-screen-active');
-    
-    gsap.to(img, {
-      scale: 1,
-      duration: 0.4,
-      ease: 'power2.out',
-      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
-    });
-    
-    // Make opacity change faster
+    // Make slide info fade out INSTANTLY before any movement occurs
     gsap.to(slideInfo, {
       opacity: 0,
-      duration: 0.2 // Faster fade out
+      duration: 0.08, // Much faster fade out (almost immediate)
+      onComplete: () => {
+        // Only after fading out, start the fullscreen transition
+        slide.classList.add('full-screen');
+        document.body.classList.add('full-screen-active');
+        
+        gsap.to(img, {
+          scale: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)'
+        });
+      }
     });
     
     gsap.to('.btn-prev, .btn-next', {
