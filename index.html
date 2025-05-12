@@ -1515,6 +1515,7 @@ function showSlide(index) {
   setupImprovedTouchHandling();
 });
 
+
 function toggleFullScreen(slide) {
   const img = slide.querySelector('img');
   const slideInfo = slide.querySelector('.slide-info');
@@ -1603,38 +1604,90 @@ function toggleFullScreen(slide) {
       duration: 0.1
     });
     
-    const currentWidth = img.offsetWidth;
+    // Get current dimensions and position BEFORE adding the full-screen class
+    const rect = img.getBoundingClientRect();
+    const startX = rect.left;
+    const startY = rect.top;
+    const startWidth = rect.width;
+    const startHeight = rect.height;
     
+    // Calculate the center position where we want the image
+    const windowCenterX = window.innerWidth / 2;
+    const windowCenterY = window.innerHeight / 2;
+    const targetWidth = Math.min(window.innerWidth * 0.9, startWidth * 1.8);
+    const targetHeight = (targetWidth / startWidth) * startHeight; // Maintain aspect ratio
+    
+    // Position the image absolutely during transition to avoid CSS conflicts
+    img.style.position = 'fixed';
+    img.style.top = startY + 'px';
+    img.style.left = startX + 'px';
+    img.style.width = startWidth + 'px';
+    img.style.height = startHeight + 'px';
+    img.style.zIndex = '9999';
+    img.style.margin = '0';
     img.classList.add('zoom-transition');
     
-    // Add full-screen class to slide
-    slide.classList.add('full-screen');
-    document.body.classList.add('full-screen-active');
-    
-    // Store original position to prevent jumps
-    const rect = img.getBoundingClientRect();
-    img.style.width = currentWidth + 'px';
-    
-    // Single animation to center and expand the image
-    gsap.to(img, {
-      width: Math.min(window.innerWidth * 0.9, currentWidth * 1.8) + 'px',
-      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
-      borderRadius: '4px',
-      duration: 0.3,
-      ease: 'power1.out',
+    // Create a timeline for better control of the sequence
+    const tl = gsap.timeline({
       onComplete: () => {
-        slide.classList.remove('animating');
+        // NOW add the full-screen class after animation is complete
+        slide.classList.add('full-screen');
+        document.body.classList.add('full-screen-active');
+        
+        // Reset inline styles and let CSS take over
+        img.style.position = '';
+        img.style.top = '';
+        img.style.left = '';
+        img.style.transform = '';
+        img.style.margin = '';
+        
+        // Keep the width/height to prevent flicker
+        img.style.width = targetWidth + 'px';
+        
         setTimeout(() => {
+          slide.classList.remove('animating');
           img.classList.remove('zoom-transition');
-          // Release animation lock
           slide.dataset.animationInProgress = 'false';
         }, 100);
       }
     });
     
-    gsap.from('.slide.full-screen::before', {
-      opacity: 0,
-      duration: 0.3
+    // Animate to center and desired size
+    tl.to(img, {
+      top: windowCenterY - (targetHeight / 2),
+      left: windowCenterX - (targetWidth / 2),
+      width: targetWidth,
+      height: targetHeight,
+      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
+      borderRadius: '4px',
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+    
+    // Create a background effect
+    const overlay = document.createElement('div');
+    overlay.className = 'fullscreen-transition-overlay';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.4), rgba(0,0,0,0.8) 70%);
+      z-index: 9990;
+      opacity: 0;
+      pointer-events: none;
+    `;
+    document.body.appendChild(overlay);
+    
+    gsap.to(overlay, {
+      opacity: 1,
+      duration: 0.3,
+      onComplete: () => {
+        if (document.querySelector('.fullscreen-transition-overlay')) {
+          document.body.removeChild(overlay);
+        }
+      }
     });
   }
 }
