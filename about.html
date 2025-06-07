@@ -190,6 +190,35 @@
       z-index: 1001;
     }
 
+    .tap-indicator {
+      position: fixed;
+      top: 50%;
+      width: 30px;
+      height: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .tap-indicator.left {
+      left: 1rem;
+    }
+
+    .tap-indicator.right {
+      right: 1rem;
+    }
+
+    .tap-indicator.show {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.6; }
+    }
+
     .slideshow-nav {
       position: fixed;
       bottom: 1rem;
@@ -683,6 +712,8 @@
   <button class="btn-close-gallery" id="closeGalleryBtn" type="button">
     Close
   </button>
+  <div class="tap-indicator left" aria-hidden="true"></div>
+  <div class="tap-indicator right" aria-hidden="true"></div>
 
   <div class="slideshow" id="slideshow">
     <div class="slide active">
@@ -1143,8 +1174,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const slides = document.querySelectorAll('.slide');
+  const tapIndicators = document.querySelectorAll('.tap-indicator');
+  let indicatorsShown = false;
+  let inactivityTimer;
   let currentSlide = 0;
   showSlide(currentSlide);
+
+  function hideTapIndicators() {
+    tapIndicators.forEach(ind => ind.classList.remove('show'));
+    clearTimeout(inactivityTimer);
+    indicatorsShown = true;
+  }
+
+  function startIndicatorTimer() {
+    if (indicatorsShown || window.innerWidth >= 768) return;
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      tapIndicators.forEach(ind => ind.classList.add('show'));
+      indicatorsShown = true;
+    }, 5000);
+  }
 
   const enterExhibitBtn = document.getElementById('enterExhibitBtn');
 
@@ -1304,6 +1353,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ease: 'power2.inOut',
       onComplete: () => {
         galleryScreen.style.pointerEvents = 'auto';
+        startIndicatorTimer();
       },
     });
     gsap.to(mainNav, {
@@ -1337,6 +1387,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   slideshow.addEventListener('touchstart', (e) => {
+    hideTapIndicators();
     if (e.target.closest('.zoom-container')) {
       touchStartX = null;
       return;
@@ -1398,10 +1449,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   prevBtn.addEventListener('click', () => {
+    hideTapIndicators();
     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
     showSlide(currentSlide);
   });
   nextBtn.addEventListener('click', () => {
+    hideTapIndicators();
     currentSlide = (currentSlide + 1) % slides.length;
     showSlide(currentSlide);
   });
@@ -1439,6 +1492,7 @@ function showSlide(index) {
 }
 
   closeGalleryBtn.addEventListener('click', () => {
+    hideTapIndicators();
     gsap.to(galleryScreen, {
       opacity: 0,
       duration: 0.3,
@@ -1461,6 +1515,7 @@ function showSlide(index) {
   });
 
   galleryScreen.addEventListener('click', (e) => {
+    hideTapIndicators();
     if (e.target.closest('button')) {
       return;
     }
@@ -1487,6 +1542,7 @@ function showSlide(index) {
   });
 
   galleryScreen.addEventListener('click', (e) => {
+    hideTapIndicators();
     const bottomThreshold = window.innerHeight - 60;
     if (e.clientY > bottomThreshold) {
       gsap.to(galleryScreen, {
