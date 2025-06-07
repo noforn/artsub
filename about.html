@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Suzanne O'Shea — Virtual Exhibition</title>
+  <title>About — Suzanne O'Shea</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,13 +19,13 @@
     
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-    integrity="sha512-..."
+    integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
     crossorigin="anonymous"
     referrerpolicy="no-referrer"></script>
 
-  <meta property="og:title" content="Suzanne O'Shea" />
-  <meta property="og:description" content="Virtual Exhibition" />
-  <meta property="og:url" content="https://suzanneoshea.art/" />
+  <meta property="og:title" content="About — Suzanne O'Shea" />
+  <meta property="og:description" content="Learn about the artist behind the virtual exhibition" />
+  <meta property="og:url" content="https://suzanneoshea.art/about.html" />
   <meta property="og:image" content="https://suzanneoshea.art/assets/images/preview1.png" />
   <meta property="og:type" content="website" />
 
@@ -35,8 +35,9 @@
     :root {
       --bg-dark: #000000;
       --text-light: #ffffff;
-      --accent: #6666ff;
-      --spotlight-size: 60vmax;
+      --text-medium: #afafaf;
+      --text-muted: #9b9b9b;
+      --text-subtle: #676767;
     }
 
     *, *::before, *::after {
@@ -44,14 +45,14 @@
       margin: 0;
       padding: 0;
     }
+
     html, body {
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       background-color: var(--bg-dark);
       color: var(--text-light);
       font-family: 'Manrope', sans-serif;
-      overflow: hidden;
-      touch-action: none;
+      overflow-x: hidden;
       cursor: default;
     }
 
@@ -70,16 +71,6 @@
       background-repeat: no-repeat;
     }
 
-    .content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
     .watermark {
       position: fixed;
       top: 1rem;
@@ -89,414 +80,7 @@
       letter-spacing: 0.2em;
       opacity: 0.08;
       pointer-events: none;
-    }
-
-    main.hero {
-      position: relative;
-      opacity: 0;
-      text-align: center;
-      perspective: 800px;
-      padding-bottom: 40px;
-    }
-
-    .hero h1 {
-      font-family: 'Inter', sans-serif;
-      font-weight: 200;
-      letter-spacing: 0.02em;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      margin: 0;
-      color: #ffffff;
-      line-height: 1.1;
-    }
-
-    .virtual-exhibition {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 200;
-      font-size: clamp(0.8rem, 2vw, 1.2rem);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      margin-top: 2rem;
-      color: #b4b4b4;
-      opacity: 0;
-    }
-
-    .enter-exhibit-btn {
-      font-family: 'Inter', sans-serif;
-      font-weight: 200;
-      letter-spacing: 0.12em;
-      display: inline-block;
-      margin-top: 2.5rem;
-      background-color: #0d0d0d;
-      color: #ececec;
-      border: 1px solid #afafaf;
-      padding: 1rem 2.5rem;
-      text-transform: uppercase;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      opacity: 0;
-      transition: all 0.4s ease;
-      backdrop-filter: blur(5px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .enter-exhibit-btn:hover {
-      background-color: #171717;
-      border-color: #afafaf;
-      transform: translateY(-1px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .enter-exhibit-btn:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .gallery-screen {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, calc(100vh + 50%));
-      opacity: 0;
-      text-align: center;
-      pointer-events: none;
-      width: 100%;
-      height: 100vh;
-      background-color: #000000;
-
-      z-index: 2000;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      transition: opacity 0.8s ease;
-    }
-
-    .gallery-screen .main-nav {
-      display: none;
-    }
-
-    .swipe-hint {
-      position: fixed;
-      top: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.8rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 1001;
-    }
-
-    .tap-indicator {
-      position: fixed;
-      top: 75%;
-      width: 30px;
-      height: 30px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      transform: translateY(-50%);
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .tap-indicator.left {
-      left: 1rem;
-    }
-
-    .tap-indicator.right {
-      right: 1rem;
-    }
-
-    .tap-indicator.show {
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.6; }
-    }
-
-    .slideshow-nav {
-      position: fixed;
-      bottom: 1rem;
-      left: 0;
-      right: 0;
-      padding: 0.5rem;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      margin: 0;
       z-index: 1000;
-    }
-
-    .btn-prev,
-    .btn-next {
-      display: none;
-      background: #171717;
-      color: #afafaf;
-      border: 1px solid #36383a;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      border-radius: 4px;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      line-height: 1;
-      align-items: center;
-      justify-content: center;
-      min-height: 2.2rem;
-      font-family: 'Inter', sans-serif; 
-      font-weight: 300;
-    }
-
-    .btn-prev:hover,
-    .btn-next:hover {
-      background-color: #0d0d0d;
-      border-color: #171717;
-      transform: translateY(-1px);
-    }
-
-    .btn-prev:active,
-    .btn-next:active {
-      transform: translateY(0);
-    }
-
-    @media (min-width: 768px) {
-      .gallery-screen {
-        padding: 2rem;
-      }
-
-      .slide img {
-        max-height: 60vh;
-      }
-
-      .slideshow-nav {
-        position: static;
-        background: none;
-        backdrop-filter: none;
-        margin-top: 1.5rem;
-      }
-
-      .swipe-hint {
-        display: none;
-      }
-
-      .btn-close-gallery {
-        display: block;
-      }
-    }
-    
-    .slideshow {
-      max-width: 800px;
-      width: 90%;
-      max-height: 85vh;
-      overflow: hidden;
-      position: relative;
-      padding-bottom: 2rem;
-
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .slide {
-      display: none;
-      text-align: center;
-      flex-direction: column;
-      opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      width: 100%;
-      min-height: 100%;
-      position: relative;
-    }
-
-    .slide.active {
-      display: flex;
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .slide.next {
-      transform: translateX(100%);
-    }
-
-    .slide.prev {
-      transform: translateX(-100%);
-    }
-
-    .slide img {
-      max-width: 100%;
-      max-height: 50vh;
-      width: auto;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px #0d0d0d;
-      margin-bottom: 1rem;
-    }
-
-    .slide-info {
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
-      padding: 1rem;
-      padding-bottom: 60px;
-      display: flex;
-      flex-direction: column;
-      overflow: visible;
-      height: auto;
-      position: relative;
-      z-index: 1;
-      transition: opacity 0.2s ease-out;
-    }
-
-    .slide.animating .slide-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-
-    .art-title {
-      font-size: clamp(1.2rem, 4vw, 1.6rem);
-      font-weight: 300;
-      margin-bottom: 0.2rem;
-      color: #ffffff;
-      flex-shrink: 0;
-    }
-
-    .artist {
-      font-style: italic;
-      color: #afafaf;
-      margin-bottom: 1rem;
-      font-size: clamp(0.9rem, 3vw, 1rem);
-      flex-shrink: 0;
-    }
-
-    .art-description {
-      font-size: clamp(0.7rem, 2.7vw, 0.8rem);
-      line-height: 1.6;
-      color: #9b9b9b;
-      margin-bottom: 0.75rem;
-      padding: 0 1rem;
-      max-height: 100px;
-      overflow-y: auto;
-      padding-right: 1.5rem; 
-      min-height: 0;
-      flex: 1;
-
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .art-details {
-      flex-shrink: 0;
-      margin-top: auto;
-    }
-
-    .art-dimensions,
-    .art-medium {
-      font-size: clamp(0.7rem, 1.8vw, 0.8rem);
-      margin-top: 0.3rem;
-      color: #676767;
-      flex-shrink: 0;
-    }
-
-    .art-description::-webkit-scrollbar {
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .slide img {
-        max-height: 60vh;
-        margin-bottom: 2rem;
-      }
-
-      .slide-info {
-        padding: 2rem;
-      }
-
-      .art-description {
-        padding: 0 2rem;
-      }
-    }
-
-    .slideshow-nav {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-      justify-content: center;
-    }
-
-    .btn-prev:hover,
-    .btn-next:hover {
-      background-color: #333;
-    }
-
-    .btn-close-gallery {
-      position: absolute;
-      top: 40px;
-      right: 40px;
-      background: #171717;
-      color: #afafaf;
-      border: 1px solid #36383a;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 4px;
-      text-transform: none;
-      font-size: 0.9rem;
-      transition: background-color 0.3s ease;
-      font-family: 'Inter', sans-serif; 
-      font-weight: 300;
-    }
-
-    .btn-close-gallery:hover {
-      background-color: #333;
-    }
-
-    .gallery-screen::after {
-      content: '';
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
-      z-index: 1002;
-    }
-
-    @media (min-width: 768px) {
-      .btn-prev,
-      .btn-next {
-        display: inline-flex;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .btn-close-gallery {
-        display: none !important;
-      }
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      color: #afafaf;
-      text-align: center;
-      pointer-events: none;
-      z-index: 3000;
-      width: 100%;
-      padding: 10px;
-    }
-    .footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    .footer a:hover {
-      text-decoration: underline;
     }
 
     .main-nav {
@@ -555,608 +139,248 @@
       width: 100%;
     }
 
-    .zoom-container {
-      overflow: hidden;
-      touch-action: pan-x pan-y pinch-zoom;
-      position: relative;
-      width: 100%;
-      height: 100%;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 8rem 2rem 4rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .zoom-container img {
-      transition: transform 0.3s ease;
-      transform-origin: center center;
+    .about-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      opacity: 0;
     }
 
-    .slide.full-screen {
+    .about-header h1 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 200;
+      letter-spacing: 0.02em;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 1rem;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .about-header .subtitle {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 200;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-medium);
+    }
+
+    .about-content {
+      display: grid;
+      gap: 3rem;
+      opacity: 0;
+    }
+
+    .about-section {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .about-section h2 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      margin-bottom: 1.5rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    .about-section p {
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .about-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .quote {
+      font-style: italic;
+      color: var(--text-medium);
+      border-left: 2px solid var(--text-subtle);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      line-height: 1.6;
+    }
+
+    .artist-statement {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 2.5rem;
+      margin: 3rem 0;
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-info {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      opacity: 0;
+    }
+
+    .contact-link {
+      color: var(--text-medium);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 1.5rem;
+      border: 1px solid var(--text-subtle);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+    }
+
+    .contact-link:hover {
+      border-color: var(--text-medium);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-1px);
+    }
+
+    .footer {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 3000;
-      background: #000000;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slide.full-screen .zoom-container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: visible;
-      position: relative;
-      z-index: 2;
-    }
-
-    .slide.full-screen img {
-      max-width: 90vw;
-      max-height: 85vh;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      margin: 0;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
-      border-radius: 4px;
-      transform-origin: center;
-      will-change: transform, opacity;
-    }
-
-    .slide.full-screen .slide-info {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .full-screen-active {
-      overflow: hidden;
-    }
-
-    img {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-user-drag: none;
-      -khtml-user-drag: none;
-      -moz-user-drag: none;
-      -o-user-drag: none;
-      pointer-events: auto !important;
-    }
-
-    .zoom-container,
-    .slide.full-screen {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    .slide.full-screen img {
-      -webkit-touch-callout: none;
-    }
-
-    .slide.full-screen::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at center, rgba(0,0,0,0.4), rgba(0,0,0,0.8) 70%);
-      z-index: -1;
-      opacity: 0;
-      animation: fadeIn 0.5s forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .slide.full-screen .zoom-container::after {
-      content: '';
-      position: absolute;
-      top: -20px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 40px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      opacity: 0;
-      animation: fadeIn 0.5s 0.3s forwards;
-    }
-
-    .zoom-transition {
-      transition: transform 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out, box-shadow 0.3s ease-out !important;
-      will-change: transform, width, height, box-shadow;
-    }
-
-    .animating {
+      font-size: 0.7rem;
+      color: var(--text-medium);
+      text-align: center;
       pointer-events: none;
+      z-index: 3000;
+      width: 100%;
+      padding: 10px;
     }
+
+    .footer a {
+      color: var(--text-subtle);
+      text-decoration: none;
+      pointer-events: auto;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .back-to-gallery {
+      text-align: center;
+      margin-top: 3rem;
+      opacity: 0;
+    }
+
+    .gallery-btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 200;
+      letter-spacing: 0.12em;
+      display: inline-block;
+      background-color: #0d0d0d;
+      color: #ececec;
+      border: 1px solid var(--text-medium);
+      padding: 1rem 2.5rem;
+      text-transform: uppercase;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(5px);
+      text-decoration: none;
+    }
+
+    .gallery-btn:hover {
+      background-color: #171717;
+      border-color: var(--text-medium);
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 6rem 1.5rem 3rem;
+      }
+
+      .artist-statement {
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+    }
+
+    .highlight {
+      color: var(--text-light);
+      font-weight: 300;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--text-subtle), transparent);
+      margin: 3rem auto;
+      opacity: 0;
+    }
+
   </style>
 </head>
 <body>
 
 <nav class="main-nav">
   <div class="nav-links">
-    <a href="index.html" class="nav-link active">Gallery</a>
-    <a href="about.html" class="nav-link">About</a>
+    <a href="https://suzanneoshea.art/" class="nav-link">Gallery</a>
+    <a href="about.html" class="nav-link active">About</a>
   </div>
 </nav>
 
 <div class="bg-layer"></div>
+<div class="watermark">SO</div>
 
-<div class="content">
-  <div class="watermark">SO</div>
-
-  <main class="hero">
-    <div class="hero-spotlight"></div>
+<div class="container">
+  <header class="about-header">
     <h1>Suzanne O'Shea</h1>
-    <div class="virtual-exhibition">Virtual Exhibition</div>
-    <button class="enter-exhibit-btn" id="enterExhibitBtn" type="button">
-      Explore
-    </button>
+  </header>
+
+  <main class="about-content">
+    <section class="about-section">
+      <p>
+        Suzanne O'Shea is a <span class="highlight">contemporary mixed-media artist</span> from Boston whose work explores human emotion and resilience. Working primarily with oils, acrylics, and mixed media, she creates layered compositions that capture moments of vulnerability, strength, and quiet triumph.
+      </p>
+      <p>
+        Her pieces invite viewers into intimate dialogues, revealing stories that exist in the spaces between light and shadow, fragility and fortitude. Each portrait becomes a narrative, each gaze a doorway into universal experiences of love, loss, hope, and renewal.
+      </p>
+    </section>
+
+    <div class="section-divider"></div>
+
+
+    <section class="about-section">
+      <p>
+        Suzanne's work centers on the faces of those who persist against adversity. Her pieces explore themes of <span class="highlight">motherhood, identity, and the quiet heroism</span> found in everyday survival, honoring stories that might otherwise go untold.
+      </p>
+      <p>
+        This virtual exhibition showcases over twenty works that span her artistic evolution, integrating <span class="highlight">audio narratives</span> with visual art to create an immersive experience that invites deeper contemplation.
+      </p>
+    </section>
+
+    <div class="back-to-gallery">
+      <a href="https://suzanneoshea.art/" class="gallery-btn">View Exhibition</a>
+    </div>
   </main>
-</div>
-
-<div class="gallery-screen" id="galleryScreen">
-  <button class="btn-close-gallery" id="closeGalleryBtn" type="button">
-    Close
-  </button>
-  <div class="tap-indicator left" aria-hidden="true"></div>
-  <div class="tap-indicator right" aria-hidden="true"></div>
-
-  <div class="slideshow" id="slideshow">
-    <div class="slide active">
-      <div class="zoom-container">
-      <img src="assets/images/import9.jpeg" alt="Vivid Bonds"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Vivid Bonds</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Two intertwined figures emerge through fragmented 
-          brushstrokes and vivid hues, capturing a quiet yet 
-          luminous connection.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">22" x 20"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/witness.jpeg" alt="Witness"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Witness</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A aolemn figure stands amidst chaos, her gaze steady - a silent
-          observer bearing quiet testimony to unseen stories. 
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/wildwhisper.jpg" alt="Wild Whisper"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Wild Whisper</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A spirit of nature emerges in soft defiance - adorned with botanical
-          echoes and golden traces, she embodies and quiet power rooted in the wild. 
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import5.jpeg" alt="Mind Games"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Mind Games</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Vibrant, layered composition captures the chaos and 
-          complexity of thought. Intertwining vivid colors and fragmented 
-          textures depict the interplay between emotion and cognition.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Mixed Media</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/mothers-of.jpg" alt="Mothers of Ukraine"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Mothers of Ukraine</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          <em>Mothers of Ukraine</em> captures the raw resilience 
-          and silent bravery embodied by mothers amid conflict. 
-          A homage not only to Ukrainian mothers, but to every mother,
-          reminding us of their strength and quiet heroism in the face of adversity.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">17" x 15"</p>
-          <p class="art-medium">Water Soluable Graphite on Paper</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import4.jpeg" alt="Shattered Reflection"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Apple of My Eye</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A young boy's intense gaze blends vulnerability 
-          and strength. Bold, warm tones evoke deep emotion, 
-          inviting quiet reflection. 
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 12"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/face3.jpeg" alt="Veiled Serenity"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Veiled Serenity</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A somber yet peaceful portrait, where light and 
-          shadow converge to convey depth.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 18"</p>
-          <p class="art-medium">Mixed Media</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-        <img src="assets/images/darkface.jpeg" alt="Echoes in her Eyes"/>
-      </div>
-        <div class="slide-info">
-          <h2 class="art-title">Echoes in her Eyes</h2>
-          <p class="artist">by Suzanne O'Shea</p>
-          <p class="art-description">
-            The depth of untold stories hidden beneath a calm exterior. 
-            Her gaze invites viewers into an intimate dialogue, hinting at memories, dreams, and silent truths.
-          </p>
-          <div class="art-details">
-            <p class="art-dimensions">12" x 9"</p>
-            <p class="art-medium">Oil on Canvas</p>
-          </div>
-        </div>
-      </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import11.jpeg" alt="Vanishing"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Vanishing</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Ghostly visage, veiled in shadow and textured layers, 
-          evoking a haunting sense of impermanence. The rough, grainy
-          surface creates an atmosphere of decay, as if the subject is being reclaimed by the void.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 12"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/warrior.jpg" alt=""/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Still She Rises</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          <em>Still She Rises</em> embodies the fierce resilience of those who refuse to be conquered. 
-          Her quiet gaze holds generations of courage—an unwavering testament to the spirit of
-          resistance that endures.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/hand.jpeg" alt="Reaching Out"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Fearless</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A moment of yearning, bridging the
-          distance between the viewer and the artwork in a 
-          silent conversation.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 18"</p>
-          <p class="art-medium">Acrylic, Ink on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import6.jpeg" alt="Always Been a Storm"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Always Been a Storm</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Searching eyes yearn for connection.
-          Dripping textures underscore transient emotions,
-          an evocative interplay between strength and fragility.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 24"</p>
-          <p class="art-medium">Acrylic on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import3.jpeg" alt="Chasing Light"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Chasing Light</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Vibrant tones create a figure caught in a search for clarity. 
-          The work captures a sense of movement and hope, 
-          as if chasing something just beyond reach.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">10" x 8"</p>
-          <p class="art-medium">Ink on Rice Paper</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/cork.jpeg" alt="Cork City"/>
-      </div>
-      <div class="slide-info">
-      <h2 class="art-title">Cork City</h2>
-      <p class="artist">by Suzanne O'Shea</p>
-      <p class="art-description">
-        This portrait's layers of texture and shifting tones evoke the soul of Cork City, Ireland,
-        blurring the line between memory and place.
-        It draws the viewer into a fluid connection with the city's essence, 
-        felt rather than seen.
-      </p>
-      <div class="art-details">
-        <p class="art-dimensions">16" x 16"</p>
-        <p class="art-medium">Mixed Media on Canvas</p>
-      </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import1.jpeg" alt="Demon Diva"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Demon Diva</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Stark contrasts and swirling lines form a face 
-          on the edge of recognition, while abstraction 
-          reveals tension in the space between clarity and chaos.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Graphite on Paper</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import2.jpeg" alt="Hania"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Hania</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Fierce warrior spirit, captured in bold strokes and 
-          striking contrasts. An intense gaze, framed by swirling patterns,
-          embodies strength and resilience.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 18"</p>
-          <p class="art-medium">Mixed Media on Watercolor</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/jester.jpeg" alt="Jester's Muse"/>
-      </div>
-      <div class="slide-info">
-      <h2 class="art-title">Jester's Muse</h2>
-      <p class="artist">by Suzanne O'Shea</p>
-      <p class="art-description">
-        This work blends vibrant hues with haunting expressions, 
-        embodying the delicate balance between joy and melancholy. The striking gaze 
-        and fluid forms invite viewers to explore the hidden depths of emotion and the complexity of the human spirit.
-      </p>
-      <div class="art-details">
-        <p class="art-dimensions">16" x 12"</p>
-        <p class="art-medium">Mixed Media on Woden Cradle</p>
-      </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import8.jpeg" alt="Rhythm of Silence"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Rhythm of Silence</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          This piece transforms the quiet tapping of slippers into a profound 
-          expression of presence, using textured strokes and muted tones to 
-          evoke the harmony between sound and stillness.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">22" x 14"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/face2.jpeg" alt="Quiet Despair">
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Broken Heart Emoji</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Soft contours and melting edges form a visage 
-          weighed down by invisible grief. Blending of shadows and
-          light evokes a fragile expression of loss suspended in time.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">14" x 14"</p>
-          <p class="art-medium">Ink on Watercolor</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import10.jpeg" alt="Delilah"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Delilah</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Bold and unapologetic, this portrait radiates strength and confidence 
-          through vibrant colors, layered textures, and an unyielding gaze.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 24"</p>
-          <p class="art-medium">Acrylic on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import12.jpeg" alt="Resilience">
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Resilience</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A compelling fusion of shadow and light, capturing the 
-          unyielding essence of resilience.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">22" x 18"</p>
-          <p class="art-medium">Mixed Media on Rice Paper</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/enigma.jpeg" alt="Enigma"/>
-      </div>
-      <div class="slide-info">
-      <h2 class="art-title">Enigma</h2>
-      <p class="artist">by Suzanne O'Shea</p>
-      <p class="art-description">
-        Set against a bold, red backrgound, this portrait captures the tension between vulnerability and 
-        resilience through fragmented lines and layered forms. The subject's steady gaze contrasts with the 
-        raw, imperfect contours, evoking a profound exploration of strength and fragility.
-      </p>
-      <div class="art-details">
-        <p class="art-dimensions">16" x 16"</p>
-        <p class="art-medium">Mixed Media on Rice Paper Mounted on Canvas</p>
-      </div>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img src="assets/images/import14.jpeg" alt="Amber Muse"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Peace Out</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Emanating the free-spirited essence of Woodstock, 
-          this softly blurred portrait radiates a mellow, earthy vibe 
-          that echoes the message of peace and love.
-          The sepia glow and gentle, almost dreamlike brushstrokes give a 
-          nostalgic nod to the '60s counterculture spirit.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="slideshow-nav">
-    <button id="prevBtn" class="btn-prev" type="button">Prev</button>
-    <button id="nextBtn" class="btn-next" type="button">Next</button>
-  </div>
 </div>
 
 <div class="footer">
@@ -1165,70 +389,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const hero = document.querySelector('.hero');
-  const heroSpotlight = document.querySelector('.hero-spotlight');
-  const subHeading = document.querySelector('.virtual-exhibition');
-  const galleryScreen = document.getElementById('galleryScreen');
-  const closeGalleryBtn = document.getElementById('closeGalleryBtn');
-
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const slides = document.querySelectorAll('.slide');
-  const tapIndicators = document.querySelectorAll('.tap-indicator');
-  let indicatorsShown = false;
-  let inactivityTimer;
-  let currentSlide = 0;
-  showSlide(currentSlide);
-
-  function hideTapIndicators() {
-    tapIndicators.forEach(ind => ind.classList.remove('show'));
-    clearTimeout(inactivityTimer);
-    indicatorsShown = true;
-  }
-
-  function startIndicatorTimer() {
-    if (indicatorsShown || window.innerWidth >= 768) return;
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(() => {
-      tapIndicators.forEach(ind => ind.classList.add('show'));
-      indicatorsShown = true;
-    }, 5000);
-  }
-
-  const enterExhibitBtn = document.getElementById('enterExhibitBtn');
-
-  let isDragging = false;
-  let startY = 0;
-  let currentY = 0;
-  const maxDrag = window.innerHeight * 0.5;
-
-  gsap.to(hero, { duration: 0.8, opacity: 1, ease: 'power2.out' });
-  gsap.to(heroSpotlight, {
-    duration: 2,
-    opacity: 1,
-    ease: 'power2.out',
-    delay: 0.5,
-  });
-  gsap.to(subHeading, {
-    duration: 1.2,
-    opacity: 1,
-    delay: 1.5,
-    ease: 'power2.out',
-  });
-  gsap.to(enterExhibitBtn, {
-    duration: 1.2,
-    opacity: 1,
-    delay: 2.2,
-    ease: 'power2.out',
-  });
-
-  gsap.to(heroSpotlight, {
-    duration: 3,
-    repeat: -1,
-    yoyo: true,
-    ease: 'power1.inOut',
-    scale: 1.02,
-  });
+  // Background animation
   gsap.to('.bg-layer', {
     background:
       "radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0) 70%), linear-gradient(45deg, #070707, #090909)",
@@ -1238,789 +399,102 @@ document.addEventListener('DOMContentLoaded', () => {
     ease: 'none',
   });
 
-  document.addEventListener('mousemove', (e) => {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const offsetX = (e.clientX - centerX) / centerX;
-    const offsetY = (e.clientY - centerY) / centerY;
+  // Staggered entrance animations
+  const tl = gsap.timeline();
+  
+  tl.to('.about-header', {
+    opacity: 1,
+    duration: 1,
+    ease: 'power2.out'
+  })
+  .to('.about-content', {
+    opacity: 1,
+    duration: 0.8,
+    ease: 'power2.out'
+  }, '-=0.5')
+  .to('.about-section', {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: 'power2.out'
+  }, '-=0.3')
+  .to('.section-divider', {
+    opacity: 1,
+    duration: 0.6,
+    stagger: 0.1,
+    ease: 'power2.out'
+  }, '-=0.4')
+  .to('.back-to-gallery', {
+    opacity: 1,
+    duration: 0.8,
+    ease: 'power2.out'
+  }, '-=0.4');
 
-    gsap.to(hero, {
-      rotationY: offsetX * 2,
-      rotationX: offsetY * 2,
-      transformOrigin: 'center',
-      duration: 0.3,
-      ease: 'power2.out',
+  // Subtle parallax effect on scroll
+  let ticking = false;
+  function updateParallax() {
+    const scrolled = window.pageYOffset;
+    const parallax = scrolled * 0.1;
+    
+    gsap.set('.bg-layer', {
+      y: parallax
     });
-  });
-
-  document.addEventListener('mousedown', handleStart);
-  document.addEventListener('mousemove', handleMove);
-  document.addEventListener('mouseup', handleEnd);
-
-  document.addEventListener('touchstart', handleStart, { passive: false });
-  document.addEventListener('touchmove', handleMove, { passive: false });
-  document.addEventListener('touchend', handleEnd);
-
-  function handleStart(e) {
-    if (galleryScreen.style.pointerEvents === 'auto') {
-      return;
-    }
-    if (e.target.closest('#prevBtn, #nextBtn, #closeGalleryBtn')) {
-      return;
-    }
-    isDragging = true;
-    startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
-    currentY = 0;
-    document.body.style.cursor = 'grabbing';
+    
+    ticking = false;
   }
 
-  function handleMove(e) {
-    if (!isDragging) return;
-    const y = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
-    currentY = Math.min(startY - y, maxDrag);
-    currentY = Math.max(currentY, 0);
-
-    const progress = currentY / maxDrag;
-
-    gsap.to(hero, { y: -currentY, duration: 0.1 });
-    gsap.set(galleryScreen, {
-      y: (1 - progress) * window.innerHeight * 0.5,
-      opacity: progress,
-    });
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
   }
 
-  function handleEnd() {
-    if (!isDragging) return;
-    isDragging = false;
-    document.body.style.cursor = 'default';
+  window.addEventListener('scroll', requestTick, { passive: true });
 
-    if (currentY > maxDrag * 0.5) {
-      gsap.to(hero, {
-        y: -maxDrag,
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power2.inOut',
-      });
-      gsap.to(galleryScreen, {
-        y: '-50%',
-        opacity: 1,
-        duration: 1.2,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          galleryScreen.style.pointerEvents = 'auto';
-        },
-      });
-      gsap.to(mainNav, {
-        opacity: 0,
-        duration: 0.8,
+  // Gallery button hover effect
+  const galleryBtn = document.querySelector('.gallery-btn');
+  if (galleryBtn) {
+    galleryBtn.addEventListener('mouseenter', () => {
+      gsap.to(galleryBtn, {
+        scale: 1.02,
+        duration: 0.3,
         ease: 'power2.out'
       });
-    } else {
-      gsap.to(hero, {
-        y: 0,
-        opacity: 1,
-        duration: 0.25,
-        ease: 'power2.out',
-      });
-      gsap.to(galleryScreen, {
-        y: 'calc(100vh + 50%)',
-        opacity: 0,
-        duration: 0.25,
-        ease: 'power2.out',
-        onComplete: () => {
-          galleryScreen.style.pointerEvents = 'none';
-        },
-      });
-      gsap.to(mainNav, {
-        opacity: 1,
-        duration: 0.25,
-        ease: 'power2.out'
-      });
-    }
-  }
-
-  enterExhibitBtn.addEventListener('click', () => {
-    gsap.to(hero, {
-      y: -maxDrag,
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power2.inOut',
-    });
-    gsap.to(galleryScreen, {
-      y: '-50%',
-      opacity: 1,
-      duration: 1.2,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        galleryScreen.style.pointerEvents = 'auto';
-        startIndicatorTimer();
-      },
-    });
-    gsap.to(mainNav, {
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out'
-    });
-  });
-
-  const slideshow = document.querySelector('.slideshow');
-  const swipeHint = document.querySelector('.swipe-hint');
-  let touchStartX = null;
-  let touchEndX = null;
-  const swipeThreshold = 50;
-
-  if (window.innerWidth < 768) {
-    setTimeout(() => {
-      gsap.to(swipeHint, {
-        opacity: 1,
-        duration: 1,
-        delay: 1,
-        onComplete: () => {
-          gsap.to(swipeHint, {
-            opacity: 0,
-            duration: 1,
-            delay: 2
-          });
-        }
-      });
-    }, 100);
-  }
-
-  slideshow.addEventListener('touchstart', (e) => {
-    hideTapIndicators();
-    if (e.target.closest('.zoom-container')) {
-      touchStartX = null;
-      return;
-    }
-    
-    if (document.querySelector('.slide.full-screen')) {
-      touchStartX = null;
-      return;
-    }
-    
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  slideshow.addEventListener('touchmove', (e) => {
-    if (touchStartX === null) return;
-    
-    if (document.querySelector('.slide.full-screen')) {
-      touchStartX = null;
-      touchEndX = null;
-      return;
-    }
-    
-    touchEndX = e.touches[0].clientX;
-  }, { passive: true });
-
-  slideshow.addEventListener('touchend', () => {
-    if (touchStartX === null) {
-      return;
-    }
-    
-    if (document.querySelector('.slide.full-screen')) {
-      touchStartX = null;
-      touchEndX = null;
-      return;
-    }
-    
-    const swipeDistance = touchEndX - touchStartX;
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-      if (swipeDistance > 0) {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-      } else {
-        currentSlide = (currentSlide + 1) % slides.length;
-      }
-      showSlide(currentSlide);
-    }
-    
-    touchStartX = null;
-    touchEndX = null;
-  });
-
-  let lastTap = 0;
-  document.addEventListener('touchend', (e) => {
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - lastTap;
-    if (tapLength < 500 && tapLength > 0) {
-      e.preventDefault();
-    }
-    lastTap = currentTime;
-  });
-
-  prevBtn.addEventListener('click', () => {
-    hideTapIndicators();
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    showSlide(currentSlide);
-  });
-  nextBtn.addEventListener('click', () => {
-    hideTapIndicators();
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-  });
-
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.remove('active', 'next', 'prev');
-      if (i === index) {
-        slide.classList.add('active');
-      } else if (i === (index + 1) % slides.length) {
-        slide.classList.add('next');
-      } else if (i === (index - 1 + slides.length) % slides.length) {
-        slide.classList.add('prev');
-      }
-    });
-
-    const currentSlideEl = slides[index];
-    gsap.fromTo(currentSlideEl.querySelector('img'), 
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-    );
-    gsap.fromTo(currentSlideEl.querySelector('.slide-info'),
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, delay: 0.2, ease: 'power2.out' }
-    );
-
-    const nextIndex = (index + 1) % slides.length;
-    const prevIndex = (index - 1 + slides.length) % slides.length;
-    [prevIndex, index, nextIndex].forEach(i => {
-      const img = slides[i].querySelector('img');
-      if (img && !img.complete) {
-        img.setAttribute('loading', 'eager');
-      }
-    });
-}
-
-  closeGalleryBtn.addEventListener('click', () => {
-    hideTapIndicators();
-    gsap.to(galleryScreen, {
-      opacity: 0,
-      duration: 0.3,
-      ease: 'power2.out',
-      onComplete: () => {
-        galleryScreen.style.pointerEvents = 'none';
-      },
-    });
-    gsap.to(hero, {
-      y: 0,
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-    gsap.to(mainNav, {
-      opacity: 1, 
-      duration: 0.3,
-      ease: 'power2.out'
-    });
-  });
-
-  galleryScreen.addEventListener('click', (e) => {
-    hideTapIndicators();
-    if (e.target.closest('button')) {
-      return;
-    }
-    if (e.target.closest('.zoom-container')) {
-      return;
-    }
-    
-    if (document.querySelector('.slide.full-screen')) {
-      return;
-    }
-    
-    const bottomSafeZone = 60;
-    if (e.clientY > window.innerHeight - bottomSafeZone) {
-      return;
-    }
-    const clickX = e.clientX;
-    const galleryWidth = galleryScreen.offsetWidth;
-    if (clickX < galleryWidth / 2) {
-      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    } else {
-      currentSlide = (currentSlide + 1) % slides.length;
-    }
-    showSlide(currentSlide);
-  });
-
-  galleryScreen.addEventListener('click', (e) => {
-    hideTapIndicators();
-    const bottomThreshold = window.innerHeight - 60;
-    if (e.clientY > bottomThreshold) {
-      gsap.to(galleryScreen, {
-        y: '100%',
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          galleryScreen.style.pointerEvents = 'none';
-          gsap.to(hero, {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.inOut'
-          });
-        }
-      });
-    }
-  });
-
-  const mainNav = document.querySelector('.main-nav');
-  gsap.set(mainNav, {
-    transition: 'opacity 0.8s ease'
-  });
-  
-  setupImprovedTouchHandling();
-});
-
-function toggleFullScreen(slide) {
-  const img = slide.querySelector('img');
-  const slideInfo = slide.querySelector('.slide-info');
-  const zoomContainer = slide.querySelector('.zoom-container');
-  
-  if (slide.classList.contains('animating')) {
-    return;
-  }
-  
-  slide.classList.add('animating');
-  
-  if (slide.classList.contains('full-screen')) {
-    
-    const currentTransform = window.getComputedStyle(img).transform;
-    img.classList.add('zoom-transition');
-    
-    gsap.to('.slide.full-screen::before', {
-      opacity: 0,
-      duration: 0.2
     });
     
-    if (currentTransform !== 'matrix(1, 0, 0, 1, 0, 0)' && currentTransform !== 'none') {
-      gsap.to(img, {
-        x: 0, 
-        y: 0,
+    galleryBtn.addEventListener('mouseleave', () => {
+      gsap.to(galleryBtn, {
         scale: 1,
         duration: 0.3,
-        ease: 'power1.out',
-        onComplete: collapseFullScreen
+        ease: 'power2.out'
       });
-    } else {
-      collapseFullScreen();
-    }
-    
-    function collapseFullScreen() {
-      const rect = img.getBoundingClientRect();
-      
-      const tl = gsap.timeline({
-        onComplete: () => {
-          slide.classList.remove('full-screen', 'animating');
-          document.body.classList.remove('full-screen-active');
-          
-          img.style.transform = '';
-          img.style.width = '';
-          img.style.height = '';
-          img.style.boxShadow = '';
-          img.style.borderRadius = '';
-          
-          setTimeout(() => {
-            img.classList.remove('zoom-transition');
-          }, 100);
-        }
-      });
-      
-      tl.to(img, {
-        width: Math.min(rect.width * 0.8, window.innerWidth * 0.7) + 'px',
-        height: 'auto',
-        duration: 0.25,
-        ease: 'power2.inOut'
-      })
-      .to(slideInfo, {
-        opacity: 1,
-        duration: 0.2,
-        delay: 0.1
-      }, "-=0.2")
-      .to('.btn-prev, .btn-next, .btn-close-gallery', {
-        opacity: 1,
-        duration: 0.2
-      }, "-=0.2");
-    }
-    
-  } else {
-    
-    gsap.to(slideInfo, {
-      opacity: 0,
-      duration: 0.1
     });
-    
-    gsap.to('.btn-prev, .btn-next, .btn-close-gallery', {
-      opacity: 0,
-      duration: 0.1
-    });
-    
-    const imgRect = img.getBoundingClientRect();
-    const targetWidth = Math.min(window.innerWidth * 0.9, imgRect.width * 1.8);
-    
-    img.classList.add('zoom-transition');
-    
-    const tl = gsap.timeline({
-      onComplete: () => {
-        slide.classList.remove('animating');
-        
-        setTimeout(() => {
-          img.classList.remove('zoom-transition');
-        }, 100);
-      }
-    });
-    
-    slide.classList.add('full-screen');
-    document.body.classList.add('full-screen-active');
-    
-    tl.to(img, {
-      width: targetWidth + 'px',
-      height: 'auto',
-      boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
-      borderRadius: '4px',
-      duration: 0.3,
-      ease: 'power1.out'
-    })
-    .from('.slide.full-screen::before', {
-      opacity: 0,
-      duration: 0.3
-    }, "-=0.2");
-  }
-}
-
-function setupImprovedTouchHandling() {
-  const slides = document.querySelectorAll('.slide');
-  
-  slides.forEach(slide => {
-    const zoomContainer = slide.querySelector('.zoom-container');
-    
-    let tapTimer;
-    let touchStartX, touchStartY;
-    
-    zoomContainer.addEventListener('touchstart', (e) => {
-      if (e.touches.length !== 1) return;
-      
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      
-      tapTimer = setTimeout(() => {
-        tapTimer = null;
-      }, 200);
-    }, { passive: true });
-    
-    zoomContainer.addEventListener('touchend', (e) => {
-      if (tapTimer && e.changedTouches.length === 1) {
-        clearTimeout(tapTimer);
-        
-        const touch = e.changedTouches[0];
-        const moveX = Math.abs(touch.clientX - touchStartX);
-        const moveY = Math.abs(touch.clientY - touchStartY);
-        
-        if (moveX < 10 && moveY < 10) {
-          e.preventDefault();
-          
-          if (!slide.classList.contains('animating')) {
-            toggleFullScreen(slide);
-          }
-        }
-      }
-    }, { passive: false });
-  });
-}
-
-if (window.innerWidth < 768) {
-  const images = document.querySelectorAll('.zoom-container img');
-  
-  function getDistance(touch1, touch2) {
-    const dx = touch1.clientX - touch2.clientX;
-    const dy = touch1.clientY - touch2.clientY;
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-  
-  function getTouchCenter(touch1, touch2, img) {
-    const rect = img.getBoundingClientRect();
-    const centerX = (touch1.clientX + touch2.clientX) / 2;
-    const centerY = (touch1.clientY + touch2.clientY) / 2;
-    const percentX = ((centerX - rect.left) / rect.width) * 100;
-    const percentY = ((centerY - rect.top) / rect.height) * 100;
-    
-    return { x: percentX, y: percentY };
-  }
-  
-  images.forEach(img => {
-    let scale = 1;
-    let initialDistance = 0;
-    let touchCenter = { x: 0, y: 0 };
-    let translateX = 0;
-    let translateY = 0;
-    let isPanning = false;
-    let lastTouchX = 0;
-    let lastTouchY = 0;
-    let touchStartTime = 0;
-    
-    document.addEventListener('fullscreenchange', () => {
-      scale = 1;
-      translateX = 0;
-      translateY = 0;
-      img.style.transform = 'scale(1)';
-    });
-    
-    img.parentElement.addEventListener('touchstart', (e) => {
-      const slide = img.closest('.slide');
-      const isFullscreen = slide.classList.contains('full-screen');
-      
-      touchStartTime = Date.now();
-      
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        isPanning = false;
-        initialDistance = getDistance(e.touches[0], e.touches[1]);
-        touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
-        img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
-      } else if (e.touches.length === 1 && (scale > 1 || isFullscreen)) {
-        e.preventDefault();
-        isPanning = true;
-        lastTouchX = e.touches[0].clientX;
-        lastTouchY = e.touches[0].clientY;
-      }
-    });
-    
-    img.parentElement.addEventListener('touchmove', (e) => {
-      const slide = img.closest('.slide');
-      const isFullscreen = slide.classList.contains('full-screen');
-      
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        const currentDistance = getDistance(e.touches[0], e.touches[1]);
-        const newScale = (currentDistance / initialDistance) * scale;
-        scale = Math.min(Math.max(newScale, 0.8), 3);
-        
-        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
-      } else if (e.touches.length === 1 && isPanning && (scale > 1 || isFullscreen)) {
-        e.preventDefault();
-        const deltaX = e.touches[0].clientX - lastTouchX;
-        const deltaY = e.touches[0].clientY - lastTouchY;
-        
-        translateX += deltaX;
-        translateY += deltaY;
-        
-        const imgRect = img.getBoundingClientRect();
-        const maxTranslateX = Math.max(0, (imgRect.width * scale - window.innerWidth) / 2);
-        const maxTranslateY = Math.max(0, (imgRect.height * scale - window.innerHeight) / 2);
-        
-        translateX = Math.min(Math.max(translateX, -maxTranslateX), maxTranslateX);
-        translateY = Math.min(Math.max(translateY, -maxTranslateY), maxTranslateY);
-        
-        lastTouchX = e.touches[0].clientX;
-        lastTouchY = e.touches[0].clientY;
-        
-        img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
-      }
-    });
-    
-    img.parentElement.addEventListener('touchend', (e) => {
-      const slide = img.closest('.slide');
-      const isFullscreen = slide.classList.contains('full-screen');
-      
-      if (scale < 1) {
-        img.style.transition = 'transform 0.3s ease-out';
-        scale = 1;
-        translateX = 0;
-        translateY = 0;
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = 'center center';
-        setTimeout(() => {
-          img.style.transition = '';
-        }, 300);
-      }
-      
-      if (isFullscreen && e.touches.length === 0 && scale === 1 && 
-          Math.abs(translateX) < 10 && Math.abs(translateY) < 10) {
-        const quickEnd = Date.now() - touchStartTime < 300;
-        if (quickEnd) {
-          toggleFullScreen(slide);
-        }
-      }
-      
-      isPanning = false;
-      initialDistance = 0;
-    });
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.slide');
-  
-  slides.forEach(slide => {
-    const img = slide.querySelector('img');
-    const zoomContainer = img.parentElement;
-    
-    let touchStartTime = 0;
-    let touchStartPos = null;
-    let isSingleTouch = false;
-    
-    zoomContainer.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        isSingleTouch = true;
-        touchStartTime = Date.now();
-        touchStartPos = {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY
-        };
-      } else {
-        isSingleTouch = false;
-      }
-    }, { passive: true });
-    
-    zoomContainer.addEventListener('touchend', (e) => {
-      if (isSingleTouch && touchStartPos && e.changedTouches.length === 1) {
-        const touchEndTime = Date.now();
-        const touchDuration = touchEndTime - touchStartTime;
-        
-        const touchEndPos = {
-          x: e.changedTouches[0].clientX,
-          y: e.changedTouches[0].clientY
-        };
-        
-        const distance = Math.sqrt(
-          Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
-          Math.pow(touchEndPos.y - touchStartPos.y, 2)
-        );
-        
-        if (touchDuration < 300 && distance < 10) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          const isFullscreen = slide.classList.contains('full-screen');
-          const currentTransform = img.style.transform;
-          const isScaled = currentTransform && currentTransform !== 'scale(1)' && 
-                          !currentTransform.includes('scale(1)');
-          
-          if (isFullscreen && !isScaled) {
-            toggleFullScreen(slide);
-          } else if (!isFullscreen) {
-            toggleFullScreen(slide);
-          }
-        }
-      }
-      
-      touchStartPos = null;
-      isSingleTouch = false;
-    });
-    
-    img.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      toggleFullScreen(slide);
-    });
-  });
-  
-  document.addEventListener('click', (e) => {
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide && !e.target.closest('.zoom-container img')) {
-      toggleFullScreen(fullScreenSlide);
-    }
-  });
-});
-
-document.addEventListener('click', (e) => {
-  const fullScreenSlide = document.querySelector('.slide.full-screen');
-  if (fullScreenSlide && !e.target.closest('.zoom-container')) {
-    toggleFullScreen(fullScreenSlide);
-  }
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide) {
-      toggleFullScreen(fullScreenSlide);
-    }
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.addEventListener('contextmenu', (e) => {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-      return false;
-    }
-  });
-
-  let touchTimer;
-  document.addEventListener('touchstart', (e) => {
-    if (e.target.tagName === 'IMG') {
-      touchTimer = setTimeout(() => {
-        e.preventDefault();
-      }, 300);
-    }
-  });
-
-  document.addEventListener('touchend', () => {
-    clearTimeout(touchTimer);
-  });
-
-  document.addEventListener('touchmove', () => {
-    clearTimeout(touchTimer);
-  });
-
-  document.addEventListener('dragstart', (e) => {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-      return false;
-    }
-  });
-
-  function addImageProtection() {
-    document.querySelectorAll('.zoom-container').forEach(container => {
-      if (!container.querySelector('.protection-overlay')) {
-        addOverlay(container);
-      }
-    });
-
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide) {
-      const zoomContainer = fullScreenSlide.querySelector('.zoom-container');
-      if (zoomContainer && !zoomContainer.querySelector('.protection-overlay')) {
-        addOverlay(zoomContainer);
-      }
-    }
   }
 
-  function addOverlay(container) {
-    const overlay = document.createElement('div');
-    overlay.className = 'protection-overlay';
-    overlay.style.cssText = `
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      z-index: 1;
-      touch-action: manipulation;
-      pointer-events: auto;
-    `;
-    container.style.position = 'relative';
-    container.appendChild(overlay);
-  }
+  // Intersection Observer for section animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
 
-  addImageProtection();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        gsap.to(entry.target, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out'
+        });
+      }
+    });
+  }, observerOptions);
 
-  const observer = new MutationObserver(() => {
-    addImageProtection();
-  });
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['class']
-  });
-
-  document.addEventListener('touchforcechange', (e) => {
-    if (e.target.tagName === 'IMG') {
-      e.preventDefault();
-    }
+  // Observe additional elements that come into view
+  document.querySelectorAll('.quote, .artist-statement').forEach(el => {
+    observer.observe(el);
   });
 });
 </script>
