@@ -2104,6 +2104,10 @@ document.addEventListener('keydown', (e) => {
     if (fullScreenSlide) {
       toggleFullScreen(fullScreenSlide);
     }
+  } else if (e.key === ' ') {
+    e.preventDefault();
+    const slideButton = currentAudioButton || slides[currentSlide].querySelector('.play-audio');
+    if (slideButton) slideButton.click();
   } else if (e.key === 'ArrowRight') {
     const nextBtn = document.getElementById('nextBtn');
     if (nextBtn) nextBtn.click();
