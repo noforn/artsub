@@ -2104,6 +2104,12 @@ document.addEventListener('keydown', (e) => {
     if (fullScreenSlide) {
       toggleFullScreen(fullScreenSlide);
     }
+  } else if (e.key === 'ArrowRight') {
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) nextBtn.click();
+  } else if (e.key === 'ArrowLeft') {
+    const prevBtn = document.getElementById('prevBtn');
+    if (prevBtn) prevBtn.click();
   }
 });
 
