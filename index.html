@@ -1778,6 +1778,23 @@ function showSlide(index) {
   gsap.set(mainNav, {
     transition: 'opacity 0.8s ease'
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const fullScreenSlide = document.querySelector('.slide.full-screen');
+      if (fullScreenSlide) {
+        toggleFullScreen(fullScreenSlide);
+      }
+    } else if (e.key === ' ') {
+      e.preventDefault();
+      const slideButton = currentAudioButton || slides[currentSlide].querySelector('.play-audio');
+      if (slideButton) slideButton.click();
+    } else if (e.key === 'ArrowRight') {
+      nextBtn.click();
+    } else if (e.key === 'ArrowLeft') {
+      prevBtn.click();
+    }
+  });
 });
 
 if (window.innerWidth < 768) {
@@ -2098,24 +2115,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide) {
-      toggleFullScreen(fullScreenSlide);
-    }
-  } else if (e.key === ' ') {
-    e.preventDefault();
-    const slideButton = currentAudioButton || slides[currentSlide].querySelector('.play-audio');
-    if (slideButton) slideButton.click();
-  } else if (e.key === 'ArrowRight') {
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) nextBtn.click();
-  } else if (e.key === 'ArrowLeft') {
-    const prevBtn = document.getElementById('prevBtn');
-    if (prevBtn) prevBtn.click();
-  }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('contextmenu', (e) => {
