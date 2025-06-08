@@ -1334,49 +1334,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const audio = new Audio();
   let currentAudioButton = null;
-  document.querySelectorAll('.play-audio').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      const clickedSrc = btn.getAttribute('data-src');
 
-      if (currentAudioButton === btn) {
-        // Clicked the same button that is currently active or was last active
-        if (audio.paused) {
-          audio.play();
-          btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <rect x="16" y="14" width="4" height="20" rx="1" fill="black"/>
-            <rect x="28" y="14" width="4" height="20" rx="1" fill="black"/>
-          </svg>`;
-        } else {
-          audio.pause();
-          btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>`;
-        }
-      } else {
-        // Clicked a new button (or the first button)
-        if (currentAudioButton) {
-          // Stop and reset the previous button, if there was one
-          if(!audio.paused) {
-              audio.pause();
-          }
-          currentAudioButton.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>`;
-        }
+  function handleAudioToggle(btn) {
+    const clickedSrc = btn.getAttribute('data-src');
 
-        audio.src = clickedSrc;
+    if (currentAudioButton === btn) {
+      if (audio.paused) {
         audio.play();
         btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
             <rect x="16" y="14" width="4" height="20" rx="1" fill="black"/>
             <rect x="28" y="14" width="4" height="20" rx="1" fill="black"/>
           </svg>`;
-        currentAudioButton = btn;
+      } else {
+        audio.pause();
+        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
+            <polygon points="18,14 34,24 18,34" fill="black"/>
+          </svg>`;
       }
+    } else {
+      if (currentAudioButton) {
+        if (!audio.paused) {
+          audio.pause();
+        }
+        currentAudioButton.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
+            <polygon points="18,14 34,24 18,34" fill="black"/>
+          </svg>`;
+      }
+
+      audio.src = clickedSrc;
+      audio.play();
+      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
+            <rect x="16" y="14" width="4" height="20" rx="1" fill="black"/>
+            <rect x="28" y="14" width="4" height="20" rx="1" fill="black"/>
+          </svg>`;
+      currentAudioButton = btn;
+    }
+  }
+
+  document.querySelectorAll('.play-audio').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      handleAudioToggle(btn);
     });
   });
   audio.addEventListener('ended', () => {
@@ -1778,6 +1780,27 @@ function showSlide(index) {
   gsap.set(mainNav, {
     transition: 'opacity 0.8s ease'
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const fullScreenSlide = document.querySelector('.slide.full-screen');
+      if (fullScreenSlide) {
+        toggleFullScreen(fullScreenSlide);
+      }
+    } else if (e.key === 'ArrowRight') {
+      if (nextBtn) nextBtn.click();
+    } else if (e.key === 'ArrowLeft') {
+      if (prevBtn) prevBtn.click();
+    } else if (e.key === ' ' || e.code === 'Space') {
+      if (galleryScreen.style.pointerEvents === 'auto') {
+        e.preventDefault();
+        const activeBtn = document.querySelector('.slide.active .play-audio');
+        if (activeBtn) {
+          handleAudioToggle(activeBtn);
+        }
+      }
+    }
+  });
 });
 
 if (window.innerWidth < 768) {
@@ -1973,6 +1996,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toggleFullScreen(fullScreenSlide);
     }
   });
+
 });
 
 function toggleFullScreen(slide) {
@@ -2098,20 +2122,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide) {
-      toggleFullScreen(fullScreenSlide);
-    }
-  } else if (e.key === 'ArrowRight') {
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) nextBtn.click();
-  } else if (e.key === 'ArrowLeft') {
-    const prevBtn = document.getElementById('prevBtn');
-    if (prevBtn) prevBtn.click();
-  }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('contextmenu', (e) => {
