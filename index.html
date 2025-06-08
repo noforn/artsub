@@ -1671,6 +1671,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 function showSlide(index) {
+    if (currentAudioButton && !audio.paused) {
+      audio.pause();
+      currentAudioButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
+            <polygon points="18,14 34,24 18,34" fill="black"/>
+          </svg>`;
+      currentAudioButton = null;
+    }
     slides.forEach((slide, i) => {
       slide.classList.remove('active', 'next', 'prev');
       if (i === index) {
@@ -1777,6 +1785,23 @@ function showSlide(index) {
   const mainNav = document.querySelector('.main-nav');
   gsap.set(mainNav, {
     transition: 'opacity 0.8s ease'
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const fullScreenSlide = document.querySelector('.slide.full-screen');
+      if (fullScreenSlide) {
+        toggleFullScreen(fullScreenSlide);
+      }
+    } else if (e.key === ' ') {
+      e.preventDefault();
+      const slideButton = currentAudioButton || slides[currentSlide].querySelector('.play-audio');
+      if (slideButton) slideButton.click();
+    } else if (e.key === 'ArrowRight') {
+      nextBtn.click();
+    } else if (e.key === 'ArrowLeft') {
+      prevBtn.click();
+    }
   });
 });
 
@@ -2098,20 +2123,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide) {
-      toggleFullScreen(fullScreenSlide);
-    }
-  } else if (e.key === 'ArrowRight') {
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) nextBtn.click();
-  } else if (e.key === 'ArrowLeft') {
-    const prevBtn = document.getElementById('prevBtn');
-    if (prevBtn) prevBtn.click();
-  }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('contextmenu', (e) => {
