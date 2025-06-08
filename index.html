@@ -1671,6 +1671,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 function showSlide(index) {
+    if (currentAudioButton && !audio.paused) {
+      audio.pause();
+      currentAudioButton.innerHTML = `<svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
+            <polygon points="18,14 34,24 18,34" fill="black"/>
+          </svg>`;
+      currentAudioButton = null;
+    }
     slides.forEach((slide, i) => {
       slide.classList.remove('active', 'next', 'prev');
       if (i === index) {
