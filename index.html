@@ -683,6 +683,39 @@
       animation: fadeIn 0.5s 0.3s forwards;
     }
 
+    .mobile-share-btn {
+      position: absolute;
+      bottom: 8vh;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(23, 23, 23, 0.9);
+      color: #ececec;
+      border: 1px solid #36383a;
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      z-index: 2002;
+      font-family: 'Inter', sans-serif; 
+      font-weight: 300;
+    }
+
+    .mobile-share-btn svg {
+      display: block;
+    }
+
+    .mobile-share-btn.visible {
+      display: inline-flex;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-share-btn {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1393,6 +1426,35 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSlide = 0;
   showSlide(currentSlide);
 
+  // Deep-link handling (?art=slug)
+  (function handleDeepLink() {
+    const params = new URLSearchParams(window.location.search);
+    const artSlug = params.get('art');
+    if (!artSlug) return;
+
+    let targetIndex = -1;
+    slides.forEach((slide, i) => {
+      const titleEl = slide.querySelector('.art-title');
+      const title = titleEl ? titleEl.textContent.trim() : '';
+      if (slugify(title) === artSlug) {
+        targetIndex = i;
+      }
+    });
+
+    if (targetIndex >= 0) {
+      currentSlide = targetIndex;
+      showSlide(currentSlide);
+
+      // Open gallery immediately
+      gsap.set(hero, { y: -maxDrag, opacity: 0 });
+      gsap.set(galleryScreen, { y: '-50%', opacity: 1 });
+      galleryScreen.style.pointerEvents = 'auto';
+      const mn = document.querySelector('.main-nav');
+      if (mn) gsap.set(mn, { opacity: 0 });
+      startIndicatorTimer();
+    }
+  })();
+
   function hideTapIndicators() {
     tapIndicators.forEach(ind => ind.classList.remove('show'));
     clearTimeout(inactivityTimer);
@@ -1782,6 +1844,7 @@ function showSlide(index) {
 
   closeGalleryBtn.addEventListener('click', () => {
     hideTapIndicators();
+    if (shareBtn) shareBtn.classList.remove('visible');
     gsap.to(galleryScreen, {
       opacity: 0,
       duration: 0.3,
@@ -1834,6 +1897,7 @@ function showSlide(index) {
     hideTapIndicators();
     const bottomThreshold = window.innerHeight - 60;
     if (e.clientY > bottomThreshold) {
+      if (shareBtn) shareBtn.classList.remove('visible');
       gsap.to(galleryScreen, {
         y: '100%',
         opacity: 0,
@@ -1862,6 +1926,7 @@ function showSlide(index) {
       const fullScreenSlide = document.querySelector('.slide.full-screen');
       if (fullScreenSlide) {
         toggleFullScreen(fullScreenSlide);
+      updateShareButtonVisibility();
       }
     } else if (e.key === 'ArrowRight') {
       if (nextBtn) nextBtn.click();
@@ -1878,6 +1943,102 @@ function showSlide(index) {
     }
   });
 });
+
+// Mobile share button helpers
+let shareBtn = null;
+
+function slugify(text) {
+  return (text || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+function ensureShareButton() {
+  if (!shareBtn) {
+    shareBtn = document.createElement('button');
+    shareBtn.type = 'button';
+    shareBtn.className = 'mobile-share-btn';
+    shareBtn.setAttribute('aria-label', 'Share this artwork');
+    shareBtn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3l4 4m0 0l-4 4m4-4H7a4 4 0 00-4 4v7" stroke="#afafaf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Share`;
+    shareBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleShare();
+    });
+  }
+}
+
+function attachShareButtonTo(slide) {
+  ensureShareButton();
+  const zoomContainer = slide.querySelector('.zoom-container');
+  if (zoomContainer && shareBtn.parentElement !== zoomContainer) {
+    zoomContainer.appendChild(shareBtn);
+  }
+}
+
+function getIsZoomed(img) {
+  const transform = window.getComputedStyle(img).transform;
+  return transform && transform !== 'none' && transform !== 'matrix(1, 0, 0, 1, 0, 0)';
+}
+
+function updateShareButtonVisibility() {
+  if (!shareBtn) return;
+  if (window.innerWidth >= 768) {
+    shareBtn.classList.remove('visible');
+    return;
+  }
+  const fullScreenSlide = document.querySelector('.slide.full-screen');
+  if (!fullScreenSlide) {
+    shareBtn.classList.remove('visible');
+    return;
+  }
+  const img = fullScreenSlide.querySelector('img');
+  const zoomed = getIsZoomed(img);
+  if (!zoomed) {
+    shareBtn.classList.add('visible');
+  } else {
+    shareBtn.classList.remove('visible');
+  }
+}
+
+function handleShare() {
+  const fullScreenSlide = document.querySelector('.slide.full-screen');
+  if (!fullScreenSlide) return;
+  const img = fullScreenSlide.querySelector('img');
+  const titleEl = fullScreenSlide.querySelector('.art-title');
+  const title = titleEl ? titleEl.textContent.trim() : 'Artwork';
+  const slug = slugify(title);
+  const imageUrl = new URL(img.getAttribute('src'), window.location.origin).href;
+  const deepLink = new URL(window.location.pathname + '?art=' + encodeURIComponent(slug), window.location.origin).href;
+
+  const shareData = {
+    title: `${title} — Suzanne O\'Shea`,
+    text: `View on website: ${deepLink}`,
+    url: imageUrl
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch(() => {
+      try {
+        navigator.clipboard.writeText(deepLink);
+        alert('Link copied to clipboard');
+      } catch (e) {
+        prompt('Copy this link:', deepLink);
+      }
+    });
+  } else {
+    try {
+      navigator.clipboard.writeText(deepLink);
+      alert('Link copied to clipboard');
+    } catch (e) {
+      prompt('Copy this link:', deepLink);
+    }
+  }
+}
 
 if (window.innerWidth < 768) {
   const images = document.querySelectorAll('.zoom-container img');
@@ -1914,6 +2075,7 @@ if (window.innerWidth < 768) {
       translateX = 0;
       translateY = 0;
       img.style.transform = 'scale(1)';
+      updateShareButtonVisibility();
     });
     
     img.parentElement.addEventListener('touchstart', (e) => {
@@ -1928,11 +2090,13 @@ if (window.innerWidth < 768) {
         initialDistance = getDistance(e.touches[0], e.touches[1]);
         touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
         img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
+        updateShareButtonVisibility();
       } else if (e.touches.length === 1 && (scale > 1 || isFullscreen)) {
         e.preventDefault();
         isPanning = true;
         lastTouchX = e.touches[0].clientX;
         lastTouchY = e.touches[0].clientY;
+        updateShareButtonVisibility();
       }
     });
     
@@ -1947,6 +2111,7 @@ if (window.innerWidth < 768) {
         scale = Math.min(Math.max(newScale, 0.8), 3);
         
         img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
+        updateShareButtonVisibility();
       } else if (e.touches.length === 1 && isPanning && (scale > 1 || isFullscreen)) {
         e.preventDefault();
         const deltaX = e.touches[0].clientX - lastTouchX;
@@ -1966,6 +2131,7 @@ if (window.innerWidth < 768) {
         lastTouchY = e.touches[0].clientY;
         
         img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
+        updateShareButtonVisibility();
       }
     });
     
@@ -1983,6 +2149,7 @@ if (window.innerWidth < 768) {
         setTimeout(() => {
           img.style.transition = '';
         }, 300);
+        updateShareButtonVisibility();
       }
       
       if (isFullscreen && e.touches.length === 0 && scale === 1 && 
@@ -2063,6 +2230,8 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       e.stopPropagation();
       toggleFullScreen(slide);
+      attachShareButtonTo(slide);
+      updateShareButtonVisibility();
     });
   });
   
@@ -2070,6 +2239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fullScreenSlide = document.querySelector('.slide.full-screen');
     if (fullScreenSlide && !e.target.closest('.zoom-container img')) {
       toggleFullScreen(fullScreenSlide);
+      updateShareButtonVisibility();
     }
   });
 
@@ -2186,6 +2356,8 @@ function toggleFullScreen(slide) {
           opacity: 0,
           duration: 0.3
         }, "-=0.2");
+        attachShareButtonTo(slide);
+        updateShareButtonVisibility();
       }
     });
   }
@@ -2195,6 +2367,7 @@ document.addEventListener('click', (e) => {
   const fullScreenSlide = document.querySelector('.slide.full-screen');
   if (fullScreenSlide && !e.target.closest('.zoom-container')) {
     toggleFullScreen(fullScreenSlide);
+    if (shareBtn) shareBtn.classList.remove('visible');
   }
 });
 
@@ -2283,6 +2456,9 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
     }
   });
+
+  window.addEventListener('resize', updateShareButtonVisibility);
+  window.addEventListener('orientationchange', updateShareButtonVisibility);
 });
 
 </script>
