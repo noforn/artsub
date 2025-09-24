@@ -444,7 +444,6 @@
       margin-top: 0.45rem;
       opacity: 1;
       font-variant-emoji: text;
-      webkit-font-feature-settings: "liga" off;
       font-feature-settings: "liga" off;
     }
     .play-audio:hover,
@@ -1506,6 +1505,7 @@ if (window.innerWidth < 768) {
   
   images.forEach(img => {
     let scale = 1;
+    let startScale = 1;
     let initialDistance = 0;
     let touchCenter = { x: 0, y: 0 };
     let translateX = 0;
@@ -1532,6 +1532,7 @@ if (window.innerWidth < 768) {
         e.preventDefault();
         isPanning = false;
         initialDistance = getDistance(e.touches[0], e.touches[1]);
+        startScale = scale;
         touchCenter = getTouchCenter(e.touches[0], e.touches[1], img);
         img.style.transformOrigin = `${touchCenter.x}% ${touchCenter.y}%`;
       } else if (e.touches.length === 1 && (scale > 1 || isFullscreen)) {
@@ -1549,10 +1550,11 @@ if (window.innerWidth < 768) {
       if (e.touches.length === 2) {
         e.preventDefault();
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
-        const newScale = (currentDistance / initialDistance) * scale;
-        scale = Math.min(Math.max(newScale, 0.8), 3);
+        const newScale = (currentDistance / initialDistance) * startScale;
+        scale = Math.min(Math.max(newScale, 1), 3);
         
         img.style.transform = `scale(${scale}) translate(${translateX/scale}px, ${translateY/scale}px)`;
+        img.dataset.scale = String(scale);
       } else if (e.touches.length === 1 && isPanning && (scale > 1 || isFullscreen)) {
         e.preventDefault();
         const deltaX = e.touches[0].clientX - lastTouchX;
@@ -1579,24 +1581,18 @@ if (window.innerWidth < 768) {
       const slide = img.closest('.slide');
       const isFullscreen = slide.classList.contains('full-screen');
       
-      if (scale < 1) {
+      const snapThreshold = 1.05;
+      if (scale < snapThreshold) {
         img.style.transition = 'transform 0.3s ease-out';
         scale = 1;
         translateX = 0;
         translateY = 0;
         img.style.transform = 'scale(1)';
+        img.dataset.scale = '1';
         img.style.transformOrigin = 'center center';
         setTimeout(() => {
           img.style.transition = '';
         }, 300);
-      }
-      
-      if (isFullscreen && e.touches.length === 0 && scale === 1 && 
-          Math.abs(translateX) < 10 && Math.abs(translateY) < 10) {
-        const quickEnd = Date.now() - touchStartTime < 300;
-        if (quickEnd) {
-          toggleFullScreen(slide);
-        }
       }
       
       isPanning = false;
@@ -1668,17 +1664,38 @@ document.addEventListener('DOMContentLoaded', () => {
     img.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      toggleFullScreen(slide);
+      const isFullscreen = slide.classList.contains('full-screen');
+      if (!isFullscreen) {
+        toggleFullScreen(slide);
+        return;
+      }
+      // In fullscreen: if zoomed in, reset to 1x instead of closing
+      let currentScale = 1;
+      if (img.dataset && img.dataset.scale) {
+        currentScale = parseFloat(img.dataset.scale) || 1;
+      } else {
+        const transform = window.getComputedStyle(img).transform;
+        if (transform && transform !== 'none') {
+          const match = transform.match(/matrix\(([^,]+),[^,]+,[^,]+,([^,]+),/);
+          if (match) {
+            const a = parseFloat(match[1]);
+            const d = parseFloat(match[2]);
+            currentScale = Math.max(Math.abs(a), Math.abs(d));
+          }
+        }
+      }
+      if (currentScale > 1.02) {
+        img.style.transition = 'transform 0.25s ease-out';
+        img.style.transform = 'scale(1) translate(0px, 0px)';
+        if (img.dataset) img.dataset.scale = '1';
+        setTimeout(() => { img.style.transition = ''; }, 250);
+      } else {
+        toggleFullScreen(slide);
+      }
     });
   });
   
-  document.addEventListener('click', (e) => {
-    const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (!fullScreenSlide) return;
-    if (!e.target.closest('.zoom-container img')) {
-      toggleFullScreen(fullScreenSlide);
-    }
-  });
+  
 
 });
 
