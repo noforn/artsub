@@ -23,7 +23,7 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"></script>
 
-  <meta property="og:title" content="Suzanne O'Shea" />
+  <meta property="og:title" content="You're Invited" />
   <meta property="og:description" content="Virtual Exhibition" />
   <meta property="og:url" content="https://suzanneoshea.art/" />
   <meta property="og:image" content="https://suzanneoshea.art/assets/images/preview1.png" />
@@ -684,7 +684,7 @@
     }
 
     .mobile-share-btn {
-      position: absolute;
+      position: fixed;
       bottom: 8vh;
       left: 50%;
       transform: translateX(-50%);
@@ -722,7 +722,7 @@
 
 <nav class="main-nav">
   <div class="nav-links">
-    <a href="index.html" class="nav-link active">Gallery</a>
+    <a href="invite.html" class="nav-link active">Gallery</a>
     <a href="about.html" class="nav-link">About</a>
   </div>
 </nav>
@@ -734,10 +734,10 @@
 
   <main class="hero">
     <div class="hero-spotlight"></div>
-    <h1>Suzanne O'Shea</h1>
-    <div class="virtual-exhibition">Virtual Exhibition</div>
+    <h1>You're Invited</h1>
+    <div class="virtual-exhibition">Private Exhibition</div>
     <button class="enter-exhibit-btn" id="enterExhibitBtn" type="button">
-      Explore
+        Preview
     </button>
   </main>
 </div>
@@ -752,77 +752,28 @@
   <div class="slideshow" id="slideshow">
     <div class="slide active">
       <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import9.jpeg" alt="Vivid Bonds"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Vivid Bonds</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Two intertwined figures emerge through fragmented 
-          brushstrokes and vivid hues, capturing a quiet yet 
-          luminous connection.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">22" x 20"</p>
-          <p class="art-medium">Oil on Canvas</p>
+        <img loading="lazy" src="assets/images/hauntedbyyou.jpeg" alt="Haunted By You"/>
         </div>
-        <button class="play-audio" data-src="assets/audio/vivid-bonds.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/hauntedbyyou.jpeg" alt="Haunted By You"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Haunted By You</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Red doesn’t sit behind her; it breathes through her. She stands inside a 
-          storm that knows her name, learning how to keep a pulse that once answered to someone else. 
-          The eyes do not accuse; they outlast.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media</p>
+        <div class="slide-info">
+          <h2 class="art-title">Haunted By You</h2>
+          <p class="artist">by Suzanne O'Shea</p>
+          <p class="art-description">
+            Red doesn’t sit behind her; it breathes through her. She stands inside a 
+            storm that knows her name, learning how to keep a pulse that once answered to someone else. 
+            The eyes do not accuse; they outlast.
+          </p>
+          <div class="art-details">
+            <p class="art-dimensions">24" x 20"</p>
+            <p class="art-medium">Mixed Media</p>
+          </div>
+          <button class="play-audio" data-src="assets/audio/haunted.mp3" aria-label="Play audio">
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
+              <polygon points="18,14 34,24 18,34" fill="black"/>
+            </svg>
+          </button>
         </div>
-        <button class="play-audio" data-src="assets/audio/haunted.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
       </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/witness.jpeg" alt="Witness"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Witness</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A solemn figure stands amidst chaos, her gaze steady - a silent
-          observer bearing quiet testimony to unseen stories. 
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/witness.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
 
     <div class="slide">
       <div class="zoom-container">
@@ -898,506 +849,6 @@
         </button>
       </div>
     </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import5.jpeg" alt="Mind Games"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Mind Games</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Vibrant, layered composition captures the chaos and 
-          complexity of thought. Intertwining vivid colors and fragmented 
-          textures depict the interplay between emotion and cognition.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Mixed Media</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/mind-games.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/mothers-of.jpg" alt="Mothers of Ukraine"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Mothers of Ukraine</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          <em>Mothers of Ukraine</em> captures the raw resilience 
-          and silent bravery embodied by mothers amid conflict. 
-          A homage not only to Ukrainian mothers, but to every mother,
-          reminding us of their strength and quiet heroism in the face of adversity.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">17" x 15"</p>
-          <p class="art-medium">Water Soluable Graphite on Paper</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/mothers-of-ukraine.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import4.jpeg" alt="Shattered Reflection"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Apple of My Eye</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A young boy's intense gaze blends vulnerability 
-          and strength. Bold, warm tones evoke deep emotion, 
-          inviting quiet reflection. 
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 12"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/apple-of-my-eye.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/face3.jpeg" alt="Veiled Serenity"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Veiled Serenity</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          This evocative portrait merges subtle melancholy with quiet introspection, 
-          using shadow and texture to delicately veil inner peace beneath layers of emotion.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 18"</p>
-          <p class="art-medium">Mixed Media</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/veiled-serenity.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-        <img loading="lazy" src="assets/images/darkface.jpeg" alt="Echoes in her Eyes"/>
-      </div>
-        <div class="slide-info">
-          <h2 class="art-title">Echoes in her Eyes</h2>
-          <p class="artist">by Suzanne O'Shea</p>
-          <p class="art-description">
-            The depth of untold stories hidden beneath a calm exterior. 
-            Her gaze invites viewers into an intimate dialogue, hinting at memories, dreams, and silent truths.
-          </p>
-          <div class="art-details">
-            <p class="art-dimensions">12" x 9"</p>
-            <p class="art-medium">Oil on Canvas</p>
-          </div>
-        <button class="play-audio" data-src="assets/audio/echoes-in-her-eyes.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-        </div>
-      </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import11.jpeg" alt="Vanishing"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Vanishing</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Ghostly visage, veiled in shadow and textured layers, 
-          evoking a haunting sense of impermanence. The rough, grainy
-          surface creates an atmosphere of decay, as if the subject is being reclaimed by the void.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 12"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/vanishing.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/warrior.jpg" alt="Still She Rises"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Still She Rises</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          <em>Still She Rises</em> embodies the fierce resilience of those who refuse to be conquered. 
-          Her quiet gaze holds generations of courage—an unwavering testament to the spirit of
-          resistance that endures.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 20"</p>
-          <p class="art-medium">Mixed Media on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/still-she-rises.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/hand.jpeg" alt="Reaching Out"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Fearless</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Expressively rendered with powerful contrasts, this painting 
-          symbolizes courage and vulnerability, capturing a hand boldly reaching forward into the unknown.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 18"</p>
-          <p class="art-medium">Acrylic, Ink on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/fearless.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import6.jpeg" alt="Always Been a Storm"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Always Been a Storm</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Searching eyes yearn for connection.
-          Dripping textures underscore transient emotions,
-          an evocative interplay between strength and fragility.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 24"</p>
-          <p class="art-medium">Acrylic on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/always-been-a-storm.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import3.jpeg" alt="Chasing Light"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Chasing Light</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Vibrant tones create a figure caught in a search for clarity. 
-          The work captures a sense of movement and hope, 
-          as if chasing something just beyond reach.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">10" x 8"</p>
-          <p class="art-medium">Ink on Rice Paper</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/chasing-light.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/cork.jpeg" alt="Cork City"/>
-      </div>
-      <div class="slide-info">
-      <h2 class="art-title">Cork City</h2>
-      <p class="artist">by Suzanne O'Shea</p>
-      <p class="art-description">
-        This portrait's layers of texture and shifting tones evoke the soul of Cork City, Ireland,
-        blurring the line between memory and place.
-        It draws the viewer into a fluid connection with the city's essence, 
-        felt rather than seen.
-      </p>
-      <div class="art-details">
-        <p class="art-dimensions">16" x 16"</p>
-        <p class="art-medium">Mixed Media on Canvas</p>
-      </div>
-        <button class="play-audio" data-src="assets/audio/cork-city.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import1.jpeg" alt="Demon Diva"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Demon Diva</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          A compelling blend of haunting allure and defiant elegance, this portrait channels the 
-          complex duality of darkness and glamour through bold, expressionistic strokes.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Graphite on Paper</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/demon-diva.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import2.jpeg" alt="Hania"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Hania</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Fierce warrior spirit, captured in bold strokes and 
-          striking contrasts. An intense gaze, framed by swirling patterns,
-          embodies strength and resilience.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">24" x 18"</p>
-          <p class="art-medium">Mixed Media on Watercolor</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/hania.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/jester.jpeg" alt="Jester's Muse"/>
-      </div>
-      <div class="slide-info">
-      <h2 class="art-title">Jester's Muse</h2>
-      <p class="artist">by Suzanne O'Shea</p>
-      <p class="art-description">
-        This work blends vibrant hues with haunting expressions, 
-        embodying the delicate balance between joy and melancholy. The striking gaze 
-        and fluid forms invite viewers to explore the hidden depths of emotion.
-      </p>
-      <div class="art-details">
-        <p class="art-dimensions">16" x 12"</p>
-        <p class="art-medium">Mixed Media on Woden Cradle</p>
-      </div>
-        <button class="play-audio" data-src="assets/audio/jesters-muse.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import8.jpeg" alt="Rhythm of Silence"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Rhythm of Silence</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          This piece transforms the quiet tapping of slippers into a profound 
-          expression of presence, using textured strokes and muted tones to 
-          evoke the harmony between sound and stillness.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">22" x 14"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/rhythm-of-silence.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/face2.jpeg" alt="Quiet Despair">
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Broken Heart Emoji</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Soft contours and melting edges form a visage 
-          weighed down by invisible grief. Blending of shadows and
-          light evokes a fragile expression of loss suspended in time.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">14" x 14"</p>
-          <p class="art-medium">Ink on Watercolor</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/broken-heart-emoji.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import10.jpeg" alt="Delilah"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Delilah</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Bold and unapologetic, this portrait radiates strength and confidence 
-          through vibrant colors, layered textures, and an unyielding gaze.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">18" x 24"</p>
-          <p class="art-medium">Acrylic on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/delilah.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import12.jpeg" alt="Resilience">
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Resilience</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          With expressive contrasts and fluid textures, this piece captures the strength found within vulnerability, 
-          portraying an unwavering spirit emerging gracefully through turbulence.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">22" x 18"</p>
-          <p class="art-medium">Mixed Media on Rice Paper</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/resilience.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/enigma.jpeg" alt="Enigma"/>
-      </div>
-      <div class="slide-info">
-      <h2 class="art-title">Enigma</h2>
-      <p class="artist">by Suzanne O'Shea</p>
-      <p class="art-description">
-        Set against a bold, red background, this portrait captures the tension between vulnerability and 
-        resilience through fragmented lines and layered forms. The subject’s steady gaze contrasts with the 
-        raw, imperfect contours, evoking a profound exploration of strength and fragility.
-      </p>
-      <div class="art-details">
-        <p class="art-dimensions">16" x 16"</p>
-        <p class="art-medium">Mixed Media on Rice Paper Mounted on Canvas</p>
-      </div>
-        <button class="play-audio" data-src="assets/audio/enigma.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="slide">
-      <div class="zoom-container">
-      <img loading="lazy" src="assets/images/import14.jpeg" alt="Amber Muse"/>
-      </div>
-      <div class="slide-info">
-        <h2 class="art-title">Peace Out</h2>
-        <p class="artist">by Suzanne O'Shea</p>
-        <p class="art-description">
-          Emanating a free-spirited essence, 
-          this softly blurred portrait radiates a mellow, earthy vibe 
-          and echoes a message of peace and love.
-          The sepia glow and gentle brushstrokes give a 
-          nostalgic nod to the '60s counterculture spirit.
-        </p>
-        <div class="art-details">
-          <p class="art-dimensions">12" x 9"</p>
-          <p class="art-medium">Oil on Canvas</p>
-        </div>
-        <button class="play-audio" data-src="assets/audio/peace-out.mp3" aria-label="Play audio">
-          <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="black" stroke-width="2" fill="white"/>
-            <polygon points="18,14 34,24 18,34" fill="black"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-  </div>
 
   <div class="slideshow-nav">
     <button id="prevBtn" class="btn-prev" type="button">Prev</button>
@@ -1895,6 +1346,7 @@ function showSlide(index) {
 
   galleryScreen.addEventListener('click', (e) => {
     hideTapIndicators();
+    if (shareBtn && (e.target === shareBtn || e.target.closest('.mobile-share-btn'))) return;
     const bottomThreshold = window.innerHeight - 60;
     if (e.clientY > bottomThreshold) {
       if (shareBtn) shareBtn.classList.remove('visible');
@@ -1966,17 +1418,19 @@ function ensureShareButton() {
       </svg>
       Share`;
     shareBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
       e.stopPropagation();
       handleShare();
-    });
+      return false;
+    }, { capture: true });
   }
 }
 
 function attachShareButtonTo(slide) {
   ensureShareButton();
-  const zoomContainer = slide.querySelector('.zoom-container');
-  if (zoomContainer && shareBtn.parentElement !== zoomContainer) {
-    zoomContainer.appendChild(shareBtn);
+  if (shareBtn.parentElement !== document.body) {
+    document.body.appendChild(shareBtn);
   }
 }
 
@@ -2013,29 +1467,52 @@ function handleShare() {
   const title = titleEl ? titleEl.textContent.trim() : 'Artwork';
   const slug = slugify(title);
   const imageUrl = new URL(img.getAttribute('src'), window.location.origin).href;
-  const deepLink = new URL(window.location.pathname + '?art=' + encodeURIComponent(slug), window.location.origin).href;
-
-  const shareData = {
-    title: `${title} — Suzanne O\'Shea`,
-    text: `View on website: ${deepLink}`,
-    url: imageUrl
-  };
-
-  if (navigator.share) {
-    navigator.share(shareData).catch(() => {
-      try {
-        navigator.clipboard.writeText(deepLink);
-        alert('Link copied to clipboard');
-      } catch (e) {
-        prompt('Copy this link:', deepLink);
-      }
-    });
+  // Always copy the direct image URL so iMessage previews the specific artwork
+  const toCopy = imageUrl;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(toCopy)
+      .then(() => {
+        try {
+          // Use a non-blocking toast-style feedback
+          const note = document.createElement('div');
+          note.textContent = 'Link copied';
+          note.style.cssText = 'position:fixed;bottom:12vh;left:50%;transform:translateX(-50%);background:rgba(23,23,23,.95);color:#ececec;border:1px solid #36383a;padding:.5rem .75rem;border-radius:16px;font-size:.8rem;z-index:4000;font-family:Inter, sans-serif;';
+          document.body.appendChild(note);
+          setTimeout(() => note.remove(), 1200);
+        } catch (_) {}
+      })
+      .catch(() => {
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = toCopy;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          const note = document.createElement('div');
+          note.textContent = 'Link copied';
+          note.style.cssText = 'position:fixed;bottom:12vh;left:50%;transform:translateX(-50%);background:rgba(23,23,23,.95);color:#ececec;border:1px solid #36383a;padding:.5rem .75rem;border-radius:16px;font-size:.8rem;z-index:4000;font-family:Inter, sans-serif;';
+          document.body.appendChild(note);
+          setTimeout(() => note.remove(), 1200);
+        } catch (e) {
+          prompt('Copy this link:', toCopy);
+        }
+      });
   } else {
     try {
-      navigator.clipboard.writeText(deepLink);
-      alert('Link copied to clipboard');
+      const textarea = document.createElement('textarea');
+      textarea.value = toCopy;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      const note = document.createElement('div');
+      note.textContent = 'Link copied';
+      note.style.cssText = 'position:fixed;bottom:12vh;left:50%;transform:translateX(-50%);background:rgba(23,23,23,.95);color:#ececec;border:1px solid #36383a;padding:.5rem .75rem;border-radius:16px;font-size:.8rem;z-index:4000;font-family:Inter, sans-serif;';
+      document.body.appendChild(note);
+      setTimeout(() => note.remove(), 1200);
     } catch (e) {
-      prompt('Copy this link:', deepLink);
+      prompt('Copy this link:', toCopy);
     }
   }
 }
@@ -2237,7 +1714,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   document.addEventListener('click', (e) => {
     const fullScreenSlide = document.querySelector('.slide.full-screen');
-    if (fullScreenSlide && !e.target.closest('.zoom-container img')) {
+    if (!fullScreenSlide) return;
+    if (shareBtn && (e.target === shareBtn || e.target.closest('.mobile-share-btn'))) return;
+    if (!e.target.closest('.zoom-container img')) {
       toggleFullScreen(fullScreenSlide);
       updateShareButtonVisibility();
     }
@@ -2295,6 +1774,7 @@ function toggleFullScreen(slide) {
           setTimeout(() => {
             img.classList.remove('zoom-transition');
           }, 100);
+          if (shareBtn) shareBtn.classList.remove('visible');
         }
       });
       
@@ -2365,7 +1845,9 @@ function toggleFullScreen(slide) {
 
 document.addEventListener('click', (e) => {
   const fullScreenSlide = document.querySelector('.slide.full-screen');
-  if (fullScreenSlide && !e.target.closest('.zoom-container')) {
+  if (!fullScreenSlide) return;
+  if (shareBtn && (e.target === shareBtn || e.target.closest('.mobile-share-btn'))) return;
+  if (!e.target.closest('.zoom-container')) {
     toggleFullScreen(fullScreenSlide);
     if (shareBtn) shareBtn.classList.remove('visible');
   }
